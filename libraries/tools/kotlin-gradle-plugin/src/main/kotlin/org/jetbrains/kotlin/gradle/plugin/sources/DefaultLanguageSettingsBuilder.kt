@@ -69,6 +69,7 @@ internal class DefaultLanguageSettingsBuilder : LanguageSettingsBuilder {
     }
 
     /* A Kotlin task that is responsible for code analysis of the owner of this language settings builder. */
+    @Transient // not needed during Gradle Instant Execution
     var compilerPluginOptionsTask: Lazy<AbstractCompile?> = lazyOf(null)
 
     val compilerPluginArguments: List<String>?

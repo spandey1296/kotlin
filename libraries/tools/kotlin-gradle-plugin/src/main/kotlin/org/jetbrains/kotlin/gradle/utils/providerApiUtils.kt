@@ -38,6 +38,13 @@ private class OptionalProviderDelegate<T>(private val provider: Provider<T?>) : 
 internal fun <T> Project.optionalProvider(initialize: () -> T?): ReadOnlyProperty<Any?, T?> =
     OptionalProviderDelegate(provider(initialize))
 
+internal fun <T : Any> Project.newProperty(initialize: (() -> T)? = null): Property<T> =
+    @Suppress("UNCHECKED_CAST")
+    (project.objects.property(Any::class.java) as Property<T>).apply {
+        if (initialize != null)
+            set(provider(initialize))
+    }
+
 // Before 5.0 fileProperty is created via ProjectLayout
 // https://docs.gradle.org/current/javadoc/org/gradle/api/model/ObjectFactory.html#fileProperty--
 internal fun Project.newFileProperty(initialize: (() -> File)? = null): RegularFileProperty {

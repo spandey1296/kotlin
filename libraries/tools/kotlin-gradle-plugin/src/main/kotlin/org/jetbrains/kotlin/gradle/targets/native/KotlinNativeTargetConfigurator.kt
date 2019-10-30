@@ -154,7 +154,7 @@ open class KotlinNativeTargetConfigurator<T : KotlinNativeTarget>(
             compilation.compileKotlinTaskName,
             KotlinNativeCompile::class.java
         ).also { task ->
-            task.compilation = compilation
+            task.compilation.set(compilation)
             task.group = BasePlugin.BUILD_GROUP
             task.description = "Compiles a klibrary from the '${compilation.name}' " +
                     "compilation for target '${compilation.platformType.name}'."
