@@ -72,7 +72,7 @@ open class TransformKotlinGranularMetadata
 
     @get:Internal
     @delegate:Transient
-    internal val transformation: GranularMetadataTransformation by project.provider {
+    internal val transformation: GranularMetadataTransformation by lazy {
         GranularMetadataTransformation(
             project,
             kotlinSourceSet,
