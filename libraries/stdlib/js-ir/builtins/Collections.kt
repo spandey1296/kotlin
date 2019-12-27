@@ -28,6 +28,7 @@ package kotlin.collections
  * be iterated over.
  * @param T the type of element being iterated over. The iterator is covariant on its element type.
  */
+@CompileTimeCalculation
 public interface Iterable<out T> {
     /**
      * Returns an iterator over the elements of this object.
@@ -40,6 +41,7 @@ public interface Iterable<out T> {
  * be iterated over and that supports removing elements during iteration.
  * @param T the type of element being iterated over. The mutable iterator is invariant on its element type.
  */
+@CompileTimeCalculation
 public interface MutableIterable<out T> : Iterable<T> {
     /**
      * Returns an iterator over the elements of this sequence that supports removing elements during iteration.
@@ -52,6 +54,7 @@ public interface MutableIterable<out T> : Iterable<T> {
  * read/write access is supported through the [MutableCollection] interface.
  * @param E the type of elements contained in the collection. The collection is covariant on its element type.
  */
+@CompileTimeCalculation
 public interface Collection<out E> : Iterable<E> {
     // Query Operations
     /**
@@ -83,6 +86,7 @@ public interface Collection<out E> : Iterable<E> {
  *
  * @param E the type of elements contained in the collection. The mutable collection is invariant on its element type.
  */
+@CompileTimeCalculation
 public interface MutableCollection<E> : Collection<E>, MutableIterable<E> {
     // Query Operations
     override fun iterator(): MutableIterator<E>
@@ -137,6 +141,7 @@ public interface MutableCollection<E> : Collection<E>, MutableIterable<E> {
  * read/write access is supported through the [MutableList] interface.
  * @param E the type of elements contained in the list. The list is covariant on its element type.
  */
+@CompileTimeCalculation
 public interface List<out E> : Collection<E> {
     // Query Operations
 
@@ -192,6 +197,7 @@ public interface List<out E> : Collection<E> {
  * A generic ordered collection of elements that supports adding and removing elements.
  * @param E the type of elements contained in the list. The mutable list is invariant on its element type.
  */
+@CompileTimeCalculation
 public interface MutableList<E> : List<E>, MutableCollection<E> {
     // Modification Operations
     /**
