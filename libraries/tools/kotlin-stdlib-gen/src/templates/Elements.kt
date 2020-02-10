@@ -35,6 +35,12 @@ object Elements : TemplateGroupBase() {
         doc { "Returns `true` if [element] is found in the ${f.collection}." }
         typeParam("@kotlin.internal.OnlyInputTypes T")
         returns("Boolean")
+
+        // TODO remove after introducing constexpr modifier
+        specialFor(ArraysOfObjects, ArraysOfPrimitives) {
+            annotation("""@CompileTimeCalculation""")
+        }
+
         body(Iterables) {
             """
                 if (this is Collection)
@@ -58,6 +64,12 @@ object Elements : TemplateGroupBase() {
             annotation("""@Suppress("EXTENSION_SHADOWED_BY_MEMBER") // false warning, extension takes precedence in some cases""")
         }
         returns("Int")
+
+        // TODO remove after introducing constexpr modifier
+        specialFor(ArraysOfObjects, ArraysOfPrimitives) {
+            annotation("""@CompileTimeCalculation""")
+        }
+
         body {
             """
             ${if (f == Iterables) "if (this is List) return this.indexOf(element)" else ""}

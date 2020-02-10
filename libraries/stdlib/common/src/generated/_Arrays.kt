@@ -515,6 +515,7 @@ public inline operator fun CharArray.component5(): Char {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun <@kotlin.internal.OnlyInputTypes T> Array<out T>.contains(element: T): Boolean {
     return indexOf(element) >= 0
 }
@@ -522,6 +523,7 @@ public operator fun <@kotlin.internal.OnlyInputTypes T> Array<out T>.contains(el
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun ByteArray.contains(element: Byte): Boolean {
     return indexOf(element) >= 0
 }
@@ -529,6 +531,7 @@ public operator fun ByteArray.contains(element: Byte): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun ShortArray.contains(element: Short): Boolean {
     return indexOf(element) >= 0
 }
@@ -536,6 +539,7 @@ public operator fun ShortArray.contains(element: Short): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun IntArray.contains(element: Int): Boolean {
     return indexOf(element) >= 0
 }
@@ -543,6 +547,7 @@ public operator fun IntArray.contains(element: Int): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun LongArray.contains(element: Long): Boolean {
     return indexOf(element) >= 0
 }
@@ -550,6 +555,7 @@ public operator fun LongArray.contains(element: Long): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun FloatArray.contains(element: Float): Boolean {
     return indexOf(element) >= 0
 }
@@ -557,6 +563,7 @@ public operator fun FloatArray.contains(element: Float): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun DoubleArray.contains(element: Double): Boolean {
     return indexOf(element) >= 0
 }
@@ -564,6 +571,7 @@ public operator fun DoubleArray.contains(element: Double): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun BooleanArray.contains(element: Boolean): Boolean {
     return indexOf(element) >= 0
 }
@@ -571,6 +579,7 @@ public operator fun BooleanArray.contains(element: Boolean): Boolean {
 /**
  * Returns `true` if [element] is found in the array.
  */
+@CompileTimeCalculation
 public operator fun CharArray.contains(element: Char): Boolean {
     return indexOf(element) >= 0
 }
@@ -1406,6 +1415,7 @@ public fun CharArray.getOrNull(index: Int): Char? {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun <@kotlin.internal.OnlyInputTypes T> Array<out T>.indexOf(element: T): Int {
     if (element == null) {
         for (index in indices) {
@@ -1426,6 +1436,7 @@ public fun <@kotlin.internal.OnlyInputTypes T> Array<out T>.indexOf(element: T):
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun ByteArray.indexOf(element: Byte): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1438,6 +1449,7 @@ public fun ByteArray.indexOf(element: Byte): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun ShortArray.indexOf(element: Short): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1450,6 +1462,7 @@ public fun ShortArray.indexOf(element: Short): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun IntArray.indexOf(element: Int): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1462,6 +1475,7 @@ public fun IntArray.indexOf(element: Int): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun LongArray.indexOf(element: Long): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1474,6 +1488,7 @@ public fun LongArray.indexOf(element: Long): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun FloatArray.indexOf(element: Float): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1486,6 +1501,7 @@ public fun FloatArray.indexOf(element: Float): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun DoubleArray.indexOf(element: Double): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1498,6 +1514,7 @@ public fun DoubleArray.indexOf(element: Double): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun BooleanArray.indexOf(element: Boolean): Int {
     for (index in indices) {
         if (element == this[index]) {
@@ -1510,6 +1527,7 @@ public fun BooleanArray.indexOf(element: Boolean): Int {
 /**
  * Returns first index of [element], or -1 if the array does not contain element.
  */
+@CompileTimeCalculation
 public fun CharArray.indexOf(element: Char): Int {
     for (index in indices) {
         if (element == this[index]) {
