@@ -103,6 +103,8 @@ public actual inline fun String.toFloatOrNull(): Float? = toDoubleOrNull().unsaf
  */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
+@CompileTimeCalculation
+@EvaluateIntrinsic("kotlin.text.StringsKt")
 public actual inline fun Byte.toString(radix: Int): String = this.toInt().toString(radix)
 
 /**
@@ -112,6 +114,8 @@ public actual inline fun Byte.toString(radix: Int): String = this.toInt().toStri
  */
 @SinceKotlin("1.2")
 @kotlin.internal.InlineOnly
+@CompileTimeCalculation
+@EvaluateIntrinsic("kotlin.text.StringsKt")
 public actual inline fun Short.toString(radix: Int): String = this.toInt().toString(radix)
 
 /**
@@ -120,6 +124,8 @@ public actual inline fun Short.toString(radix: Int): String = this.toInt().toStr
  * @throws IllegalArgumentException when [radix] is not a valid radix for number to string conversion.
  */
 @SinceKotlin("1.2")
+@CompileTimeCalculation
+@EvaluateIntrinsic("kotlin.text.StringsKt")
 public actual fun Int.toString(radix: Int): String = asDynamic().toString(checkRadix(radix))
 
 private fun String.isNaN(): Boolean = when (this.toLowerCase()) {

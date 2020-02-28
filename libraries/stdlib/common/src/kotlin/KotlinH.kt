@@ -40,8 +40,9 @@ expect inline fun <T> Comparator(crossinline comparison: (a: T, b: T) -> Int): C
 
 
 // From numbers.kt
-
+@CompileTimeCalculation
 expect fun Double.isNaN(): Boolean
+@CompileTimeCalculation
 expect fun Float.isNaN(): Boolean
 expect fun Double.isInfinite(): Boolean
 expect fun Float.isInfinite(): Boolean
