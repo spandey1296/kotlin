@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
 
 //TODO remove after introducing constexpr modifier
-private val compileTimeAnnotationName = FqName("kotlin.CompileTimeCalculation")
+val compileTimeAnnotationName = FqName("kotlin.CompileTimeCalculation")
 private val compileTimeClassDescriptor = DefaultBuiltIns.Instance.getBuiltInClassByFqName(compileTimeAnnotationName)
 private val compileTimeAnnotationDescriptor =
     AnnotationDescriptorImpl(compileTimeClassDescriptor.defaultType, mapOf(), SourceElement.NO_SOURCE)
