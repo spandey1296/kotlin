@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.utils.addToStdlib.safeAs
 
 object ConstexprCallChecker : CallChecker {
     override fun check(resolvedCall: ResolvedCall<*>, reportOn: PsiElement, context: CallCheckerContext) {
+        if (!context.languageVersionSettings.supportsFeature(LanguageFeature.CompileTimeCalculations)) return
         if (resolvedCall.call.callElement is KtAnnotationEntry || resolvedCall.candidateDescriptor.isAnnotationConstructor()) return
         if (hasEnclosingIntrinsicDeclaration(context)) return
 
