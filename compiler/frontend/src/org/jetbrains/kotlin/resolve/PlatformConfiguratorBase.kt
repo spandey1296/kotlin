@@ -36,7 +36,8 @@ private val DEFAULT_DECLARATION_CHECKERS = listOf(
     TailrecFunctionChecker,
     TrailingCommaDeclarationChecker,
     MissingDependencySupertypeChecker.ForDeclarations,
-    FunInterfaceDeclarationChecker()
+    FunInterfaceDeclarationChecker(),
+    ConstexprDeclarationChecker
 )
 
 private val DEFAULT_CALL_CHECKERS = listOf(
