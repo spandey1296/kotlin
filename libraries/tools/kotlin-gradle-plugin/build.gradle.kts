@@ -111,7 +111,7 @@ tasks {
         kotlinOptions.jdkHome = rootProject.extra["JDK_18"] as String
         kotlinOptions.languageVersion = "1.2"
         kotlinOptions.apiVersion = "1.2"
-        kotlinOptions.freeCompilerArgs += listOf("-Xskip-metadata-version-check")
+        kotlinOptions.freeCompilerArgs += listOf("-Xskip-metadata-version-check", "-XXLanguage:-CompileTimeCalculations")
     }
 
     named<ProcessResources>("processResources") {
