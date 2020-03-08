@@ -94,11 +94,13 @@ abstract class BasicIrBoxTest(
 
         val transitiveLibraries = config.configuration[JSConfigurationKeys.TRANSITIVE_LIBRARIES]!!.map { File(it).name }
 
+        val libraries = config.configuration[JSConfigurationKeys.LIBRARIES] ?: emptyList()
+
         val allKlibPaths = (runtimeKlibs + transitiveLibraries.map {
             compilationCache[it] ?: error("Can't find compiled module for dependency $it")
         }).map { File(it).absolutePath }
 
-        val resolvedLibraries = jsResolveLibraries(allKlibPaths, messageCollectorLogger(MessageCollector.NONE))
+        val resolvedLibraries = jsResolveLibraries(allKlibPaths + libraries, messageCollectorLogger(MessageCollector.NONE))
 
         val actualOutputFile = outputFile.absolutePath.let {
             if (!isMainModule) it.replace("_v5.js", "/") else it
@@ -210,7 +212,6 @@ abstract class BasicIrBoxTest(
     ) {
         // TODO: should we do anything special for module systems?
         // TODO: return list of js from translateFiles and provide then to this function with other js files
-
         testChecker.check(jsFiles, testModuleName, testPackage, testFunction, expectedResult, withModuleSystem)
     }
 }

@@ -225,7 +225,6 @@ abstract class KotlinLibraryProperResolverWithAttributes<L : KotlinLibrary>(
         val candidateAbiVersion = candidate.versions.abiVersion
         val candidateLibraryVersion = candidate.versions.libraryVersion
 
-
         val abiVersionMatch = candidateAbiVersion != null &&
                 knownAbiVersions != null &&
                 knownAbiVersions!!.contains(candidateAbiVersion)
