@@ -364,7 +364,7 @@ fun getScriptCollectedData(
         acceptedAnnotations,
         project,
         scriptFile.viewProvider.document,
-        scriptFile.virtualFilePath
+        requireNotNull(scriptFile.virtualFilePath)
     )
     return ScriptCollectedData(
         mapOf(
