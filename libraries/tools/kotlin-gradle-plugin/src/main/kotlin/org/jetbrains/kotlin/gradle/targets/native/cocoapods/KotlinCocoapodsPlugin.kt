@@ -16,6 +16,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.addExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.whenEvaluated
+import org.jetbrains.kotlin.gradle.targets.native.cocoapods.podfile.PodfileExtension
 import org.jetbrains.kotlin.gradle.targets.native.tasks.PodBuildSettingsProperties
 import org.jetbrains.kotlin.gradle.targets.native.tasks.PodBuildTask
 import org.jetbrains.kotlin.gradle.targets.native.tasks.PodInstallTask
@@ -361,8 +362,12 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         pluginManager.withPlugin("kotlin-multiplatform") {
             val kotlinExtension = project.multiplatformExtension
             val cocoapodsExtension = CocoapodsExtension(this)
+            val podfileExtension = PodfileExtension(this)
 
-            kotlinExtension.addExtension(EXTENSION_NAME, cocoapodsExtension)
+            kotlinExtension.apply {
+                addExtension(PODFILE_EXTENSION_NAME, podfileExtension)
+                addExtension(COCOAPODS_EXTENSION_NAME, cocoapodsExtension)
+            }
             createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
             registerDummyFrameworkTask(project, cocoapodsExtension)
             createSyncTask(project, kotlinExtension)
@@ -376,7 +381,8 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     }
 
     companion object {
-        const val EXTENSION_NAME = "cocoapods"
+        const val COCOAPODS_EXTENSION_NAME = "cocoapods"
+        const val PODFILE_EXTENSION_NAME = "podfile"
         const val TASK_GROUP = "CocoaPods"
         const val SYNC_TASK_NAME = "syncFramework"
         const val POD_SPEC_TASK_NAME = "podspec"
