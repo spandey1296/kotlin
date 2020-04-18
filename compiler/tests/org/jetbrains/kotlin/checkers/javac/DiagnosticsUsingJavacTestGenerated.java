@@ -3583,6 +3583,39 @@ public class DiagnosticsUsingJavacTestGenerated extends AbstractDiagnosticsUsing
             }
         }
 
+        @TestMetadata("compiler/testData/diagnostics/tests/constexpr")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Constexpr extends AbstractDiagnosticsUsingJavacTest {
+            private void runTest(String testDataFilePath) throws Exception {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInConstexpr() throws Exception {
+                KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/diagnostics/tests/constexpr"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.fir\\.kts?$"), true);
+            }
+
+            @TestMetadata("compileTimeMember.kt")
+            public void testCompileTimeMember() throws Exception {
+                runTest("compiler/testData/diagnostics/tests/constexpr/compileTimeMember.kt");
+            }
+
+            @TestMetadata("constInitializer.kt")
+            public void testConstInitializer() throws Exception {
+                runTest("compiler/testData/diagnostics/tests/constexpr/constInitializer.kt");
+            }
+
+            @TestMetadata("nonCompileTimeInDeclaration.kt")
+            public void testNonCompileTimeInDeclaration() throws Exception {
+                runTest("compiler/testData/diagnostics/tests/constexpr/nonCompileTimeInDeclaration.kt");
+            }
+
+            @TestMetadata("nonConstInitializer.kt")
+            public void testNonConstInitializer() throws Exception {
+                runTest("compiler/testData/diagnostics/tests/constexpr/nonConstInitializer.kt");
+            }
+        }
+
         @TestMetadata("compiler/testData/diagnostics/tests/constructorConsistency")
         @TestDataPath("$PROJECT_ROOT")
         @RunWith(JUnit3RunnerWithInners.class)
