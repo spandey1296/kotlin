@@ -296,6 +296,7 @@ public inline fun CharSequence.singleOrNull(predicate: (Char) -> Boolean): Char?
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public fun CharSequence.drop(n: Int): CharSequence {
     require(n >= 0) { "Requested character count $n is less than zero." }
     return subSequence(n.coerceAtMost(length), length)
@@ -308,6 +309,7 @@ public fun CharSequence.drop(n: Int): CharSequence {
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public fun String.drop(n: Int): String {
     require(n >= 0) { "Requested character count $n is less than zero." }
     return substring(n.coerceAtMost(length))
@@ -320,6 +322,7 @@ public fun String.drop(n: Int): String {
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public fun CharSequence.dropLast(n: Int): CharSequence {
     require(n >= 0) { "Requested character count $n is less than zero." }
     return take((length - n).coerceAtLeast(0))
@@ -332,6 +335,7 @@ public fun CharSequence.dropLast(n: Int): CharSequence {
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public fun String.dropLast(n: Int): String {
     require(n >= 0) { "Requested character count $n is less than zero." }
     return take((length - n).coerceAtLeast(0))
@@ -342,6 +346,7 @@ public fun String.dropLast(n: Int): String {
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public inline fun CharSequence.dropLastWhile(predicate: (Char) -> Boolean): CharSequence {
     for (index in lastIndex downTo 0)
         if (!predicate(this[index]))
@@ -354,6 +359,7 @@ public inline fun CharSequence.dropLastWhile(predicate: (Char) -> Boolean): Char
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public inline fun String.dropLastWhile(predicate: (Char) -> Boolean): String {
     for (index in lastIndex downTo 0)
         if (!predicate(this[index]))
@@ -366,6 +372,7 @@ public inline fun String.dropLastWhile(predicate: (Char) -> Boolean): String {
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public inline fun CharSequence.dropWhile(predicate: (Char) -> Boolean): CharSequence {
     for (index in this.indices)
         if (!predicate(this[index]))
@@ -378,6 +385,7 @@ public inline fun CharSequence.dropWhile(predicate: (Char) -> Boolean): CharSequ
  * 
  * @sample samples.text.Strings.drop
  */
+@CompileTimeCalculation
 public inline fun String.dropWhile(predicate: (Char) -> Boolean): String {
     for (index in this.indices)
         if (!predicate(this[index]))
@@ -390,6 +398,7 @@ public inline fun String.dropWhile(predicate: (Char) -> Boolean): String {
  * 
  * @sample samples.text.Strings.filter
  */
+@CompileTimeCalculation
 public inline fun CharSequence.filter(predicate: (Char) -> Boolean): CharSequence {
     return filterTo(StringBuilder(), predicate)
 }
@@ -399,6 +408,7 @@ public inline fun CharSequence.filter(predicate: (Char) -> Boolean): CharSequenc
  * 
  * @sample samples.text.Strings.filter
  */
+@CompileTimeCalculation
 public inline fun String.filter(predicate: (Char) -> Boolean): String {
     return filterTo(StringBuilder(), predicate).toString()
 }
@@ -408,6 +418,7 @@ public inline fun String.filter(predicate: (Char) -> Boolean): String {
  * @param [predicate] function that takes the index of a character and the character itself
  * and returns the result of predicate evaluation on the character.
  */
+@CompileTimeCalculation
 public inline fun CharSequence.filterIndexed(predicate: (index: Int, Char) -> Boolean): CharSequence {
     return filterIndexedTo(StringBuilder(), predicate)
 }
@@ -417,6 +428,7 @@ public inline fun CharSequence.filterIndexed(predicate: (index: Int, Char) -> Bo
  * @param [predicate] function that takes the index of a character and the character itself
  * and returns the result of predicate evaluation on the character.
  */
+@CompileTimeCalculation
 public inline fun String.filterIndexed(predicate: (index: Int, Char) -> Boolean): String {
     return filterIndexedTo(StringBuilder(), predicate).toString()
 }
@@ -426,6 +438,7 @@ public inline fun String.filterIndexed(predicate: (index: Int, Char) -> Boolean)
  * @param [predicate] function that takes the index of a character and the character itself
  * and returns the result of predicate evaluation on the character.
  */
+@CompileTimeCalculation
 public inline fun <C : Appendable> CharSequence.filterIndexedTo(destination: C, predicate: (index: Int, Char) -> Boolean): C {
     forEachIndexed { index, element ->
         if (predicate(index, element)) destination.append(element)
@@ -438,6 +451,7 @@ public inline fun <C : Appendable> CharSequence.filterIndexedTo(destination: C, 
  * 
  * @sample samples.text.Strings.filterNot
  */
+@CompileTimeCalculation
 public inline fun CharSequence.filterNot(predicate: (Char) -> Boolean): CharSequence {
     return filterNotTo(StringBuilder(), predicate)
 }
@@ -447,6 +461,7 @@ public inline fun CharSequence.filterNot(predicate: (Char) -> Boolean): CharSequ
  * 
  * @sample samples.text.Strings.filterNot
  */
+@CompileTimeCalculation
 public inline fun String.filterNot(predicate: (Char) -> Boolean): String {
     return filterNotTo(StringBuilder(), predicate).toString()
 }
@@ -454,6 +469,7 @@ public inline fun String.filterNot(predicate: (Char) -> Boolean): String {
 /**
  * Appends all characters not matching the given [predicate] to the given [destination].
  */
+@CompileTimeCalculation
 public inline fun <C : Appendable> CharSequence.filterNotTo(destination: C, predicate: (Char) -> Boolean): C {
     for (element in this) if (!predicate(element)) destination.append(element)
     return destination
@@ -462,6 +478,7 @@ public inline fun <C : Appendable> CharSequence.filterNotTo(destination: C, pred
 /**
  * Appends all characters matching the given [predicate] to the given [destination].
  */
+@CompileTimeCalculation
 public inline fun <C : Appendable> CharSequence.filterTo(destination: C, predicate: (Char) -> Boolean): C {
     for (index in 0 until length) {
         val element = get(index)
@@ -514,6 +531,7 @@ public inline fun String.slice(indices: Iterable<Int>): String {
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public fun CharSequence.take(n: Int): CharSequence {
     require(n >= 0) { "Requested character count $n is less than zero." }
     return subSequence(0, n.coerceAtMost(length))
@@ -526,6 +544,7 @@ public fun CharSequence.take(n: Int): CharSequence {
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public fun String.take(n: Int): String {
     require(n >= 0) { "Requested character count $n is less than zero." }
     return substring(0, n.coerceAtMost(length))
@@ -538,6 +557,7 @@ public fun String.take(n: Int): String {
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public fun CharSequence.takeLast(n: Int): CharSequence {
     require(n >= 0) { "Requested character count $n is less than zero." }
     val length = length
@@ -551,6 +571,7 @@ public fun CharSequence.takeLast(n: Int): CharSequence {
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public fun String.takeLast(n: Int): String {
     require(n >= 0) { "Requested character count $n is less than zero." }
     val length = length
@@ -562,6 +583,7 @@ public fun String.takeLast(n: Int): String {
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public inline fun CharSequence.takeLastWhile(predicate: (Char) -> Boolean): CharSequence {
     for (index in lastIndex downTo 0) {
         if (!predicate(this[index])) {
@@ -576,6 +598,7 @@ public inline fun CharSequence.takeLastWhile(predicate: (Char) -> Boolean): Char
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public inline fun String.takeLastWhile(predicate: (Char) -> Boolean): String {
     for (index in lastIndex downTo 0) {
         if (!predicate(this[index])) {
@@ -590,6 +613,7 @@ public inline fun String.takeLastWhile(predicate: (Char) -> Boolean): String {
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public inline fun CharSequence.takeWhile(predicate: (Char) -> Boolean): CharSequence {
     for (index in 0 until length)
         if (!predicate(get(index))) {
@@ -603,6 +627,7 @@ public inline fun CharSequence.takeWhile(predicate: (Char) -> Boolean): CharSequ
  * 
  * @sample samples.text.Strings.take
  */
+@CompileTimeCalculation
 public inline fun String.takeWhile(predicate: (Char) -> Boolean): String {
     for (index in 0 until length)
         if (!predicate(get(index))) {
