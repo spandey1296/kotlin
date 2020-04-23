@@ -6,6 +6,7 @@
 package kotlin
 
 
+@CompileTimeCalculation
 public actual interface Comparator<T> {
     @JsName("compare")
     actual fun compare(a: T, b: T): Int
