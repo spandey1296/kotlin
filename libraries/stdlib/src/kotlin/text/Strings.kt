@@ -233,6 +233,7 @@ public inline fun CharSequence?.isNullOrEmpty(): Boolean {
  *
  * @sample samples.text.Strings.stringIsEmpty
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun CharSequence.isEmpty(): Boolean = length == 0
 
@@ -241,6 +242,7 @@ public inline fun CharSequence.isEmpty(): Boolean = length == 0
  *
  * @sample samples.text.Strings.stringIsNotEmpty
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun CharSequence.isNotEmpty(): Boolean = length > 0
 
@@ -273,6 +275,7 @@ public inline fun CharSequence?.isNullOrBlank(): Boolean {
 /**
  * Iterator for characters of the given char sequence.
  */
+@CompileTimeCalculation
 public operator fun CharSequence.iterator(): CharIterator = object : CharIterator() {
     private var index = 0
 
@@ -310,12 +313,14 @@ public inline fun <C, R> C.ifBlank(defaultValue: () -> R): R where C : CharSeque
 /**
  * Returns the range of valid character indices for this char sequence.
  */
+@CompileTimeCalculation
 public val CharSequence.indices: IntRange
     get() = 0..length - 1
 
 /**
  * Returns the index of the last character in the char sequence or -1 if it is empty.
  */
+@CompileTimeCalculation
 public val CharSequence.lastIndex: Int
     get() = this.length - 1
 
