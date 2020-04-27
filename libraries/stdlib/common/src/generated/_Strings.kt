@@ -1010,6 +1010,7 @@ public fun CharSequence.withIndex(): Iterable<IndexedValue<Char>> {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun CharSequence.all(predicate: (Char) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -1020,6 +1021,7 @@ public inline fun CharSequence.all(predicate: (Char) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun CharSequence.any(): Boolean {
     return !isEmpty()
 }
@@ -1029,6 +1031,7 @@ public fun CharSequence.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun CharSequence.any(predicate: (Char) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -1037,6 +1040,7 @@ public inline fun CharSequence.any(predicate: (Char) -> Boolean): Boolean {
 /**
  * Returns the length of this char sequence.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun CharSequence.count(): Int {
     return length
@@ -1045,6 +1049,7 @@ public inline fun CharSequence.count(): Int {
 /**
  * Returns the number of characters matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun CharSequence.count(predicate: (Char) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -1059,6 +1064,7 @@ public inline fun CharSequence.count(predicate: (Char) -> Boolean): Int {
  * 
  * @param [operation] function that takes current accumulator value and a character, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharSequence.fold(initial: R, operation: (acc: R, Char) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -1074,6 +1080,7 @@ public inline fun <R> CharSequence.fold(initial: R, operation: (acc: R, Char) ->
  * @param [operation] function that takes the index of a character, current accumulator value
  * and the character itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharSequence.foldIndexed(initial: R, operation: (index: Int, acc: R, Char) -> R): R {
     var index = 0
     var accumulator = initial
@@ -1089,6 +1096,7 @@ public inline fun <R> CharSequence.foldIndexed(initial: R, operation: (index: In
  * 
  * @param [operation] function that takes a character and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharSequence.foldRight(initial: R, operation: (Char, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -1107,6 +1115,7 @@ public inline fun <R> CharSequence.foldRight(initial: R, operation: (Char, acc: 
  * @param [operation] function that takes the index of a character, the character itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharSequence.foldRightIndexed(initial: R, operation: (index: Int, Char, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -1120,6 +1129,7 @@ public inline fun <R> CharSequence.foldRightIndexed(initial: R, operation: (inde
 /**
  * Performs the given [action] on each character.
  */
+@CompileTimeCalculation
 public inline fun CharSequence.forEach(action: (Char) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -1129,6 +1139,7 @@ public inline fun CharSequence.forEach(action: (Char) -> Unit): Unit {
  * @param [action] function that takes the index of a character and the character itself
  * and performs the action on the character.
  */
+@CompileTimeCalculation
 public inline fun CharSequence.forEachIndexed(action: (index: Int, Char) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -1137,6 +1148,7 @@ public inline fun CharSequence.forEachIndexed(action: (index: Int, Char) -> Unit
 /**
  * Returns the largest character or `null` if there are no characters.
  */
+@CompileTimeCalculation
 public fun CharSequence.max(): Char? {
     if (isEmpty()) return null
     var max = this[0]
@@ -1152,6 +1164,7 @@ public fun CharSequence.max(): Char? {
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> CharSequence.maxBy(selector: (Char) -> R): Char? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -1172,9 +1185,9 @@ public inline fun <R : Comparable<R>> CharSequence.maxBy(selector: (Char) -> R):
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each character in the char sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1194,9 +1207,9 @@ public inline fun CharSequence.maxOf(selector: (Char) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each character in the char sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1216,7 +1229,7 @@ public inline fun CharSequence.maxOf(selector: (Char) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each character in the char sequence.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1238,7 +1251,7 @@ public inline fun <R : Comparable<R>> CharSequence.maxOf(selector: (Char) -> R):
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each character in the char sequence or `null` if there are no characters.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -1258,7 +1271,7 @@ public inline fun CharSequence.maxOfOrNull(selector: (Char) -> Double): Double? 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each character in the char sequence or `null` if there are no characters.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -1298,7 +1311,7 @@ public inline fun <R : Comparable<R>> CharSequence.maxOfOrNull(selector: (Char) 
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each character in the char sequence.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1340,6 +1353,7 @@ public inline fun <R> CharSequence.maxOfWithOrNull(comparator: Comparator<in R>,
 /**
  * Returns the first character having the largest value according to the provided [comparator] or `null` if there are no characters.
  */
+@CompileTimeCalculation
 public fun CharSequence.maxWith(comparator: Comparator<in Char>): Char? {
     if (isEmpty()) return null
     var max = this[0]
@@ -1353,6 +1367,7 @@ public fun CharSequence.maxWith(comparator: Comparator<in Char>): Char? {
 /**
  * Returns the smallest character or `null` if there are no characters.
  */
+@CompileTimeCalculation
 public fun CharSequence.min(): Char? {
     if (isEmpty()) return null
     var min = this[0]
@@ -1368,6 +1383,7 @@ public fun CharSequence.min(): Char? {
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> CharSequence.minBy(selector: (Char) -> R): Char? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -1388,9 +1404,9 @@ public inline fun <R : Comparable<R>> CharSequence.minBy(selector: (Char) -> R):
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each character in the char sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1410,9 +1426,9 @@ public inline fun CharSequence.minOf(selector: (Char) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each character in the char sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1432,7 +1448,7 @@ public inline fun CharSequence.minOf(selector: (Char) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each character in the char sequence.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1454,7 +1470,7 @@ public inline fun <R : Comparable<R>> CharSequence.minOf(selector: (Char) -> R):
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each character in the char sequence or `null` if there are no characters.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -1474,7 +1490,7 @@ public inline fun CharSequence.minOfOrNull(selector: (Char) -> Double): Double? 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each character in the char sequence or `null` if there are no characters.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -1514,7 +1530,7 @@ public inline fun <R : Comparable<R>> CharSequence.minOfOrNull(selector: (Char) 
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each character in the char sequence.
- * 
+ *
  * @throws NoSuchElementException if the char sequence is empty.
  */
 @SinceKotlin("1.4")
@@ -1556,6 +1572,7 @@ public inline fun <R> CharSequence.minOfWithOrNull(comparator: Comparator<in R>,
 /**
  * Returns the first character having the smallest value according to the provided [comparator] or `null` if there are no characters.
  */
+@CompileTimeCalculation
 public fun CharSequence.minWith(comparator: Comparator<in Char>): Char? {
     if (isEmpty()) return null
     var min = this[0]
@@ -1571,6 +1588,7 @@ public fun CharSequence.minWith(comparator: Comparator<in Char>): Char? {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun CharSequence.none(): Boolean {
     return isEmpty()
 }
@@ -1580,6 +1598,7 @@ public fun CharSequence.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun CharSequence.none(predicate: (Char) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -1589,6 +1608,7 @@ public inline fun CharSequence.none(predicate: (Char) -> Boolean): Boolean {
  * Performs the given [action] on each character and returns the char sequence itself afterwards.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public inline fun <S : CharSequence> S.onEach(action: (Char) -> Unit): S {
     return apply { for (element in this) action(element) }
 }
@@ -1616,6 +1636,7 @@ public inline fun <S : CharSequence> S.onEachIndexed(action: (index: Int, Char) 
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun CharSequence.reduce(operation: (acc: Char, Char) -> Char): Char {
     if (isEmpty())
         throw UnsupportedOperationException("Empty char sequence can't be reduced.")
@@ -1638,6 +1659,7 @@ public inline fun CharSequence.reduce(operation: (acc: Char, Char) -> Char): Cha
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun CharSequence.reduceIndexed(operation: (index: Int, acc: Char, Char) -> Char): Char {
     if (isEmpty())
         throw UnsupportedOperationException("Empty char sequence can't be reduced.")
@@ -1660,6 +1682,7 @@ public inline fun CharSequence.reduceIndexed(operation: (index: Int, acc: Char, 
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun CharSequence.reduceIndexedOrNull(operation: (index: Int, acc: Char, Char) -> Char): Char? {
     if (isEmpty())
         return null
@@ -1683,6 +1706,7 @@ public inline fun CharSequence.reduceIndexedOrNull(operation: (index: Int, acc: 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun CharSequence.reduceOrNull(operation: (acc: Char, Char) -> Char): Char? {
     if (isEmpty())
         return null
@@ -1705,6 +1729,7 @@ public inline fun CharSequence.reduceOrNull(operation: (acc: Char, Char) -> Char
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun CharSequence.reduceRight(operation: (Char, acc: Char) -> Char): Char {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty char sequence can't be reduced.")
@@ -1727,6 +1752,7 @@ public inline fun CharSequence.reduceRight(operation: (Char, acc: Char) -> Char)
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun CharSequence.reduceRightIndexed(operation: (index: Int, Char, acc: Char) -> Char): Char {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty char sequence can't be reduced.")
@@ -1750,6 +1776,7 @@ public inline fun CharSequence.reduceRightIndexed(operation: (index: Int, Char, 
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun CharSequence.reduceRightIndexedOrNull(operation: (index: Int, Char, acc: Char) -> Char): Char? {
     var index = lastIndex
     if (index < 0) return null
@@ -1774,6 +1801,7 @@ public inline fun CharSequence.reduceRightIndexedOrNull(operation: (index: Int, 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun CharSequence.reduceRightOrNull(operation: (Char, acc: Char) -> Char): Char? {
     var index = lastIndex
     if (index < 0) return null
@@ -1930,6 +1958,7 @@ public inline fun CharSequence.scanReduceIndexed(operation: (index: Int, acc: Ch
 /**
  * Returns the sum of all values produced by [selector] function applied to each character in the char sequence.
  */
+@CompileTimeCalculation
 public inline fun CharSequence.sumBy(selector: (Char) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -1941,6 +1970,7 @@ public inline fun CharSequence.sumBy(selector: (Char) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each character in the char sequence.
  */
+@CompileTimeCalculation
 public inline fun CharSequence.sumByDouble(selector: (Char) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {

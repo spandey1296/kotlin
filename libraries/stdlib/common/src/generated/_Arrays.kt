@@ -10451,7 +10451,7 @@ public inline fun <R> CharArray.flatMap(transform: (Char) -> Iterable<R>): List<
 
 /**
  * Returns a single list of all elements yielded from results of [transform] function being invoked on each element of original array.
- * 
+ *
  * @sample samples.collections.Collections.Transformations.flatMap
  */
 @SinceKotlin("1.4")
@@ -12336,6 +12336,7 @@ public infix fun CharArray.union(other: Iterable<Char>): Set<Char> {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.all(predicate: (T) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12346,6 +12347,7 @@ public inline fun <T> Array<out T>.all(predicate: (T) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun ByteArray.all(predicate: (Byte) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12356,6 +12358,7 @@ public inline fun ByteArray.all(predicate: (Byte) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun ShortArray.all(predicate: (Short) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12366,6 +12369,7 @@ public inline fun ShortArray.all(predicate: (Short) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun IntArray.all(predicate: (Int) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12376,6 +12380,7 @@ public inline fun IntArray.all(predicate: (Int) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun LongArray.all(predicate: (Long) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12386,6 +12391,7 @@ public inline fun LongArray.all(predicate: (Long) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun FloatArray.all(predicate: (Float) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12396,6 +12402,7 @@ public inline fun FloatArray.all(predicate: (Float) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.all(predicate: (Double) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12406,6 +12413,7 @@ public inline fun DoubleArray.all(predicate: (Double) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.all(predicate: (Boolean) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12416,6 +12424,7 @@ public inline fun BooleanArray.all(predicate: (Boolean) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun CharArray.all(predicate: (Char) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -12426,6 +12435,7 @@ public inline fun CharArray.all(predicate: (Char) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun <T> Array<out T>.any(): Boolean {
     return !isEmpty()
 }
@@ -12435,6 +12445,7 @@ public fun <T> Array<out T>.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun ByteArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12444,6 +12455,7 @@ public fun ByteArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun ShortArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12453,6 +12465,7 @@ public fun ShortArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun IntArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12462,6 +12475,7 @@ public fun IntArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun LongArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12471,6 +12485,7 @@ public fun LongArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun FloatArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12480,6 +12495,7 @@ public fun FloatArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun DoubleArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12489,6 +12505,7 @@ public fun DoubleArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun BooleanArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12498,6 +12515,7 @@ public fun BooleanArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun CharArray.any(): Boolean {
     return !isEmpty()
 }
@@ -12507,6 +12525,7 @@ public fun CharArray.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.any(predicate: (T) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12517,6 +12536,7 @@ public inline fun <T> Array<out T>.any(predicate: (T) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun ByteArray.any(predicate: (Byte) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12527,6 +12547,7 @@ public inline fun ByteArray.any(predicate: (Byte) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun ShortArray.any(predicate: (Short) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12537,6 +12558,7 @@ public inline fun ShortArray.any(predicate: (Short) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun IntArray.any(predicate: (Int) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12547,6 +12569,7 @@ public inline fun IntArray.any(predicate: (Int) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun LongArray.any(predicate: (Long) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12557,6 +12580,7 @@ public inline fun LongArray.any(predicate: (Long) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun FloatArray.any(predicate: (Float) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12567,6 +12591,7 @@ public inline fun FloatArray.any(predicate: (Float) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.any(predicate: (Double) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12577,6 +12602,7 @@ public inline fun DoubleArray.any(predicate: (Double) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.any(predicate: (Boolean) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12587,6 +12613,7 @@ public inline fun BooleanArray.any(predicate: (Boolean) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun CharArray.any(predicate: (Char) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -12595,6 +12622,7 @@ public inline fun CharArray.any(predicate: (Char) -> Boolean): Boolean {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun <T> Array<out T>.count(): Int {
     return size
@@ -12603,6 +12631,7 @@ public inline fun <T> Array<out T>.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun ByteArray.count(): Int {
     return size
@@ -12611,6 +12640,7 @@ public inline fun ByteArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun ShortArray.count(): Int {
     return size
@@ -12619,6 +12649,7 @@ public inline fun ShortArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun IntArray.count(): Int {
     return size
@@ -12627,6 +12658,7 @@ public inline fun IntArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun LongArray.count(): Int {
     return size
@@ -12635,6 +12667,7 @@ public inline fun LongArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun FloatArray.count(): Int {
     return size
@@ -12643,6 +12676,7 @@ public inline fun FloatArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun DoubleArray.count(): Int {
     return size
@@ -12651,6 +12685,7 @@ public inline fun DoubleArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun BooleanArray.count(): Int {
     return size
@@ -12659,6 +12694,7 @@ public inline fun BooleanArray.count(): Int {
 /**
  * Returns the number of elements in this array.
  */
+@CompileTimeCalculation
 @kotlin.internal.InlineOnly
 public inline fun CharArray.count(): Int {
     return size
@@ -12667,6 +12703,7 @@ public inline fun CharArray.count(): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.count(predicate: (T) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12676,6 +12713,7 @@ public inline fun <T> Array<out T>.count(predicate: (T) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun ByteArray.count(predicate: (Byte) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12685,6 +12723,7 @@ public inline fun ByteArray.count(predicate: (Byte) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun ShortArray.count(predicate: (Short) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12694,6 +12733,7 @@ public inline fun ShortArray.count(predicate: (Short) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun IntArray.count(predicate: (Int) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12703,6 +12743,7 @@ public inline fun IntArray.count(predicate: (Int) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun LongArray.count(predicate: (Long) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12712,6 +12753,7 @@ public inline fun LongArray.count(predicate: (Long) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun FloatArray.count(predicate: (Float) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12721,6 +12763,7 @@ public inline fun FloatArray.count(predicate: (Float) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.count(predicate: (Double) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12730,6 +12773,7 @@ public inline fun DoubleArray.count(predicate: (Double) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.count(predicate: (Boolean) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12739,6 +12783,7 @@ public inline fun BooleanArray.count(predicate: (Boolean) -> Boolean): Int {
 /**
  * Returns the number of elements matching the given [predicate].
  */
+@CompileTimeCalculation
 public inline fun CharArray.count(predicate: (Char) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) ++count
@@ -12753,6 +12798,7 @@ public inline fun CharArray.count(predicate: (Char) -> Boolean): Int {
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <T, R> Array<out T>.fold(initial: R, operation: (acc: R, T) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12767,6 +12813,7 @@ public inline fun <T, R> Array<out T>.fold(initial: R, operation: (acc: R, T) ->
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ByteArray.fold(initial: R, operation: (acc: R, Byte) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12781,6 +12828,7 @@ public inline fun <R> ByteArray.fold(initial: R, operation: (acc: R, Byte) -> R)
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ShortArray.fold(initial: R, operation: (acc: R, Short) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12795,6 +12843,7 @@ public inline fun <R> ShortArray.fold(initial: R, operation: (acc: R, Short) -> 
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> IntArray.fold(initial: R, operation: (acc: R, Int) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12809,6 +12858,7 @@ public inline fun <R> IntArray.fold(initial: R, operation: (acc: R, Int) -> R): 
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> LongArray.fold(initial: R, operation: (acc: R, Long) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12823,6 +12873,7 @@ public inline fun <R> LongArray.fold(initial: R, operation: (acc: R, Long) -> R)
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> FloatArray.fold(initial: R, operation: (acc: R, Float) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12837,6 +12888,7 @@ public inline fun <R> FloatArray.fold(initial: R, operation: (acc: R, Float) -> 
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> DoubleArray.fold(initial: R, operation: (acc: R, Double) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12851,6 +12903,7 @@ public inline fun <R> DoubleArray.fold(initial: R, operation: (acc: R, Double) -
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> BooleanArray.fold(initial: R, operation: (acc: R, Boolean) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12865,6 +12918,7 @@ public inline fun <R> BooleanArray.fold(initial: R, operation: (acc: R, Boolean)
  * 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharArray.fold(initial: R, operation: (acc: R, Char) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -12880,6 +12934,7 @@ public inline fun <R> CharArray.fold(initial: R, operation: (acc: R, Char) -> R)
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <T, R> Array<out T>.foldIndexed(initial: R, operation: (index: Int, acc: R, T) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12896,6 +12951,7 @@ public inline fun <T, R> Array<out T>.foldIndexed(initial: R, operation: (index:
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ByteArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Byte) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12912,6 +12968,7 @@ public inline fun <R> ByteArray.foldIndexed(initial: R, operation: (index: Int, 
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ShortArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Short) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12928,6 +12985,7 @@ public inline fun <R> ShortArray.foldIndexed(initial: R, operation: (index: Int,
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> IntArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Int) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12944,6 +13002,7 @@ public inline fun <R> IntArray.foldIndexed(initial: R, operation: (index: Int, a
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> LongArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Long) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12960,6 +13019,7 @@ public inline fun <R> LongArray.foldIndexed(initial: R, operation: (index: Int, 
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> FloatArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Float) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12976,6 +13036,7 @@ public inline fun <R> FloatArray.foldIndexed(initial: R, operation: (index: Int,
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> DoubleArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Double) -> R): R {
     var index = 0
     var accumulator = initial
@@ -12992,6 +13053,7 @@ public inline fun <R> DoubleArray.foldIndexed(initial: R, operation: (index: Int
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> BooleanArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Boolean) -> R): R {
     var index = 0
     var accumulator = initial
@@ -13008,6 +13070,7 @@ public inline fun <R> BooleanArray.foldIndexed(initial: R, operation: (index: In
  * @param [operation] function that takes the index of an element, current accumulator value
  * and the element itself, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharArray.foldIndexed(initial: R, operation: (index: Int, acc: R, Char) -> R): R {
     var index = 0
     var accumulator = initial
@@ -13023,6 +13086,7 @@ public inline fun <R> CharArray.foldIndexed(initial: R, operation: (index: Int, 
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <T, R> Array<out T>.foldRight(initial: R, operation: (T, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13040,6 +13104,7 @@ public inline fun <T, R> Array<out T>.foldRight(initial: R, operation: (T, acc: 
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ByteArray.foldRight(initial: R, operation: (Byte, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13057,6 +13122,7 @@ public inline fun <R> ByteArray.foldRight(initial: R, operation: (Byte, acc: R) 
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ShortArray.foldRight(initial: R, operation: (Short, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13074,6 +13140,7 @@ public inline fun <R> ShortArray.foldRight(initial: R, operation: (Short, acc: R
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> IntArray.foldRight(initial: R, operation: (Int, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13091,6 +13158,7 @@ public inline fun <R> IntArray.foldRight(initial: R, operation: (Int, acc: R) ->
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> LongArray.foldRight(initial: R, operation: (Long, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13108,6 +13176,7 @@ public inline fun <R> LongArray.foldRight(initial: R, operation: (Long, acc: R) 
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> FloatArray.foldRight(initial: R, operation: (Float, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13125,6 +13194,7 @@ public inline fun <R> FloatArray.foldRight(initial: R, operation: (Float, acc: R
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> DoubleArray.foldRight(initial: R, operation: (Double, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13142,6 +13212,7 @@ public inline fun <R> DoubleArray.foldRight(initial: R, operation: (Double, acc:
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> BooleanArray.foldRight(initial: R, operation: (Boolean, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13159,6 +13230,7 @@ public inline fun <R> BooleanArray.foldRight(initial: R, operation: (Boolean, ac
  * 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharArray.foldRight(initial: R, operation: (Char, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13177,6 +13249,7 @@ public inline fun <R> CharArray.foldRight(initial: R, operation: (Char, acc: R) 
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <T, R> Array<out T>.foldRightIndexed(initial: R, operation: (index: Int, T, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13196,6 +13269,7 @@ public inline fun <T, R> Array<out T>.foldRightIndexed(initial: R, operation: (i
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ByteArray.foldRightIndexed(initial: R, operation: (index: Int, Byte, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13215,6 +13289,7 @@ public inline fun <R> ByteArray.foldRightIndexed(initial: R, operation: (index: 
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> ShortArray.foldRightIndexed(initial: R, operation: (index: Int, Short, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13234,6 +13309,7 @@ public inline fun <R> ShortArray.foldRightIndexed(initial: R, operation: (index:
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> IntArray.foldRightIndexed(initial: R, operation: (index: Int, Int, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13253,6 +13329,7 @@ public inline fun <R> IntArray.foldRightIndexed(initial: R, operation: (index: I
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> LongArray.foldRightIndexed(initial: R, operation: (index: Int, Long, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13272,6 +13349,7 @@ public inline fun <R> LongArray.foldRightIndexed(initial: R, operation: (index: 
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> FloatArray.foldRightIndexed(initial: R, operation: (index: Int, Float, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13291,6 +13369,7 @@ public inline fun <R> FloatArray.foldRightIndexed(initial: R, operation: (index:
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> DoubleArray.foldRightIndexed(initial: R, operation: (index: Int, Double, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13310,6 +13389,7 @@ public inline fun <R> DoubleArray.foldRightIndexed(initial: R, operation: (index
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> BooleanArray.foldRightIndexed(initial: R, operation: (index: Int, Boolean, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13329,6 +13409,7 @@ public inline fun <R> BooleanArray.foldRightIndexed(initial: R, operation: (inde
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
+@CompileTimeCalculation
 public inline fun <R> CharArray.foldRightIndexed(initial: R, operation: (index: Int, Char, acc: R) -> R): R {
     var index = lastIndex
     var accumulator = initial
@@ -13342,6 +13423,7 @@ public inline fun <R> CharArray.foldRightIndexed(initial: R, operation: (index: 
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.forEach(action: (T) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13349,6 +13431,7 @@ public inline fun <T> Array<out T>.forEach(action: (T) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun ByteArray.forEach(action: (Byte) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13356,6 +13439,7 @@ public inline fun ByteArray.forEach(action: (Byte) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun ShortArray.forEach(action: (Short) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13363,6 +13447,7 @@ public inline fun ShortArray.forEach(action: (Short) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun IntArray.forEach(action: (Int) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13370,6 +13455,7 @@ public inline fun IntArray.forEach(action: (Int) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun LongArray.forEach(action: (Long) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13377,6 +13463,7 @@ public inline fun LongArray.forEach(action: (Long) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun FloatArray.forEach(action: (Float) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13384,6 +13471,7 @@ public inline fun FloatArray.forEach(action: (Float) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.forEach(action: (Double) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13391,6 +13479,7 @@ public inline fun DoubleArray.forEach(action: (Double) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.forEach(action: (Boolean) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13398,6 +13487,7 @@ public inline fun BooleanArray.forEach(action: (Boolean) -> Unit): Unit {
 /**
  * Performs the given [action] on each element.
  */
+@CompileTimeCalculation
 public inline fun CharArray.forEach(action: (Char) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -13407,6 +13497,7 @@ public inline fun CharArray.forEach(action: (Char) -> Unit): Unit {
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.forEachIndexed(action: (index: Int, T) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13417,6 +13508,7 @@ public inline fun <T> Array<out T>.forEachIndexed(action: (index: Int, T) -> Uni
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun ByteArray.forEachIndexed(action: (index: Int, Byte) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13427,6 +13519,7 @@ public inline fun ByteArray.forEachIndexed(action: (index: Int, Byte) -> Unit): 
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun ShortArray.forEachIndexed(action: (index: Int, Short) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13437,6 +13530,7 @@ public inline fun ShortArray.forEachIndexed(action: (index: Int, Short) -> Unit)
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun IntArray.forEachIndexed(action: (index: Int, Int) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13447,6 +13541,7 @@ public inline fun IntArray.forEachIndexed(action: (index: Int, Int) -> Unit): Un
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun LongArray.forEachIndexed(action: (index: Int, Long) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13457,6 +13552,7 @@ public inline fun LongArray.forEachIndexed(action: (index: Int, Long) -> Unit): 
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun FloatArray.forEachIndexed(action: (index: Int, Float) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13467,6 +13563,7 @@ public inline fun FloatArray.forEachIndexed(action: (index: Int, Float) -> Unit)
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.forEachIndexed(action: (index: Int, Double) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13477,6 +13574,7 @@ public inline fun DoubleArray.forEachIndexed(action: (index: Int, Double) -> Uni
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.forEachIndexed(action: (index: Int, Boolean) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13487,6 +13585,7 @@ public inline fun BooleanArray.forEachIndexed(action: (index: Int, Boolean) -> U
  * @param [action] function that takes the index of an element and the element itself
  * and performs the action on the element.
  */
+@CompileTimeCalculation
 public inline fun CharArray.forEachIndexed(action: (index: Int, Char) -> Unit): Unit {
     var index = 0
     for (item in this) action(index++, item)
@@ -13498,6 +13597,7 @@ public inline fun CharArray.forEachIndexed(action: (index: Int, Char) -> Unit): 
  * If any of elements is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Array<out Double>.max(): Double? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13514,6 +13614,7 @@ public fun Array<out Double>.max(): Double? {
  * If any of elements is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Array<out Float>.max(): Float? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13527,6 +13628,7 @@ public fun Array<out Float>.max(): Float? {
 /**
  * Returns the largest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun <T : Comparable<T>> Array<out T>.max(): T? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13540,6 +13642,7 @@ public fun <T : Comparable<T>> Array<out T>.max(): T? {
 /**
  * Returns the largest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ByteArray.max(): Byte? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13553,6 +13656,7 @@ public fun ByteArray.max(): Byte? {
 /**
  * Returns the largest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ShortArray.max(): Short? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13566,6 +13670,7 @@ public fun ShortArray.max(): Short? {
 /**
  * Returns the largest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun IntArray.max(): Int? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13579,6 +13684,7 @@ public fun IntArray.max(): Int? {
 /**
  * Returns the largest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun LongArray.max(): Long? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13594,6 +13700,7 @@ public fun LongArray.max(): Long? {
  * 
  * If any of elements is `NaN` returns `NaN`.
  */
+@CompileTimeCalculation
 public fun FloatArray.max(): Float? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13609,6 +13716,7 @@ public fun FloatArray.max(): Float? {
  * 
  * If any of elements is `NaN` returns `NaN`.
  */
+@CompileTimeCalculation
 public fun DoubleArray.max(): Double? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13622,6 +13730,7 @@ public fun DoubleArray.max(): Double? {
 /**
  * Returns the largest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun CharArray.max(): Char? {
     if (isEmpty()) return null
     var max = this[0]
@@ -13637,6 +13746,7 @@ public fun CharArray.max(): Char? {
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <T, R : Comparable<R>> Array<out T>.maxBy(selector: (T) -> R): T? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13659,6 +13769,7 @@ public inline fun <T, R : Comparable<R>> Array<out T>.maxBy(selector: (T) -> R):
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> ByteArray.maxBy(selector: (Byte) -> R): Byte? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13681,6 +13792,7 @@ public inline fun <R : Comparable<R>> ByteArray.maxBy(selector: (Byte) -> R): By
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> ShortArray.maxBy(selector: (Short) -> R): Short? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13703,6 +13815,7 @@ public inline fun <R : Comparable<R>> ShortArray.maxBy(selector: (Short) -> R): 
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> IntArray.maxBy(selector: (Int) -> R): Int? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13725,6 +13838,7 @@ public inline fun <R : Comparable<R>> IntArray.maxBy(selector: (Int) -> R): Int?
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> LongArray.maxBy(selector: (Long) -> R): Long? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13747,6 +13861,7 @@ public inline fun <R : Comparable<R>> LongArray.maxBy(selector: (Long) -> R): Lo
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> FloatArray.maxBy(selector: (Float) -> R): Float? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13769,6 +13884,7 @@ public inline fun <R : Comparable<R>> FloatArray.maxBy(selector: (Float) -> R): 
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> DoubleArray.maxBy(selector: (Double) -> R): Double? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13791,6 +13907,7 @@ public inline fun <R : Comparable<R>> DoubleArray.maxBy(selector: (Double) -> R)
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> BooleanArray.maxBy(selector: (Boolean) -> R): Boolean? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13813,6 +13930,7 @@ public inline fun <R : Comparable<R>> BooleanArray.maxBy(selector: (Boolean) -> 
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> CharArray.maxBy(selector: (Char) -> R): Char? {
     if (isEmpty()) return null
     var maxElem = this[0]
@@ -13833,9 +13951,9 @@ public inline fun <R : Comparable<R>> CharArray.maxBy(selector: (Char) -> R): Ch
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13855,9 +13973,9 @@ public inline fun <T> Array<out T>.maxOf(selector: (T) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13877,9 +13995,9 @@ public inline fun ByteArray.maxOf(selector: (Byte) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13899,9 +14017,9 @@ public inline fun ShortArray.maxOf(selector: (Short) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13921,9 +14039,9 @@ public inline fun IntArray.maxOf(selector: (Int) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13943,9 +14061,9 @@ public inline fun LongArray.maxOf(selector: (Long) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13965,9 +14083,9 @@ public inline fun FloatArray.maxOf(selector: (Float) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -13987,9 +14105,9 @@ public inline fun DoubleArray.maxOf(selector: (Double) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14009,9 +14127,9 @@ public inline fun BooleanArray.maxOf(selector: (Boolean) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14031,9 +14149,9 @@ public inline fun CharArray.maxOf(selector: (Char) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14053,9 +14171,9 @@ public inline fun <T> Array<out T>.maxOf(selector: (T) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14075,9 +14193,9 @@ public inline fun ByteArray.maxOf(selector: (Byte) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14097,9 +14215,9 @@ public inline fun ShortArray.maxOf(selector: (Short) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14119,9 +14237,9 @@ public inline fun IntArray.maxOf(selector: (Int) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14141,9 +14259,9 @@ public inline fun LongArray.maxOf(selector: (Long) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14163,9 +14281,9 @@ public inline fun FloatArray.maxOf(selector: (Float) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14185,9 +14303,9 @@ public inline fun DoubleArray.maxOf(selector: (Double) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14207,9 +14325,9 @@ public inline fun BooleanArray.maxOf(selector: (Boolean) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14229,7 +14347,7 @@ public inline fun CharArray.maxOf(selector: (Char) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14251,7 +14369,7 @@ public inline fun <T, R : Comparable<R>> Array<out T>.maxOf(selector: (T) -> R):
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14273,7 +14391,7 @@ public inline fun <R : Comparable<R>> ByteArray.maxOf(selector: (Byte) -> R): R 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14295,7 +14413,7 @@ public inline fun <R : Comparable<R>> ShortArray.maxOf(selector: (Short) -> R): 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14317,7 +14435,7 @@ public inline fun <R : Comparable<R>> IntArray.maxOf(selector: (Int) -> R): R {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14339,7 +14457,7 @@ public inline fun <R : Comparable<R>> LongArray.maxOf(selector: (Long) -> R): R 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14361,7 +14479,7 @@ public inline fun <R : Comparable<R>> FloatArray.maxOf(selector: (Float) -> R): 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14383,7 +14501,7 @@ public inline fun <R : Comparable<R>> DoubleArray.maxOf(selector: (Double) -> R)
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14405,7 +14523,7 @@ public inline fun <R : Comparable<R>> BooleanArray.maxOf(selector: (Boolean) -> 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14427,7 +14545,7 @@ public inline fun <R : Comparable<R>> CharArray.maxOf(selector: (Char) -> R): R 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14447,7 +14565,7 @@ public inline fun <T> Array<out T>.maxOfOrNull(selector: (T) -> Double): Double?
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14467,7 +14585,7 @@ public inline fun ByteArray.maxOfOrNull(selector: (Byte) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14487,7 +14605,7 @@ public inline fun ShortArray.maxOfOrNull(selector: (Short) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14507,7 +14625,7 @@ public inline fun IntArray.maxOfOrNull(selector: (Int) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14527,7 +14645,7 @@ public inline fun LongArray.maxOfOrNull(selector: (Long) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14547,7 +14665,7 @@ public inline fun FloatArray.maxOfOrNull(selector: (Float) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14567,7 +14685,7 @@ public inline fun DoubleArray.maxOfOrNull(selector: (Double) -> Double): Double?
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14587,7 +14705,7 @@ public inline fun BooleanArray.maxOfOrNull(selector: (Boolean) -> Double): Doubl
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14607,7 +14725,7 @@ public inline fun CharArray.maxOfOrNull(selector: (Char) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14627,7 +14745,7 @@ public inline fun <T> Array<out T>.maxOfOrNull(selector: (T) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14647,7 +14765,7 @@ public inline fun ByteArray.maxOfOrNull(selector: (Byte) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14667,7 +14785,7 @@ public inline fun ShortArray.maxOfOrNull(selector: (Short) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14687,7 +14805,7 @@ public inline fun IntArray.maxOfOrNull(selector: (Int) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14707,7 +14825,7 @@ public inline fun LongArray.maxOfOrNull(selector: (Long) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14727,7 +14845,7 @@ public inline fun FloatArray.maxOfOrNull(selector: (Float) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14747,7 +14865,7 @@ public inline fun DoubleArray.maxOfOrNull(selector: (Double) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14767,7 +14885,7 @@ public inline fun BooleanArray.maxOfOrNull(selector: (Boolean) -> Float): Float?
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -14967,7 +15085,7 @@ public inline fun <R : Comparable<R>> CharArray.maxOfOrNull(selector: (Char) -> 
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -14989,7 +15107,7 @@ public inline fun <T, R> Array<out T>.maxOfWith(comparator: Comparator<in R>, se
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15011,7 +15129,7 @@ public inline fun <R> ByteArray.maxOfWith(comparator: Comparator<in R>, selector
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15033,7 +15151,7 @@ public inline fun <R> ShortArray.maxOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15055,7 +15173,7 @@ public inline fun <R> IntArray.maxOfWith(comparator: Comparator<in R>, selector:
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15077,7 +15195,7 @@ public inline fun <R> LongArray.maxOfWith(comparator: Comparator<in R>, selector
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15099,7 +15217,7 @@ public inline fun <R> FloatArray.maxOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15121,7 +15239,7 @@ public inline fun <R> DoubleArray.maxOfWith(comparator: Comparator<in R>, select
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15143,7 +15261,7 @@ public inline fun <R> BooleanArray.maxOfWith(comparator: Comparator<in R>, selec
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15345,6 +15463,7 @@ public inline fun <R> CharArray.maxOfWithOrNull(comparator: Comparator<in R>, se
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun <T> Array<out T>.maxWith(comparator: Comparator<in T>): T? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15358,6 +15477,7 @@ public fun <T> Array<out T>.maxWith(comparator: Comparator<in T>): T? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ByteArray.maxWith(comparator: Comparator<in Byte>): Byte? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15371,6 +15491,7 @@ public fun ByteArray.maxWith(comparator: Comparator<in Byte>): Byte? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ShortArray.maxWith(comparator: Comparator<in Short>): Short? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15384,6 +15505,7 @@ public fun ShortArray.maxWith(comparator: Comparator<in Short>): Short? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun IntArray.maxWith(comparator: Comparator<in Int>): Int? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15397,6 +15519,7 @@ public fun IntArray.maxWith(comparator: Comparator<in Int>): Int? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun LongArray.maxWith(comparator: Comparator<in Long>): Long? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15410,6 +15533,7 @@ public fun LongArray.maxWith(comparator: Comparator<in Long>): Long? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun FloatArray.maxWith(comparator: Comparator<in Float>): Float? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15423,6 +15547,7 @@ public fun FloatArray.maxWith(comparator: Comparator<in Float>): Float? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun DoubleArray.maxWith(comparator: Comparator<in Double>): Double? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15436,6 +15561,7 @@ public fun DoubleArray.maxWith(comparator: Comparator<in Double>): Double? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun BooleanArray.maxWith(comparator: Comparator<in Boolean>): Boolean? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15449,6 +15575,7 @@ public fun BooleanArray.maxWith(comparator: Comparator<in Boolean>): Boolean? {
 /**
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun CharArray.maxWith(comparator: Comparator<in Char>): Char? {
     if (isEmpty()) return null
     var max = this[0]
@@ -15465,6 +15592,7 @@ public fun CharArray.maxWith(comparator: Comparator<in Char>): Char? {
  * If any of elements is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Array<out Double>.min(): Double? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15481,6 +15609,7 @@ public fun Array<out Double>.min(): Double? {
  * If any of elements is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Array<out Float>.min(): Float? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15494,6 +15623,7 @@ public fun Array<out Float>.min(): Float? {
 /**
  * Returns the smallest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun <T : Comparable<T>> Array<out T>.min(): T? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15507,6 +15637,7 @@ public fun <T : Comparable<T>> Array<out T>.min(): T? {
 /**
  * Returns the smallest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ByteArray.min(): Byte? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15520,6 +15651,7 @@ public fun ByteArray.min(): Byte? {
 /**
  * Returns the smallest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ShortArray.min(): Short? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15533,6 +15665,7 @@ public fun ShortArray.min(): Short? {
 /**
  * Returns the smallest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun IntArray.min(): Int? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15546,6 +15679,7 @@ public fun IntArray.min(): Int? {
 /**
  * Returns the smallest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun LongArray.min(): Long? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15561,6 +15695,7 @@ public fun LongArray.min(): Long? {
  * 
  * If any of elements is `NaN` returns `NaN`.
  */
+@CompileTimeCalculation
 public fun FloatArray.min(): Float? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15576,6 +15711,7 @@ public fun FloatArray.min(): Float? {
  * 
  * If any of elements is `NaN` returns `NaN`.
  */
+@CompileTimeCalculation
 public fun DoubleArray.min(): Double? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15589,6 +15725,7 @@ public fun DoubleArray.min(): Double? {
 /**
  * Returns the smallest element or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun CharArray.min(): Char? {
     if (isEmpty()) return null
     var min = this[0]
@@ -15604,6 +15741,7 @@ public fun CharArray.min(): Char? {
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <T, R : Comparable<R>> Array<out T>.minBy(selector: (T) -> R): T? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15626,6 +15764,7 @@ public inline fun <T, R : Comparable<R>> Array<out T>.minBy(selector: (T) -> R):
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> ByteArray.minBy(selector: (Byte) -> R): Byte? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15648,6 +15787,7 @@ public inline fun <R : Comparable<R>> ByteArray.minBy(selector: (Byte) -> R): By
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> ShortArray.minBy(selector: (Short) -> R): Short? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15670,6 +15810,7 @@ public inline fun <R : Comparable<R>> ShortArray.minBy(selector: (Short) -> R): 
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> IntArray.minBy(selector: (Int) -> R): Int? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15692,6 +15833,7 @@ public inline fun <R : Comparable<R>> IntArray.minBy(selector: (Int) -> R): Int?
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> LongArray.minBy(selector: (Long) -> R): Long? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15714,6 +15856,7 @@ public inline fun <R : Comparable<R>> LongArray.minBy(selector: (Long) -> R): Lo
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> FloatArray.minBy(selector: (Float) -> R): Float? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15736,6 +15879,7 @@ public inline fun <R : Comparable<R>> FloatArray.minBy(selector: (Float) -> R): 
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> DoubleArray.minBy(selector: (Double) -> R): Double? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15758,6 +15902,7 @@ public inline fun <R : Comparable<R>> DoubleArray.minBy(selector: (Double) -> R)
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> BooleanArray.minBy(selector: (Boolean) -> R): Boolean? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15780,6 +15925,7 @@ public inline fun <R : Comparable<R>> BooleanArray.minBy(selector: (Boolean) -> 
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <R : Comparable<R>> CharArray.minBy(selector: (Char) -> R): Char? {
     if (isEmpty()) return null
     var minElem = this[0]
@@ -15800,9 +15946,9 @@ public inline fun <R : Comparable<R>> CharArray.minBy(selector: (Char) -> R): Ch
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15822,9 +15968,9 @@ public inline fun <T> Array<out T>.minOf(selector: (T) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15844,9 +15990,9 @@ public inline fun ByteArray.minOf(selector: (Byte) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15866,9 +16012,9 @@ public inline fun ShortArray.minOf(selector: (Short) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15888,9 +16034,9 @@ public inline fun IntArray.minOf(selector: (Int) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15910,9 +16056,9 @@ public inline fun LongArray.minOf(selector: (Long) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15932,9 +16078,9 @@ public inline fun FloatArray.minOf(selector: (Float) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15954,9 +16100,9 @@ public inline fun DoubleArray.minOf(selector: (Double) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15976,9 +16122,9 @@ public inline fun BooleanArray.minOf(selector: (Boolean) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -15998,9 +16144,9 @@ public inline fun CharArray.minOf(selector: (Char) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16020,9 +16166,9 @@ public inline fun <T> Array<out T>.minOf(selector: (T) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16042,9 +16188,9 @@ public inline fun ByteArray.minOf(selector: (Byte) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16064,9 +16210,9 @@ public inline fun ShortArray.minOf(selector: (Short) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16086,9 +16232,9 @@ public inline fun IntArray.minOf(selector: (Int) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16108,9 +16254,9 @@ public inline fun LongArray.minOf(selector: (Long) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16130,9 +16276,9 @@ public inline fun FloatArray.minOf(selector: (Float) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16152,9 +16298,9 @@ public inline fun DoubleArray.minOf(selector: (Double) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16174,9 +16320,9 @@ public inline fun BooleanArray.minOf(selector: (Boolean) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16196,7 +16342,7 @@ public inline fun CharArray.minOf(selector: (Char) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16218,7 +16364,7 @@ public inline fun <T, R : Comparable<R>> Array<out T>.minOf(selector: (T) -> R):
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16240,7 +16386,7 @@ public inline fun <R : Comparable<R>> ByteArray.minOf(selector: (Byte) -> R): R 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16262,7 +16408,7 @@ public inline fun <R : Comparable<R>> ShortArray.minOf(selector: (Short) -> R): 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16284,7 +16430,7 @@ public inline fun <R : Comparable<R>> IntArray.minOf(selector: (Int) -> R): R {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16306,7 +16452,7 @@ public inline fun <R : Comparable<R>> LongArray.minOf(selector: (Long) -> R): R 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16328,7 +16474,7 @@ public inline fun <R : Comparable<R>> FloatArray.minOf(selector: (Float) -> R): 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16350,7 +16496,7 @@ public inline fun <R : Comparable<R>> DoubleArray.minOf(selector: (Double) -> R)
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16372,7 +16518,7 @@ public inline fun <R : Comparable<R>> BooleanArray.minOf(selector: (Boolean) -> 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16394,7 +16540,7 @@ public inline fun <R : Comparable<R>> CharArray.minOf(selector: (Char) -> R): R 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16414,7 +16560,7 @@ public inline fun <T> Array<out T>.minOfOrNull(selector: (T) -> Double): Double?
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16434,7 +16580,7 @@ public inline fun ByteArray.minOfOrNull(selector: (Byte) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16454,7 +16600,7 @@ public inline fun ShortArray.minOfOrNull(selector: (Short) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16474,7 +16620,7 @@ public inline fun IntArray.minOfOrNull(selector: (Int) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16494,7 +16640,7 @@ public inline fun LongArray.minOfOrNull(selector: (Long) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16514,7 +16660,7 @@ public inline fun FloatArray.minOfOrNull(selector: (Float) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16534,7 +16680,7 @@ public inline fun DoubleArray.minOfOrNull(selector: (Double) -> Double): Double?
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16554,7 +16700,7 @@ public inline fun BooleanArray.minOfOrNull(selector: (Boolean) -> Double): Doubl
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16574,7 +16720,7 @@ public inline fun CharArray.minOfOrNull(selector: (Char) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16594,7 +16740,7 @@ public inline fun <T> Array<out T>.minOfOrNull(selector: (T) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16614,7 +16760,7 @@ public inline fun ByteArray.minOfOrNull(selector: (Byte) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16634,7 +16780,7 @@ public inline fun ShortArray.minOfOrNull(selector: (Short) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16654,7 +16800,7 @@ public inline fun IntArray.minOfOrNull(selector: (Int) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16674,7 +16820,7 @@ public inline fun LongArray.minOfOrNull(selector: (Long) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16694,7 +16840,7 @@ public inline fun FloatArray.minOfOrNull(selector: (Float) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16714,7 +16860,7 @@ public inline fun DoubleArray.minOfOrNull(selector: (Double) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16734,7 +16880,7 @@ public inline fun BooleanArray.minOfOrNull(selector: (Boolean) -> Float): Float?
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -16934,7 +17080,7 @@ public inline fun <R : Comparable<R>> CharArray.minOfOrNull(selector: (Char) -> 
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16956,7 +17102,7 @@ public inline fun <T, R> Array<out T>.minOfWith(comparator: Comparator<in R>, se
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -16978,7 +17124,7 @@ public inline fun <R> ByteArray.minOfWith(comparator: Comparator<in R>, selector
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17000,7 +17146,7 @@ public inline fun <R> ShortArray.minOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17022,7 +17168,7 @@ public inline fun <R> IntArray.minOfWith(comparator: Comparator<in R>, selector:
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17044,7 +17190,7 @@ public inline fun <R> LongArray.minOfWith(comparator: Comparator<in R>, selector
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17066,7 +17212,7 @@ public inline fun <R> FloatArray.minOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17088,7 +17234,7 @@ public inline fun <R> DoubleArray.minOfWith(comparator: Comparator<in R>, select
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17110,7 +17256,7 @@ public inline fun <R> BooleanArray.minOfWith(comparator: Comparator<in R>, selec
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -17312,6 +17458,7 @@ public inline fun <R> CharArray.minOfWithOrNull(comparator: Comparator<in R>, se
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun <T> Array<out T>.minWith(comparator: Comparator<in T>): T? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17325,6 +17472,7 @@ public fun <T> Array<out T>.minWith(comparator: Comparator<in T>): T? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ByteArray.minWith(comparator: Comparator<in Byte>): Byte? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17338,6 +17486,7 @@ public fun ByteArray.minWith(comparator: Comparator<in Byte>): Byte? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun ShortArray.minWith(comparator: Comparator<in Short>): Short? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17351,6 +17500,7 @@ public fun ShortArray.minWith(comparator: Comparator<in Short>): Short? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun IntArray.minWith(comparator: Comparator<in Int>): Int? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17364,6 +17514,7 @@ public fun IntArray.minWith(comparator: Comparator<in Int>): Int? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun LongArray.minWith(comparator: Comparator<in Long>): Long? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17377,6 +17528,7 @@ public fun LongArray.minWith(comparator: Comparator<in Long>): Long? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun FloatArray.minWith(comparator: Comparator<in Float>): Float? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17390,6 +17542,7 @@ public fun FloatArray.minWith(comparator: Comparator<in Float>): Float? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun DoubleArray.minWith(comparator: Comparator<in Double>): Double? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17403,6 +17556,7 @@ public fun DoubleArray.minWith(comparator: Comparator<in Double>): Double? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun BooleanArray.minWith(comparator: Comparator<in Boolean>): Boolean? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17416,6 +17570,7 @@ public fun BooleanArray.minWith(comparator: Comparator<in Boolean>): Boolean? {
 /**
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
+@CompileTimeCalculation
 public fun CharArray.minWith(comparator: Comparator<in Char>): Char? {
     if (isEmpty()) return null
     var min = this[0]
@@ -17431,6 +17586,7 @@ public fun CharArray.minWith(comparator: Comparator<in Char>): Char? {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun <T> Array<out T>.none(): Boolean {
     return isEmpty()
 }
@@ -17440,6 +17596,7 @@ public fun <T> Array<out T>.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun ByteArray.none(): Boolean {
     return isEmpty()
 }
@@ -17449,6 +17606,7 @@ public fun ByteArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun ShortArray.none(): Boolean {
     return isEmpty()
 }
@@ -17458,6 +17616,7 @@ public fun ShortArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun IntArray.none(): Boolean {
     return isEmpty()
 }
@@ -17467,6 +17626,7 @@ public fun IntArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun LongArray.none(): Boolean {
     return isEmpty()
 }
@@ -17476,6 +17636,7 @@ public fun LongArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun FloatArray.none(): Boolean {
     return isEmpty()
 }
@@ -17485,6 +17646,7 @@ public fun FloatArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun DoubleArray.none(): Boolean {
     return isEmpty()
 }
@@ -17494,6 +17656,7 @@ public fun DoubleArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun BooleanArray.none(): Boolean {
     return isEmpty()
 }
@@ -17503,6 +17666,7 @@ public fun BooleanArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun CharArray.none(): Boolean {
     return isEmpty()
 }
@@ -17512,6 +17676,7 @@ public fun CharArray.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.none(predicate: (T) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17522,6 +17687,7 @@ public inline fun <T> Array<out T>.none(predicate: (T) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun ByteArray.none(predicate: (Byte) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17532,6 +17698,7 @@ public inline fun ByteArray.none(predicate: (Byte) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun ShortArray.none(predicate: (Short) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17542,6 +17709,7 @@ public inline fun ShortArray.none(predicate: (Short) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun IntArray.none(predicate: (Int) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17552,6 +17720,7 @@ public inline fun IntArray.none(predicate: (Int) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun LongArray.none(predicate: (Long) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17562,6 +17731,7 @@ public inline fun LongArray.none(predicate: (Long) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun FloatArray.none(predicate: (Float) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17572,6 +17742,7 @@ public inline fun FloatArray.none(predicate: (Float) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.none(predicate: (Double) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17582,6 +17753,7 @@ public inline fun DoubleArray.none(predicate: (Double) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.none(predicate: (Boolean) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17592,6 +17764,7 @@ public inline fun BooleanArray.none(predicate: (Boolean) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun CharArray.none(predicate: (Char) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -17798,6 +17971,7 @@ public inline fun CharArray.onEachIndexed(action: (index: Int, Char) -> Unit): C
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduce(operation: (acc: S, T) -> S): S {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17820,6 +17994,7 @@ public inline fun <S, T : S> Array<out T>.reduce(operation: (acc: S, T) -> S): S
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun ByteArray.reduce(operation: (acc: Byte, Byte) -> Byte): Byte {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17842,6 +18017,7 @@ public inline fun ByteArray.reduce(operation: (acc: Byte, Byte) -> Byte): Byte {
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun ShortArray.reduce(operation: (acc: Short, Short) -> Short): Short {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17864,6 +18040,7 @@ public inline fun ShortArray.reduce(operation: (acc: Short, Short) -> Short): Sh
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun IntArray.reduce(operation: (acc: Int, Int) -> Int): Int {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17886,6 +18063,7 @@ public inline fun IntArray.reduce(operation: (acc: Int, Int) -> Int): Int {
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun LongArray.reduce(operation: (acc: Long, Long) -> Long): Long {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17908,6 +18086,7 @@ public inline fun LongArray.reduce(operation: (acc: Long, Long) -> Long): Long {
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun FloatArray.reduce(operation: (acc: Float, Float) -> Float): Float {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17930,6 +18109,7 @@ public inline fun FloatArray.reduce(operation: (acc: Float, Float) -> Float): Fl
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.reduce(operation: (acc: Double, Double) -> Double): Double {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17952,6 +18132,7 @@ public inline fun DoubleArray.reduce(operation: (acc: Double, Double) -> Double)
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.reduce(operation: (acc: Boolean, Boolean) -> Boolean): Boolean {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17974,6 +18155,7 @@ public inline fun BooleanArray.reduce(operation: (acc: Boolean, Boolean) -> Bool
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun CharArray.reduce(operation: (acc: Char, Char) -> Char): Char {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -17996,6 +18178,7 @@ public inline fun CharArray.reduce(operation: (acc: Char, Char) -> Char): Char {
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceIndexed(operation: (index: Int, acc: S, T) -> S): S {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18018,6 +18201,7 @@ public inline fun <S, T : S> Array<out T>.reduceIndexed(operation: (index: Int, 
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun ByteArray.reduceIndexed(operation: (index: Int, acc: Byte, Byte) -> Byte): Byte {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18040,6 +18224,7 @@ public inline fun ByteArray.reduceIndexed(operation: (index: Int, acc: Byte, Byt
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun ShortArray.reduceIndexed(operation: (index: Int, acc: Short, Short) -> Short): Short {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18062,6 +18247,7 @@ public inline fun ShortArray.reduceIndexed(operation: (index: Int, acc: Short, S
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun IntArray.reduceIndexed(operation: (index: Int, acc: Int, Int) -> Int): Int {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18084,6 +18270,7 @@ public inline fun IntArray.reduceIndexed(operation: (index: Int, acc: Int, Int) 
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun LongArray.reduceIndexed(operation: (index: Int, acc: Long, Long) -> Long): Long {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18106,6 +18293,7 @@ public inline fun LongArray.reduceIndexed(operation: (index: Int, acc: Long, Lon
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun FloatArray.reduceIndexed(operation: (index: Int, acc: Float, Float) -> Float): Float {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18128,6 +18316,7 @@ public inline fun FloatArray.reduceIndexed(operation: (index: Int, acc: Float, F
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceIndexed(operation: (index: Int, acc: Double, Double) -> Double): Double {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18150,6 +18339,7 @@ public inline fun DoubleArray.reduceIndexed(operation: (index: Int, acc: Double,
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceIndexed(operation: (index: Int, acc: Boolean, Boolean) -> Boolean): Boolean {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18172,6 +18362,7 @@ public inline fun BooleanArray.reduceIndexed(operation: (index: Int, acc: Boolea
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun CharArray.reduceIndexed(operation: (index: Int, acc: Char, Char) -> Char): Char {
     if (isEmpty())
         throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18194,6 +18385,7 @@ public inline fun CharArray.reduceIndexed(operation: (index: Int, acc: Char, Cha
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceIndexedOrNull(operation: (index: Int, acc: S, T) -> S): S? {
     if (isEmpty())
         return null
@@ -18216,6 +18408,7 @@ public inline fun <S, T : S> Array<out T>.reduceIndexedOrNull(operation: (index:
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun ByteArray.reduceIndexedOrNull(operation: (index: Int, acc: Byte, Byte) -> Byte): Byte? {
     if (isEmpty())
         return null
@@ -18238,6 +18431,7 @@ public inline fun ByteArray.reduceIndexedOrNull(operation: (index: Int, acc: Byt
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun ShortArray.reduceIndexedOrNull(operation: (index: Int, acc: Short, Short) -> Short): Short? {
     if (isEmpty())
         return null
@@ -18260,6 +18454,7 @@ public inline fun ShortArray.reduceIndexedOrNull(operation: (index: Int, acc: Sh
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun IntArray.reduceIndexedOrNull(operation: (index: Int, acc: Int, Int) -> Int): Int? {
     if (isEmpty())
         return null
@@ -18282,6 +18477,7 @@ public inline fun IntArray.reduceIndexedOrNull(operation: (index: Int, acc: Int,
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun LongArray.reduceIndexedOrNull(operation: (index: Int, acc: Long, Long) -> Long): Long? {
     if (isEmpty())
         return null
@@ -18304,6 +18500,7 @@ public inline fun LongArray.reduceIndexedOrNull(operation: (index: Int, acc: Lon
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun FloatArray.reduceIndexedOrNull(operation: (index: Int, acc: Float, Float) -> Float): Float? {
     if (isEmpty())
         return null
@@ -18326,6 +18523,7 @@ public inline fun FloatArray.reduceIndexedOrNull(operation: (index: Int, acc: Fl
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceIndexedOrNull(operation: (index: Int, acc: Double, Double) -> Double): Double? {
     if (isEmpty())
         return null
@@ -18348,6 +18546,7 @@ public inline fun DoubleArray.reduceIndexedOrNull(operation: (index: Int, acc: D
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceIndexedOrNull(operation: (index: Int, acc: Boolean, Boolean) -> Boolean): Boolean? {
     if (isEmpty())
         return null
@@ -18370,6 +18569,7 @@ public inline fun BooleanArray.reduceIndexedOrNull(operation: (index: Int, acc: 
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun CharArray.reduceIndexedOrNull(operation: (index: Int, acc: Char, Char) -> Char): Char? {
     if (isEmpty())
         return null
@@ -18393,6 +18593,7 @@ public inline fun CharArray.reduceIndexedOrNull(operation: (index: Int, acc: Cha
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceOrNull(operation: (acc: S, T) -> S): S? {
     if (isEmpty())
         return null
@@ -18416,6 +18617,7 @@ public inline fun <S, T : S> Array<out T>.reduceOrNull(operation: (acc: S, T) ->
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun ByteArray.reduceOrNull(operation: (acc: Byte, Byte) -> Byte): Byte? {
     if (isEmpty())
         return null
@@ -18439,6 +18641,7 @@ public inline fun ByteArray.reduceOrNull(operation: (acc: Byte, Byte) -> Byte): 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun ShortArray.reduceOrNull(operation: (acc: Short, Short) -> Short): Short? {
     if (isEmpty())
         return null
@@ -18462,6 +18665,7 @@ public inline fun ShortArray.reduceOrNull(operation: (acc: Short, Short) -> Shor
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun IntArray.reduceOrNull(operation: (acc: Int, Int) -> Int): Int? {
     if (isEmpty())
         return null
@@ -18485,6 +18689,7 @@ public inline fun IntArray.reduceOrNull(operation: (acc: Int, Int) -> Int): Int?
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun LongArray.reduceOrNull(operation: (acc: Long, Long) -> Long): Long? {
     if (isEmpty())
         return null
@@ -18508,6 +18713,7 @@ public inline fun LongArray.reduceOrNull(operation: (acc: Long, Long) -> Long): 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun FloatArray.reduceOrNull(operation: (acc: Float, Float) -> Float): Float? {
     if (isEmpty())
         return null
@@ -18531,6 +18737,7 @@ public inline fun FloatArray.reduceOrNull(operation: (acc: Float, Float) -> Floa
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceOrNull(operation: (acc: Double, Double) -> Double): Double? {
     if (isEmpty())
         return null
@@ -18554,6 +18761,7 @@ public inline fun DoubleArray.reduceOrNull(operation: (acc: Double, Double) -> D
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceOrNull(operation: (acc: Boolean, Boolean) -> Boolean): Boolean? {
     if (isEmpty())
         return null
@@ -18577,6 +18785,7 @@ public inline fun BooleanArray.reduceOrNull(operation: (acc: Boolean, Boolean) -
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun CharArray.reduceOrNull(operation: (acc: Char, Char) -> Char): Char? {
     if (isEmpty())
         return null
@@ -18599,6 +18808,7 @@ public inline fun CharArray.reduceOrNull(operation: (acc: Char, Char) -> Char): 
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceRight(operation: (T, acc: S) -> S): S {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18621,6 +18831,7 @@ public inline fun <S, T : S> Array<out T>.reduceRight(operation: (T, acc: S) -> 
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun ByteArray.reduceRight(operation: (Byte, acc: Byte) -> Byte): Byte {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18643,6 +18854,7 @@ public inline fun ByteArray.reduceRight(operation: (Byte, acc: Byte) -> Byte): B
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun ShortArray.reduceRight(operation: (Short, acc: Short) -> Short): Short {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18665,6 +18877,7 @@ public inline fun ShortArray.reduceRight(operation: (Short, acc: Short) -> Short
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun IntArray.reduceRight(operation: (Int, acc: Int) -> Int): Int {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18687,6 +18900,7 @@ public inline fun IntArray.reduceRight(operation: (Int, acc: Int) -> Int): Int {
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun LongArray.reduceRight(operation: (Long, acc: Long) -> Long): Long {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18709,6 +18923,7 @@ public inline fun LongArray.reduceRight(operation: (Long, acc: Long) -> Long): L
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun FloatArray.reduceRight(operation: (Float, acc: Float) -> Float): Float {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18731,6 +18946,7 @@ public inline fun FloatArray.reduceRight(operation: (Float, acc: Float) -> Float
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceRight(operation: (Double, acc: Double) -> Double): Double {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18753,6 +18969,7 @@ public inline fun DoubleArray.reduceRight(operation: (Double, acc: Double) -> Do
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceRight(operation: (Boolean, acc: Boolean) -> Boolean): Boolean {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18775,6 +18992,7 @@ public inline fun BooleanArray.reduceRight(operation: (Boolean, acc: Boolean) ->
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun CharArray.reduceRight(operation: (Char, acc: Char) -> Char): Char {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18797,6 +19015,7 @@ public inline fun CharArray.reduceRight(operation: (Char, acc: Char) -> Char): C
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceRightIndexed(operation: (index: Int, T, acc: S) -> S): S {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18820,6 +19039,7 @@ public inline fun <S, T : S> Array<out T>.reduceRightIndexed(operation: (index: 
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun ByteArray.reduceRightIndexed(operation: (index: Int, Byte, acc: Byte) -> Byte): Byte {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18843,6 +19063,7 @@ public inline fun ByteArray.reduceRightIndexed(operation: (index: Int, Byte, acc
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun ShortArray.reduceRightIndexed(operation: (index: Int, Short, acc: Short) -> Short): Short {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18866,6 +19087,7 @@ public inline fun ShortArray.reduceRightIndexed(operation: (index: Int, Short, a
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun IntArray.reduceRightIndexed(operation: (index: Int, Int, acc: Int) -> Int): Int {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18889,6 +19111,7 @@ public inline fun IntArray.reduceRightIndexed(operation: (index: Int, Int, acc: 
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun LongArray.reduceRightIndexed(operation: (index: Int, Long, acc: Long) -> Long): Long {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18912,6 +19135,7 @@ public inline fun LongArray.reduceRightIndexed(operation: (index: Int, Long, acc
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun FloatArray.reduceRightIndexed(operation: (index: Int, Float, acc: Float) -> Float): Float {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18935,6 +19159,7 @@ public inline fun FloatArray.reduceRightIndexed(operation: (index: Int, Float, a
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceRightIndexed(operation: (index: Int, Double, acc: Double) -> Double): Double {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18958,6 +19183,7 @@ public inline fun DoubleArray.reduceRightIndexed(operation: (index: Int, Double,
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceRightIndexed(operation: (index: Int, Boolean, acc: Boolean) -> Boolean): Boolean {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -18981,6 +19207,7 @@ public inline fun BooleanArray.reduceRightIndexed(operation: (index: Int, Boolea
  * 
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
+@CompileTimeCalculation
 public inline fun CharArray.reduceRightIndexed(operation: (index: Int, Char, acc: Char) -> Char): Char {
     var index = lastIndex
     if (index < 0) throw UnsupportedOperationException("Empty array can't be reduced.")
@@ -19004,6 +19231,7 @@ public inline fun CharArray.reduceRightIndexed(operation: (index: Int, Char, acc
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceRightIndexedOrNull(operation: (index: Int, T, acc: S) -> S): S? {
     var index = lastIndex
     if (index < 0) return null
@@ -19027,6 +19255,7 @@ public inline fun <S, T : S> Array<out T>.reduceRightIndexedOrNull(operation: (i
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun ByteArray.reduceRightIndexedOrNull(operation: (index: Int, Byte, acc: Byte) -> Byte): Byte? {
     var index = lastIndex
     if (index < 0) return null
@@ -19050,6 +19279,7 @@ public inline fun ByteArray.reduceRightIndexedOrNull(operation: (index: Int, Byt
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun ShortArray.reduceRightIndexedOrNull(operation: (index: Int, Short, acc: Short) -> Short): Short? {
     var index = lastIndex
     if (index < 0) return null
@@ -19073,6 +19303,7 @@ public inline fun ShortArray.reduceRightIndexedOrNull(operation: (index: Int, Sh
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun IntArray.reduceRightIndexedOrNull(operation: (index: Int, Int, acc: Int) -> Int): Int? {
     var index = lastIndex
     if (index < 0) return null
@@ -19096,6 +19327,7 @@ public inline fun IntArray.reduceRightIndexedOrNull(operation: (index: Int, Int,
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun LongArray.reduceRightIndexedOrNull(operation: (index: Int, Long, acc: Long) -> Long): Long? {
     var index = lastIndex
     if (index < 0) return null
@@ -19119,6 +19351,7 @@ public inline fun LongArray.reduceRightIndexedOrNull(operation: (index: Int, Lon
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun FloatArray.reduceRightIndexedOrNull(operation: (index: Int, Float, acc: Float) -> Float): Float? {
     var index = lastIndex
     if (index < 0) return null
@@ -19142,6 +19375,7 @@ public inline fun FloatArray.reduceRightIndexedOrNull(operation: (index: Int, Fl
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceRightIndexedOrNull(operation: (index: Int, Double, acc: Double) -> Double): Double? {
     var index = lastIndex
     if (index < 0) return null
@@ -19165,6 +19399,7 @@ public inline fun DoubleArray.reduceRightIndexedOrNull(operation: (index: Int, D
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceRightIndexedOrNull(operation: (index: Int, Boolean, acc: Boolean) -> Boolean): Boolean? {
     var index = lastIndex
     if (index < 0) return null
@@ -19188,6 +19423,7 @@ public inline fun BooleanArray.reduceRightIndexedOrNull(operation: (index: Int, 
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun CharArray.reduceRightIndexedOrNull(operation: (index: Int, Char, acc: Char) -> Char): Char? {
     var index = lastIndex
     if (index < 0) return null
@@ -19212,6 +19448,7 @@ public inline fun CharArray.reduceRightIndexedOrNull(operation: (index: Int, Cha
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun <S, T : S> Array<out T>.reduceRightOrNull(operation: (T, acc: S) -> S): S? {
     var index = lastIndex
     if (index < 0) return null
@@ -19235,6 +19472,7 @@ public inline fun <S, T : S> Array<out T>.reduceRightOrNull(operation: (T, acc: 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun ByteArray.reduceRightOrNull(operation: (Byte, acc: Byte) -> Byte): Byte? {
     var index = lastIndex
     if (index < 0) return null
@@ -19258,6 +19496,7 @@ public inline fun ByteArray.reduceRightOrNull(operation: (Byte, acc: Byte) -> By
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun ShortArray.reduceRightOrNull(operation: (Short, acc: Short) -> Short): Short? {
     var index = lastIndex
     if (index < 0) return null
@@ -19281,6 +19520,7 @@ public inline fun ShortArray.reduceRightOrNull(operation: (Short, acc: Short) ->
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun IntArray.reduceRightOrNull(operation: (Int, acc: Int) -> Int): Int? {
     var index = lastIndex
     if (index < 0) return null
@@ -19304,6 +19544,7 @@ public inline fun IntArray.reduceRightOrNull(operation: (Int, acc: Int) -> Int):
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun LongArray.reduceRightOrNull(operation: (Long, acc: Long) -> Long): Long? {
     var index = lastIndex
     if (index < 0) return null
@@ -19327,6 +19568,7 @@ public inline fun LongArray.reduceRightOrNull(operation: (Long, acc: Long) -> Lo
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun FloatArray.reduceRightOrNull(operation: (Float, acc: Float) -> Float): Float? {
     var index = lastIndex
     if (index < 0) return null
@@ -19350,6 +19592,7 @@ public inline fun FloatArray.reduceRightOrNull(operation: (Float, acc: Float) ->
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun DoubleArray.reduceRightOrNull(operation: (Double, acc: Double) -> Double): Double? {
     var index = lastIndex
     if (index < 0) return null
@@ -19373,6 +19616,7 @@ public inline fun DoubleArray.reduceRightOrNull(operation: (Double, acc: Double)
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun BooleanArray.reduceRightOrNull(operation: (Boolean, acc: Boolean) -> Boolean): Boolean? {
     var index = lastIndex
     if (index < 0) return null
@@ -19396,6 +19640,7 @@ public inline fun BooleanArray.reduceRightOrNull(operation: (Boolean, acc: Boole
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun CharArray.reduceRightOrNull(operation: (Char, acc: Char) -> Char): Char? {
     var index = lastIndex
     if (index < 0) return null
@@ -20713,6 +20958,7 @@ public inline fun CharArray.scanReduceIndexed(operation: (index: Int, acc: Char,
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.sumBy(selector: (T) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20724,6 +20970,7 @@ public inline fun <T> Array<out T>.sumBy(selector: (T) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun ByteArray.sumBy(selector: (Byte) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20735,6 +20982,7 @@ public inline fun ByteArray.sumBy(selector: (Byte) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun ShortArray.sumBy(selector: (Short) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20746,6 +20994,7 @@ public inline fun ShortArray.sumBy(selector: (Short) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun IntArray.sumBy(selector: (Int) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20757,6 +21006,7 @@ public inline fun IntArray.sumBy(selector: (Int) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun LongArray.sumBy(selector: (Long) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20768,6 +21018,7 @@ public inline fun LongArray.sumBy(selector: (Long) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun FloatArray.sumBy(selector: (Float) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20779,6 +21030,7 @@ public inline fun FloatArray.sumBy(selector: (Float) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.sumBy(selector: (Double) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20790,6 +21042,7 @@ public inline fun DoubleArray.sumBy(selector: (Double) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.sumBy(selector: (Boolean) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20801,6 +21054,7 @@ public inline fun BooleanArray.sumBy(selector: (Boolean) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun CharArray.sumBy(selector: (Char) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -20812,6 +21066,7 @@ public inline fun CharArray.sumBy(selector: (Char) -> Int): Int {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun <T> Array<out T>.sumByDouble(selector: (T) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20823,6 +21078,7 @@ public inline fun <T> Array<out T>.sumByDouble(selector: (T) -> Double): Double 
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun ByteArray.sumByDouble(selector: (Byte) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20834,6 +21090,7 @@ public inline fun ByteArray.sumByDouble(selector: (Byte) -> Double): Double {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun ShortArray.sumByDouble(selector: (Short) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20845,6 +21102,7 @@ public inline fun ShortArray.sumByDouble(selector: (Short) -> Double): Double {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun IntArray.sumByDouble(selector: (Int) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20856,6 +21114,7 @@ public inline fun IntArray.sumByDouble(selector: (Int) -> Double): Double {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun LongArray.sumByDouble(selector: (Long) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20867,6 +21126,7 @@ public inline fun LongArray.sumByDouble(selector: (Long) -> Double): Double {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun FloatArray.sumByDouble(selector: (Float) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20878,6 +21138,7 @@ public inline fun FloatArray.sumByDouble(selector: (Float) -> Double): Double {
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun DoubleArray.sumByDouble(selector: (Double) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20889,6 +21150,7 @@ public inline fun DoubleArray.sumByDouble(selector: (Double) -> Double): Double 
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun BooleanArray.sumByDouble(selector: (Boolean) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {
@@ -20900,6 +21162,7 @@ public inline fun BooleanArray.sumByDouble(selector: (Boolean) -> Double): Doubl
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
+@CompileTimeCalculation
 public inline fun CharArray.sumByDouble(selector: (Char) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {

@@ -38,6 +38,7 @@ object Aggregates : TemplateGroupBase() {
             Returns `true` if all ${f.element.pluralize()} match the given [predicate].
             """
         }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.all")
         returns("Boolean")
         body {
@@ -65,6 +66,7 @@ object Aggregates : TemplateGroupBase() {
             Returns `true` if no ${f.element.pluralize()} match the given [predicate].
             """
         }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.noneWithPredicate")
         returns("Boolean")
         body {
@@ -91,6 +93,7 @@ object Aggregates : TemplateGroupBase() {
             Returns `true` if the ${f.collection} has no ${f.element.pluralize()}.
             """
         }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.none")
         returns("Boolean")
         body {
@@ -122,6 +125,7 @@ object Aggregates : TemplateGroupBase() {
             Returns `true` if at least one ${f.element} matches the given [predicate].
             """
         }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.anyWithPredicate")
         returns("Boolean")
         body {
@@ -146,6 +150,7 @@ object Aggregates : TemplateGroupBase() {
             Returns `true` if ${f.collection} has at least one ${f.element}.
             """
         }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.any")
         returns("Boolean")
         body {
@@ -174,6 +179,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { "Returns the number of ${f.element.pluralize()} matching the given [predicate]." }
+        annotation("""@CompileTimeCalculation""")
         returns("Int")
         body {
             fun checkOverflow(value: String) = if (f == Sequences || f == Iterables) "checkCountOverflow($value)" else value
@@ -195,6 +201,7 @@ object Aggregates : TemplateGroupBase() {
         include(Collections, Maps, CharSequences)
     } builder {
         doc { "Returns the number of ${f.element.pluralize()} in this ${f.collection}." }
+        annotation("""@CompileTimeCalculation""")
         returns("Int")
         body {
             fun checkOverflow(value: String) = if (f == Sequences || f == Iterables) "checkCountOverflow($value)" else value
@@ -223,6 +230,7 @@ object Aggregates : TemplateGroupBase() {
     } builder {
         inline()
         doc { "Returns the sum of all values produced by [selector] function applied to each ${f.element} in the ${f.collection}." }
+        annotation("""@CompileTimeCalculation""")
         returns("Int")
         body {
             """
@@ -293,6 +301,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { "Returns the sum of all values produced by [selector] function applied to each ${f.element} in the ${f.collection}." }
+        annotation("""@CompileTimeCalculation""")
         returns("Double")
         body {
             """
@@ -330,6 +339,7 @@ object Aggregates : TemplateGroupBase() {
                     "Returns the ${if (op == "max") "largest" else "smallest"} ${f.element} or `null` if there are no ${f.element.pluralize()}." +
                     if (isFloat) "\n\n" + "If any of ${f.element.pluralize()} is `NaN` returns `NaN`." else ""
                 }
+                annotation("""@CompileTimeCalculation""")
                 returns("T?")
 
                 val acc = op
@@ -372,6 +382,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { "Returns the first ${f.element} yielding the smallest value of the given function or `null` if there are no ${f.element.pluralize()}." }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.minBy")
         typeParam("R : Comparable<R>")
         returns("T?")
@@ -423,6 +434,7 @@ object Aggregates : TemplateGroupBase() {
         include(Maps, CharSequences, ArraysOfUnsigned)
     } builder {
         doc { "Returns the first ${f.element} having the smallest value according to the provided [comparator] or `null` if there are no ${f.element.pluralize()}." }
+        annotation("""@CompileTimeCalculation""")
         returns("T?")
         body {
             """
@@ -459,6 +471,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { "Returns the first ${f.element} yielding the largest value of the given function or `null` if there are no ${f.element.pluralize()}." }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.maxBy")
         typeParam("R : Comparable<R>")
         returns("T?")
@@ -511,6 +524,7 @@ object Aggregates : TemplateGroupBase() {
         include(Maps, CharSequences, ArraysOfUnsigned)
     } builder {
         doc { "Returns the first ${f.element} having the largest value according to the provided [comparator] or `null` if there are no ${f.element.pluralize()}." }
+        annotation("""@CompileTimeCalculation""")
         returns("T?")
         body {
             """
@@ -701,6 +715,7 @@ object Aggregates : TemplateGroupBase() {
             and the ${f.element} itself, and calculates the next accumulator value.
             """
         }
+        annotation("""@CompileTimeCalculation""")
         typeParam("R")
         returns("R")
         body {
@@ -731,6 +746,7 @@ object Aggregates : TemplateGroupBase() {
             and current accumulator value, and calculates the next accumulator value.
             """
         }
+        annotation("""@CompileTimeCalculation""")
         typeParam("R")
         returns("R")
         body {
@@ -777,6 +793,7 @@ object Aggregates : TemplateGroupBase() {
             @param [operation] function that takes current accumulator value and ${f.element.prefixWithArticle()}, and calculates the next accumulator value.
             """
         }
+        annotation("""@CompileTimeCalculation""")
         typeParam("R")
         returns("R")
         body {
@@ -804,6 +821,7 @@ object Aggregates : TemplateGroupBase() {
             @param [operation] function that takes ${f.element.prefixWithArticle()} and current accumulator value, and calculates the next accumulator value.
             """
         }
+        annotation("""@CompileTimeCalculation""")
         typeParam("R")
         returns("R")
         body {
@@ -871,6 +889,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceIndexed") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduce")
         returns("T")
         body {
@@ -893,6 +912,7 @@ object Aggregates : TemplateGroupBase() {
         inline()
 
         doc { reduceDoc("reduceIndexed") }
+        annotation("""@CompileTimeCalculation""")
         typeParam("S")
         typeParam("T : S")
         sample("samples.collections.Collections.Aggregates.reduce")
@@ -933,6 +953,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceIndexedOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceOrNull")
         returns("T?")
         body {
@@ -956,6 +977,7 @@ object Aggregates : TemplateGroupBase() {
         inline()
 
         doc { reduceDoc("reduceIndexedOrNull") }
+        annotation("""@CompileTimeCalculation""")
         typeParam("S")
         typeParam("T : S")
         sample("samples.collections.Collections.Aggregates.reduceOrNull")
@@ -995,6 +1017,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceRightIndexed") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRight")
         returns("T")
         body {
@@ -1019,6 +1042,7 @@ object Aggregates : TemplateGroupBase() {
         inline()
 
         doc { reduceDoc("reduceRightIndexed") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRight")
         typeParam("S")
         typeParam("T : S")
@@ -1062,6 +1086,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceRightIndexedOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRightOrNull")
         returns("T?")
         body {
@@ -1087,6 +1112,7 @@ object Aggregates : TemplateGroupBase() {
         inline()
 
         doc { reduceDoc("reduceRightIndexedOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRightOrNull")
         typeParam("S")
         typeParam("T : S")
@@ -1129,6 +1155,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduce") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduce")
         returns("T")
         body {
@@ -1151,6 +1178,7 @@ object Aggregates : TemplateGroupBase() {
         inline()
 
         doc { reduceDoc("reduce") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduce")
         typeParam("S")
         typeParam("T : S")
@@ -1190,6 +1218,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceOrNull")
         returns("T?")
         body {
@@ -1214,6 +1243,7 @@ object Aggregates : TemplateGroupBase() {
         inline()
 
         doc { reduceDoc("reduceOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceOrNull")
         typeParam("S")
         typeParam("T : S")
@@ -1251,6 +1281,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceRight") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRight")
         returns("T")
         body {
@@ -1273,6 +1304,7 @@ object Aggregates : TemplateGroupBase() {
     } builder {
         inline()
         doc { reduceDoc("reduceRight") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRight")
         typeParam("S")
         typeParam("T : S")
@@ -1315,6 +1347,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { reduceDoc("reduceRightOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRightOrNull")
         returns("T?")
         body {
@@ -1339,6 +1372,7 @@ object Aggregates : TemplateGroupBase() {
         annotation("@WasExperimental(ExperimentalStdlibApi::class)")
         inline()
         doc { reduceDoc("reduceRightOrNull") }
+        annotation("""@CompileTimeCalculation""")
         sample("samples.collections.Collections.Aggregates.reduceRightOrNull")
         typeParam("S")
         typeParam("T : S")
@@ -1874,6 +1908,7 @@ object Aggregates : TemplateGroupBase() {
 
         specialFor(Iterables, Maps, CharSequences) {
             inline()
+            annotation("""@CompileTimeCalculation""")
             val collectionType = when (f) {
                 Maps -> "M"
                 CharSequences -> "S"
@@ -1964,6 +1999,7 @@ object Aggregates : TemplateGroupBase() {
         specialFor(ArraysOfUnsigned) { inlineOnly() }
 
         doc { "Performs the given [action] on each ${f.element}." }
+        annotation("""@CompileTimeCalculation""")
         specialFor(Iterables, Maps) { annotation("@kotlin.internal.HidesMembers") }
         returns("Unit")
         body {
@@ -1986,6 +2022,7 @@ object Aggregates : TemplateGroupBase() {
             @param [action] function that takes the index of ${f.element.prefixWithArticle()} and the ${f.element} itself
             and performs the action on the ${f.element}.
             """ }
+        annotation("""@CompileTimeCalculation""")
         returns("Unit")
         body {
             fun checkOverflow(value: String) = if (f == Sequences || f == Iterables) "checkIndexOverflow($value)" else value

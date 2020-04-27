@@ -803,7 +803,7 @@ public fun <T> Sequence<T>.toSet(): Set<T> {
  * Returns a single sequence of all elements from results of [transform] function being invoked on each element of original sequence.
  *
  * The operation is _intermediate_ and _stateless_.
- * 
+ *
  * @sample samples.collections.Collections.Transformations.flatMap
  */
 @SinceKotlin("1.4")
@@ -1095,6 +1095,7 @@ public fun <T> Sequence<T>.toMutableSet(): MutableSet<T> {
  * 
  * @sample samples.collections.Collections.Aggregates.all
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.all(predicate: (T) -> Boolean): Boolean {
     for (element in this) if (!predicate(element)) return false
     return true
@@ -1107,6 +1108,7 @@ public inline fun <T> Sequence<T>.all(predicate: (T) -> Boolean): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.any
  */
+@CompileTimeCalculation
 public fun <T> Sequence<T>.any(): Boolean {
     return iterator().hasNext()
 }
@@ -1118,6 +1120,7 @@ public fun <T> Sequence<T>.any(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.any(predicate: (T) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return true
     return false
@@ -1128,6 +1131,7 @@ public inline fun <T> Sequence<T>.any(predicate: (T) -> Boolean): Boolean {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public fun <T> Sequence<T>.count(): Int {
     var count = 0
     for (element in this) checkCountOverflow(++count)
@@ -1139,6 +1143,7 @@ public fun <T> Sequence<T>.count(): Int {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.count(predicate: (T) -> Boolean): Int {
     var count = 0
     for (element in this) if (predicate(element)) checkCountOverflow(++count)
@@ -1155,6 +1160,7 @@ public inline fun <T> Sequence<T>.count(predicate: (T) -> Boolean): Int {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T, R> Sequence<T>.fold(initial: R, operation: (acc: R, T) -> R): R {
     var accumulator = initial
     for (element in this) accumulator = operation(accumulator, element)
@@ -1172,6 +1178,7 @@ public inline fun <T, R> Sequence<T>.fold(initial: R, operation: (acc: R, T) -> 
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T, R> Sequence<T>.foldIndexed(initial: R, operation: (index: Int, acc: R, T) -> R): R {
     var index = 0
     var accumulator = initial
@@ -1184,6 +1191,7 @@ public inline fun <T, R> Sequence<T>.foldIndexed(initial: R, operation: (index: 
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.forEach(action: (T) -> Unit): Unit {
     for (element in this) action(element)
 }
@@ -1195,6 +1203,7 @@ public inline fun <T> Sequence<T>.forEach(action: (T) -> Unit): Unit {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.forEachIndexed(action: (index: Int, T) -> Unit): Unit {
     var index = 0
     for (item in this) action(checkIndexOverflow(index++), item)
@@ -1208,6 +1217,7 @@ public inline fun <T> Sequence<T>.forEachIndexed(action: (index: Int, T) -> Unit
  * The operation is _terminal_.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Sequence<Double>.max(): Double? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1227,6 +1237,7 @@ public fun Sequence<Double>.max(): Double? {
  * The operation is _terminal_.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Sequence<Float>.max(): Float? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1243,6 +1254,7 @@ public fun Sequence<Float>.max(): Float? {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public fun <T : Comparable<T>> Sequence<T>.max(): T? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1261,6 +1273,7 @@ public fun <T : Comparable<T>> Sequence<T>.max(): T? {
  * 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
+@CompileTimeCalculation
 public inline fun <T, R : Comparable<R>> Sequence<T>.maxBy(selector: (T) -> R): T? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1281,9 +1294,9 @@ public inline fun <T, R : Comparable<R>> Sequence<T>.maxBy(selector: (T) -> R): 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1306,9 +1319,9 @@ public inline fun <T> Sequence<T>.maxOf(selector: (T) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1331,7 +1344,7 @@ public inline fun <T> Sequence<T>.maxOf(selector: (T) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the sequence.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1356,7 +1369,7 @@ public inline fun <T, R : Comparable<R>> Sequence<T>.maxOf(selector: (T) -> R): 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the sequence or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  *
  * The operation is _terminal_.
@@ -1379,7 +1392,7 @@ public inline fun <T> Sequence<T>.maxOfOrNull(selector: (T) -> Double): Double? 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the sequence or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  *
  * The operation is _terminal_.
@@ -1425,7 +1438,7 @@ public inline fun <T, R : Comparable<R>> Sequence<T>.maxOfOrNull(selector: (T) -
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the sequence.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1475,6 +1488,7 @@ public inline fun <T, R> Sequence<T>.maxOfWithOrNull(comparator: Comparator<in R
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public fun <T> Sequence<T>.maxWith(comparator: Comparator<in T>): T? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1494,6 +1508,7 @@ public fun <T> Sequence<T>.maxWith(comparator: Comparator<in T>): T? {
  * The operation is _terminal_.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Sequence<Double>.min(): Double? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1513,6 +1528,7 @@ public fun Sequence<Double>.min(): Double? {
  * The operation is _terminal_.
  */
 @SinceKotlin("1.1")
+@CompileTimeCalculation
 public fun Sequence<Float>.min(): Float? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1529,6 +1545,7 @@ public fun Sequence<Float>.min(): Float? {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public fun <T : Comparable<T>> Sequence<T>.min(): T? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1547,6 +1564,7 @@ public fun <T : Comparable<T>> Sequence<T>.min(): T? {
  * 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
+@CompileTimeCalculation
 public inline fun <T, R : Comparable<R>> Sequence<T>.minBy(selector: (T) -> R): T? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1567,9 +1585,9 @@ public inline fun <T, R : Comparable<R>> Sequence<T>.minBy(selector: (T) -> R): 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1592,9 +1610,9 @@ public inline fun <T> Sequence<T>.minOf(selector: (T) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the sequence.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1617,7 +1635,7 @@ public inline fun <T> Sequence<T>.minOf(selector: (T) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the sequence.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1642,7 +1660,7 @@ public inline fun <T, R : Comparable<R>> Sequence<T>.minOf(selector: (T) -> R): 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the sequence or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  *
  * The operation is _terminal_.
@@ -1665,7 +1683,7 @@ public inline fun <T> Sequence<T>.minOfOrNull(selector: (T) -> Double): Double? 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the sequence or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  *
  * The operation is _terminal_.
@@ -1711,7 +1729,7 @@ public inline fun <T, R : Comparable<R>> Sequence<T>.minOfOrNull(selector: (T) -
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the sequence.
- * 
+ *
  * @throws NoSuchElementException if the sequence is empty.
  *
  * The operation is _terminal_.
@@ -1761,6 +1779,7 @@ public inline fun <T, R> Sequence<T>.minOfWithOrNull(comparator: Comparator<in R
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public fun <T> Sequence<T>.minWith(comparator: Comparator<in T>): T? {
     val iterator = iterator()
     if (!iterator.hasNext()) return null
@@ -1779,6 +1798,7 @@ public fun <T> Sequence<T>.minWith(comparator: Comparator<in T>): T? {
  * 
  * @sample samples.collections.Collections.Aggregates.none
  */
+@CompileTimeCalculation
 public fun <T> Sequence<T>.none(): Boolean {
     return !iterator().hasNext()
 }
@@ -1790,6 +1810,7 @@ public fun <T> Sequence<T>.none(): Boolean {
  * 
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.none(predicate: (T) -> Boolean): Boolean {
     for (element in this) if (predicate(element)) return false
     return true
@@ -1837,6 +1858,7 @@ public fun <T> Sequence<T>.onEachIndexed(action: (index: Int, T) -> Unit): Seque
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun <S, T : S> Sequence<T>.reduce(operation: (acc: S, T) -> S): S {
     val iterator = this.iterator()
     if (!iterator.hasNext()) throw UnsupportedOperationException("Empty sequence can't be reduced.")
@@ -1861,6 +1883,7 @@ public inline fun <S, T : S> Sequence<T>.reduce(operation: (acc: S, T) -> S): S 
  * 
  * @sample samples.collections.Collections.Aggregates.reduce
  */
+@CompileTimeCalculation
 public inline fun <S, T : S> Sequence<T>.reduceIndexed(operation: (index: Int, acc: S, T) -> S): S {
     val iterator = this.iterator()
     if (!iterator.hasNext()) throw UnsupportedOperationException("Empty sequence can't be reduced.")
@@ -1886,6 +1909,7 @@ public inline fun <S, T : S> Sequence<T>.reduceIndexed(operation: (index: Int, a
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 public inline fun <S, T : S> Sequence<T>.reduceIndexedOrNull(operation: (index: Int, acc: S, T) -> S): S? {
     val iterator = this.iterator()
     if (!iterator.hasNext()) return null
@@ -1912,6 +1936,7 @@ public inline fun <S, T : S> Sequence<T>.reduceIndexedOrNull(operation: (index: 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 public inline fun <S, T : S> Sequence<T>.reduceOrNull(operation: (acc: S, T) -> S): S? {
     val iterator = this.iterator()
     if (!iterator.hasNext()) return null
@@ -2099,6 +2124,7 @@ public fun <S, T : S> Sequence<T>.scanReduceIndexed(operation: (index: Int, acc:
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.sumBy(selector: (T) -> Int): Int {
     var sum: Int = 0
     for (element in this) {
@@ -2112,6 +2138,7 @@ public inline fun <T> Sequence<T>.sumBy(selector: (T) -> Int): Int {
  *
  * The operation is _terminal_.
  */
+@CompileTimeCalculation
 public inline fun <T> Sequence<T>.sumByDouble(selector: (T) -> Double): Double {
     var sum: Double = 0.0
     for (element in this) {

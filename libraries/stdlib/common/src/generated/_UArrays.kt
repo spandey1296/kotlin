@@ -5280,6 +5280,7 @@ public fun UShortArray.withIndex(): Iterable<IndexedValue<UShort>> {
  * @sample samples.collections.Collections.Aggregates.all
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.all(predicate: (UInt) -> Boolean): Boolean {
@@ -5293,6 +5294,7 @@ public inline fun UIntArray.all(predicate: (UInt) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.all
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.all(predicate: (ULong) -> Boolean): Boolean {
@@ -5306,6 +5308,7 @@ public inline fun ULongArray.all(predicate: (ULong) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.all
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.all(predicate: (UByte) -> Boolean): Boolean {
@@ -5319,6 +5322,7 @@ public inline fun UByteArray.all(predicate: (UByte) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.all
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.all(predicate: (UShort) -> Boolean): Boolean {
@@ -5332,6 +5336,7 @@ public inline fun UShortArray.all(predicate: (UShort) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.any
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.any(): Boolean {
@@ -5344,6 +5349,7 @@ public inline fun UIntArray.any(): Boolean {
  * @sample samples.collections.Collections.Aggregates.any
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.any(): Boolean {
@@ -5356,6 +5362,7 @@ public inline fun ULongArray.any(): Boolean {
  * @sample samples.collections.Collections.Aggregates.any
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.any(): Boolean {
@@ -5368,6 +5375,7 @@ public inline fun UByteArray.any(): Boolean {
  * @sample samples.collections.Collections.Aggregates.any
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.any(): Boolean {
@@ -5380,6 +5388,7 @@ public inline fun UShortArray.any(): Boolean {
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.any(predicate: (UInt) -> Boolean): Boolean {
@@ -5393,6 +5402,7 @@ public inline fun UIntArray.any(predicate: (UInt) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.any(predicate: (ULong) -> Boolean): Boolean {
@@ -5406,6 +5416,7 @@ public inline fun ULongArray.any(predicate: (ULong) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.any(predicate: (UByte) -> Boolean): Boolean {
@@ -5419,6 +5430,7 @@ public inline fun UByteArray.any(predicate: (UByte) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.anyWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.any(predicate: (UShort) -> Boolean): Boolean {
@@ -5430,6 +5442,7 @@ public inline fun UShortArray.any(predicate: (UShort) -> Boolean): Boolean {
  * Returns the number of elements matching the given [predicate].
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.count(predicate: (UInt) -> Boolean): Int {
@@ -5442,6 +5455,7 @@ public inline fun UIntArray.count(predicate: (UInt) -> Boolean): Int {
  * Returns the number of elements matching the given [predicate].
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.count(predicate: (ULong) -> Boolean): Int {
@@ -5454,6 +5468,7 @@ public inline fun ULongArray.count(predicate: (ULong) -> Boolean): Int {
  * Returns the number of elements matching the given [predicate].
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.count(predicate: (UByte) -> Boolean): Int {
@@ -5466,6 +5481,7 @@ public inline fun UByteArray.count(predicate: (UByte) -> Boolean): Int {
  * Returns the number of elements matching the given [predicate].
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.count(predicate: (UShort) -> Boolean): Int {
@@ -5483,6 +5499,7 @@ public inline fun UShortArray.count(predicate: (UShort) -> Boolean): Int {
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UIntArray.fold(initial: R, operation: (acc: R, UInt) -> R): R {
@@ -5500,6 +5517,7 @@ public inline fun <R> UIntArray.fold(initial: R, operation: (acc: R, UInt) -> R)
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> ULongArray.fold(initial: R, operation: (acc: R, ULong) -> R): R {
@@ -5517,6 +5535,7 @@ public inline fun <R> ULongArray.fold(initial: R, operation: (acc: R, ULong) -> 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UByteArray.fold(initial: R, operation: (acc: R, UByte) -> R): R {
@@ -5534,6 +5553,7 @@ public inline fun <R> UByteArray.fold(initial: R, operation: (acc: R, UByte) -> 
  * @param [operation] function that takes current accumulator value and an element, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UShortArray.fold(initial: R, operation: (acc: R, UShort) -> R): R {
@@ -5552,6 +5572,7 @@ public inline fun <R> UShortArray.fold(initial: R, operation: (acc: R, UShort) -
  * and the element itself, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UIntArray.foldIndexed(initial: R, operation: (index: Int, acc: R, UInt) -> R): R {
@@ -5571,6 +5592,7 @@ public inline fun <R> UIntArray.foldIndexed(initial: R, operation: (index: Int, 
  * and the element itself, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> ULongArray.foldIndexed(initial: R, operation: (index: Int, acc: R, ULong) -> R): R {
@@ -5590,6 +5612,7 @@ public inline fun <R> ULongArray.foldIndexed(initial: R, operation: (index: Int,
  * and the element itself, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UByteArray.foldIndexed(initial: R, operation: (index: Int, acc: R, UByte) -> R): R {
@@ -5609,6 +5632,7 @@ public inline fun <R> UByteArray.foldIndexed(initial: R, operation: (index: Int,
  * and the element itself, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UShortArray.foldIndexed(initial: R, operation: (index: Int, acc: R, UShort) -> R): R {
@@ -5627,6 +5651,7 @@ public inline fun <R> UShortArray.foldIndexed(initial: R, operation: (index: Int
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UIntArray.foldRight(initial: R, operation: (UInt, acc: R) -> R): R {
@@ -5647,6 +5672,7 @@ public inline fun <R> UIntArray.foldRight(initial: R, operation: (UInt, acc: R) 
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> ULongArray.foldRight(initial: R, operation: (ULong, acc: R) -> R): R {
@@ -5667,6 +5693,7 @@ public inline fun <R> ULongArray.foldRight(initial: R, operation: (ULong, acc: R
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UByteArray.foldRight(initial: R, operation: (UByte, acc: R) -> R): R {
@@ -5687,6 +5714,7 @@ public inline fun <R> UByteArray.foldRight(initial: R, operation: (UByte, acc: R
  * @param [operation] function that takes an element and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UShortArray.foldRight(initial: R, operation: (UShort, acc: R) -> R): R {
@@ -5708,6 +5736,7 @@ public inline fun <R> UShortArray.foldRight(initial: R, operation: (UShort, acc:
  * and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UIntArray.foldRightIndexed(initial: R, operation: (index: Int, UInt, acc: R) -> R): R {
@@ -5730,6 +5759,7 @@ public inline fun <R> UIntArray.foldRightIndexed(initial: R, operation: (index: 
  * and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> ULongArray.foldRightIndexed(initial: R, operation: (index: Int, ULong, acc: R) -> R): R {
@@ -5752,6 +5782,7 @@ public inline fun <R> ULongArray.foldRightIndexed(initial: R, operation: (index:
  * and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UByteArray.foldRightIndexed(initial: R, operation: (index: Int, UByte, acc: R) -> R): R {
@@ -5767,13 +5798,14 @@ public inline fun <R> UByteArray.foldRightIndexed(initial: R, operation: (index:
 /**
  * Accumulates value starting with [initial] value and applying [operation] from right to left
  * to each element with its index in the original array and current accumulator value.
- * 
+ *
  * Returns the specified [initial] value if the array is empty.
- * 
+ *
  * @param [operation] function that takes the index of an element, the element itself
  * and current accumulator value, and calculates the next accumulator value.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R> UShortArray.foldRightIndexed(initial: R, operation: (index: Int, UShort, acc: R) -> R): R {
@@ -5790,6 +5822,7 @@ public inline fun <R> UShortArray.foldRightIndexed(initial: R, operation: (index
  * Performs the given [action] on each element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.forEach(action: (UInt) -> Unit): Unit {
@@ -5800,6 +5833,7 @@ public inline fun UIntArray.forEach(action: (UInt) -> Unit): Unit {
  * Performs the given [action] on each element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.forEach(action: (ULong) -> Unit): Unit {
@@ -5810,6 +5844,7 @@ public inline fun ULongArray.forEach(action: (ULong) -> Unit): Unit {
  * Performs the given [action] on each element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.forEach(action: (UByte) -> Unit): Unit {
@@ -5820,6 +5855,7 @@ public inline fun UByteArray.forEach(action: (UByte) -> Unit): Unit {
  * Performs the given [action] on each element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.forEach(action: (UShort) -> Unit): Unit {
@@ -5832,6 +5868,7 @@ public inline fun UShortArray.forEach(action: (UShort) -> Unit): Unit {
  * and performs the action on the element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.forEachIndexed(action: (index: Int, UInt) -> Unit): Unit {
@@ -5845,6 +5882,7 @@ public inline fun UIntArray.forEachIndexed(action: (index: Int, UInt) -> Unit): 
  * and performs the action on the element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.forEachIndexed(action: (index: Int, ULong) -> Unit): Unit {
@@ -5858,6 +5896,7 @@ public inline fun ULongArray.forEachIndexed(action: (index: Int, ULong) -> Unit)
  * and performs the action on the element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.forEachIndexed(action: (index: Int, UByte) -> Unit): Unit {
@@ -5871,6 +5910,7 @@ public inline fun UByteArray.forEachIndexed(action: (index: Int, UByte) -> Unit)
  * and performs the action on the element.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.forEachIndexed(action: (index: Int, UShort) -> Unit): Unit {
@@ -5882,6 +5922,7 @@ public inline fun UShortArray.forEachIndexed(action: (index: Int, UShort) -> Uni
  * Returns the largest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UIntArray.max(): UInt? {
     if (isEmpty()) return null
@@ -5897,6 +5938,7 @@ public fun UIntArray.max(): UInt? {
  * Returns the largest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun ULongArray.max(): ULong? {
     if (isEmpty()) return null
@@ -5912,6 +5954,7 @@ public fun ULongArray.max(): ULong? {
  * Returns the largest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UByteArray.max(): UByte? {
     if (isEmpty()) return null
@@ -5927,6 +5970,7 @@ public fun UByteArray.max(): UByte? {
  * Returns the largest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UShortArray.max(): UShort? {
     if (isEmpty()) return null
@@ -5944,6 +5988,7 @@ public fun UShortArray.max(): UShort? {
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> UIntArray.maxBy(selector: (UInt) -> R): UInt? {
@@ -5969,6 +6014,7 @@ public inline fun <R : Comparable<R>> UIntArray.maxBy(selector: (UInt) -> R): UI
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> ULongArray.maxBy(selector: (ULong) -> R): ULong? {
@@ -5994,6 +6040,7 @@ public inline fun <R : Comparable<R>> ULongArray.maxBy(selector: (ULong) -> R): 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> UByteArray.maxBy(selector: (UByte) -> R): UByte? {
@@ -6019,6 +6066,7 @@ public inline fun <R : Comparable<R>> UByteArray.maxBy(selector: (UByte) -> R): 
  * @sample samples.collections.Collections.Aggregates.maxBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> UShortArray.maxBy(selector: (UShort) -> R): UShort? {
@@ -6041,9 +6089,9 @@ public inline fun <R : Comparable<R>> UShortArray.maxBy(selector: (UShort) -> R)
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6064,9 +6112,9 @@ public inline fun UIntArray.maxOf(selector: (UInt) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6087,9 +6135,9 @@ public inline fun ULongArray.maxOf(selector: (ULong) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6110,9 +6158,9 @@ public inline fun UByteArray.maxOf(selector: (UByte) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6133,9 +6181,9 @@ public inline fun UShortArray.maxOf(selector: (UShort) -> Double): Double {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6156,9 +6204,9 @@ public inline fun UIntArray.maxOf(selector: (UInt) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6179,9 +6227,9 @@ public inline fun ULongArray.maxOf(selector: (ULong) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6202,9 +6250,9 @@ public inline fun UByteArray.maxOf(selector: (UByte) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6225,7 +6273,7 @@ public inline fun UShortArray.maxOf(selector: (UShort) -> Float): Float {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6248,7 +6296,7 @@ public inline fun <R : Comparable<R>> UIntArray.maxOf(selector: (UInt) -> R): R 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6271,7 +6319,7 @@ public inline fun <R : Comparable<R>> ULongArray.maxOf(selector: (ULong) -> R): 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6294,7 +6342,7 @@ public inline fun <R : Comparable<R>> UByteArray.maxOf(selector: (UByte) -> R): 
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6317,7 +6365,7 @@ public inline fun <R : Comparable<R>> UShortArray.maxOf(selector: (UShort) -> R)
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6338,7 +6386,7 @@ public inline fun UIntArray.maxOfOrNull(selector: (UInt) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6359,7 +6407,7 @@ public inline fun ULongArray.maxOfOrNull(selector: (ULong) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6380,7 +6428,7 @@ public inline fun UByteArray.maxOfOrNull(selector: (UByte) -> Double): Double? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6401,7 +6449,7 @@ public inline fun UShortArray.maxOfOrNull(selector: (UShort) -> Double): Double?
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6422,7 +6470,7 @@ public inline fun UIntArray.maxOfOrNull(selector: (UInt) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6443,7 +6491,7 @@ public inline fun ULongArray.maxOfOrNull(selector: (ULong) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6464,7 +6512,7 @@ public inline fun UByteArray.maxOfOrNull(selector: (UByte) -> Float): Float? {
 /**
  * Returns the largest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -6569,7 +6617,7 @@ public inline fun <R : Comparable<R>> UShortArray.maxOfOrNull(selector: (UShort)
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6592,7 +6640,7 @@ public inline fun <R> UIntArray.maxOfWith(comparator: Comparator<in R>, selector
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6615,7 +6663,7 @@ public inline fun <R> ULongArray.maxOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6638,7 +6686,7 @@ public inline fun <R> UByteArray.maxOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the largest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6746,6 +6794,7 @@ public inline fun <R> UShortArray.maxOfWithOrNull(comparator: Comparator<in R>, 
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UIntArray.maxWith(comparator: Comparator<in UInt>): UInt? {
     if (isEmpty()) return null
@@ -6761,6 +6810,7 @@ public fun UIntArray.maxWith(comparator: Comparator<in UInt>): UInt? {
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun ULongArray.maxWith(comparator: Comparator<in ULong>): ULong? {
     if (isEmpty()) return null
@@ -6776,6 +6826,7 @@ public fun ULongArray.maxWith(comparator: Comparator<in ULong>): ULong? {
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UByteArray.maxWith(comparator: Comparator<in UByte>): UByte? {
     if (isEmpty()) return null
@@ -6791,6 +6842,7 @@ public fun UByteArray.maxWith(comparator: Comparator<in UByte>): UByte? {
  * Returns the first element having the largest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UShortArray.maxWith(comparator: Comparator<in UShort>): UShort? {
     if (isEmpty()) return null
@@ -6806,6 +6858,7 @@ public fun UShortArray.maxWith(comparator: Comparator<in UShort>): UShort? {
  * Returns the smallest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UIntArray.min(): UInt? {
     if (isEmpty()) return null
@@ -6821,6 +6874,7 @@ public fun UIntArray.min(): UInt? {
  * Returns the smallest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun ULongArray.min(): ULong? {
     if (isEmpty()) return null
@@ -6836,6 +6890,7 @@ public fun ULongArray.min(): ULong? {
  * Returns the smallest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UByteArray.min(): UByte? {
     if (isEmpty()) return null
@@ -6851,6 +6906,7 @@ public fun UByteArray.min(): UByte? {
  * Returns the smallest element or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UShortArray.min(): UShort? {
     if (isEmpty()) return null
@@ -6868,6 +6924,7 @@ public fun UShortArray.min(): UShort? {
  * @sample samples.collections.Collections.Aggregates.minBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> UIntArray.minBy(selector: (UInt) -> R): UInt? {
@@ -6893,6 +6950,7 @@ public inline fun <R : Comparable<R>> UIntArray.minBy(selector: (UInt) -> R): UI
  * @sample samples.collections.Collections.Aggregates.minBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> ULongArray.minBy(selector: (ULong) -> R): ULong? {
@@ -6918,6 +6976,7 @@ public inline fun <R : Comparable<R>> ULongArray.minBy(selector: (ULong) -> R): 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> UByteArray.minBy(selector: (UByte) -> R): UByte? {
@@ -6943,6 +7002,7 @@ public inline fun <R : Comparable<R>> UByteArray.minBy(selector: (UByte) -> R): 
  * @sample samples.collections.Collections.Aggregates.minBy
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun <R : Comparable<R>> UShortArray.minBy(selector: (UShort) -> R): UShort? {
@@ -6965,9 +7025,9 @@ public inline fun <R : Comparable<R>> UShortArray.minBy(selector: (UShort) -> R)
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -6988,9 +7048,9 @@ public inline fun UIntArray.minOf(selector: (UInt) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7011,9 +7071,9 @@ public inline fun ULongArray.minOf(selector: (ULong) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7034,9 +7094,9 @@ public inline fun UByteArray.minOf(selector: (UByte) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7057,9 +7117,9 @@ public inline fun UShortArray.minOf(selector: (UShort) -> Double): Double {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7080,9 +7140,9 @@ public inline fun UIntArray.minOf(selector: (UInt) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7103,9 +7163,9 @@ public inline fun ULongArray.minOf(selector: (ULong) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7126,9 +7186,9 @@ public inline fun UByteArray.minOf(selector: (UByte) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7149,7 +7209,7 @@ public inline fun UShortArray.minOf(selector: (UShort) -> Float): Float {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7172,7 +7232,7 @@ public inline fun <R : Comparable<R>> UIntArray.minOf(selector: (UInt) -> R): R 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7195,7 +7255,7 @@ public inline fun <R : Comparable<R>> ULongArray.minOf(selector: (ULong) -> R): 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7218,7 +7278,7 @@ public inline fun <R : Comparable<R>> UByteArray.minOf(selector: (UByte) -> R): 
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7241,7 +7301,7 @@ public inline fun <R : Comparable<R>> UShortArray.minOf(selector: (UShort) -> R)
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7262,7 +7322,7 @@ public inline fun UIntArray.minOfOrNull(selector: (UInt) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7283,7 +7343,7 @@ public inline fun ULongArray.minOfOrNull(selector: (ULong) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7304,7 +7364,7 @@ public inline fun UByteArray.minOfOrNull(selector: (UByte) -> Double): Double? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7325,7 +7385,7 @@ public inline fun UShortArray.minOfOrNull(selector: (UShort) -> Double): Double?
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7346,7 +7406,7 @@ public inline fun UIntArray.minOfOrNull(selector: (UInt) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7367,7 +7427,7 @@ public inline fun ULongArray.minOfOrNull(selector: (ULong) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7388,7 +7448,7 @@ public inline fun UByteArray.minOfOrNull(selector: (UByte) -> Float): Float? {
 /**
  * Returns the smallest value among all values produced by [selector] function
  * applied to each element in the array or `null` if there are no elements.
- * 
+ *
  * If any of values produced by [selector] function is `NaN`, the returned result is `NaN`.
  */
 @SinceKotlin("1.4")
@@ -7493,7 +7553,7 @@ public inline fun <R : Comparable<R>> UShortArray.minOfOrNull(selector: (UShort)
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7516,7 +7576,7 @@ public inline fun <R> UIntArray.minOfWith(comparator: Comparator<in R>, selector
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7539,7 +7599,7 @@ public inline fun <R> ULongArray.minOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7562,7 +7622,7 @@ public inline fun <R> UByteArray.minOfWith(comparator: Comparator<in R>, selecto
 /**
  * Returns the smallest value according to the provided [comparator]
  * among all values produced by [selector] function applied to each element in the array.
- * 
+ *
  * @throws NoSuchElementException if the array is empty.
  */
 @SinceKotlin("1.4")
@@ -7670,6 +7730,7 @@ public inline fun <R> UShortArray.minOfWithOrNull(comparator: Comparator<in R>, 
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UIntArray.minWith(comparator: Comparator<in UInt>): UInt? {
     if (isEmpty()) return null
@@ -7685,6 +7746,7 @@ public fun UIntArray.minWith(comparator: Comparator<in UInt>): UInt? {
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun ULongArray.minWith(comparator: Comparator<in ULong>): ULong? {
     if (isEmpty()) return null
@@ -7700,6 +7762,7 @@ public fun ULongArray.minWith(comparator: Comparator<in ULong>): ULong? {
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UByteArray.minWith(comparator: Comparator<in UByte>): UByte? {
     if (isEmpty()) return null
@@ -7715,6 +7778,7 @@ public fun UByteArray.minWith(comparator: Comparator<in UByte>): UByte? {
  * Returns the first element having the smallest value according to the provided [comparator] or `null` if there are no elements.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 public fun UShortArray.minWith(comparator: Comparator<in UShort>): UShort? {
     if (isEmpty()) return null
@@ -7732,6 +7796,7 @@ public fun UShortArray.minWith(comparator: Comparator<in UShort>): UShort? {
  * @sample samples.collections.Collections.Aggregates.none
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.none(): Boolean {
@@ -7744,6 +7809,7 @@ public inline fun UIntArray.none(): Boolean {
  * @sample samples.collections.Collections.Aggregates.none
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.none(): Boolean {
@@ -7756,6 +7822,7 @@ public inline fun ULongArray.none(): Boolean {
  * @sample samples.collections.Collections.Aggregates.none
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.none(): Boolean {
@@ -7768,6 +7835,7 @@ public inline fun UByteArray.none(): Boolean {
  * @sample samples.collections.Collections.Aggregates.none
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.none(): Boolean {
@@ -7780,6 +7848,7 @@ public inline fun UShortArray.none(): Boolean {
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.none(predicate: (UInt) -> Boolean): Boolean {
@@ -7793,6 +7862,7 @@ public inline fun UIntArray.none(predicate: (UInt) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.none(predicate: (ULong) -> Boolean): Boolean {
@@ -7806,6 +7876,7 @@ public inline fun ULongArray.none(predicate: (ULong) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.none(predicate: (UByte) -> Boolean): Boolean {
@@ -7819,6 +7890,7 @@ public inline fun UByteArray.none(predicate: (UByte) -> Boolean): Boolean {
  * @sample samples.collections.Collections.Aggregates.noneWithPredicate
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.none(predicate: (UShort) -> Boolean): Boolean {
@@ -7931,6 +8003,7 @@ public inline fun UShortArray.onEachIndexed(action: (index: Int, UShort) -> Unit
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduce(operation: (acc: UInt, UInt) -> UInt): UInt {
@@ -7956,6 +8029,7 @@ public inline fun UIntArray.reduce(operation: (acc: UInt, UInt) -> UInt): UInt {
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduce(operation: (acc: ULong, ULong) -> ULong): ULong {
@@ -7981,6 +8055,7 @@ public inline fun ULongArray.reduce(operation: (acc: ULong, ULong) -> ULong): UL
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduce(operation: (acc: UByte, UByte) -> UByte): UByte {
@@ -8006,6 +8081,7 @@ public inline fun UByteArray.reduce(operation: (acc: UByte, UByte) -> UByte): UB
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduce(operation: (acc: UShort, UShort) -> UShort): UShort {
@@ -8031,6 +8107,7 @@ public inline fun UShortArray.reduce(operation: (acc: UShort, UShort) -> UShort)
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceIndexed(operation: (index: Int, acc: UInt, UInt) -> UInt): UInt {
@@ -8056,6 +8133,7 @@ public inline fun UIntArray.reduceIndexed(operation: (index: Int, acc: UInt, UIn
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceIndexed(operation: (index: Int, acc: ULong, ULong) -> ULong): ULong {
@@ -8081,6 +8159,7 @@ public inline fun ULongArray.reduceIndexed(operation: (index: Int, acc: ULong, U
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceIndexed(operation: (index: Int, acc: UByte, UByte) -> UByte): UByte {
@@ -8106,6 +8185,7 @@ public inline fun UByteArray.reduceIndexed(operation: (index: Int, acc: UByte, U
  * @sample samples.collections.Collections.Aggregates.reduce
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceIndexed(operation: (index: Int, acc: UShort, UShort) -> UShort): UShort {
@@ -8130,6 +8210,7 @@ public inline fun UShortArray.reduceIndexed(operation: (index: Int, acc: UShort,
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceIndexedOrNull(operation: (index: Int, acc: UInt, UInt) -> UInt): UInt? {
@@ -8154,6 +8235,7 @@ public inline fun UIntArray.reduceIndexedOrNull(operation: (index: Int, acc: UIn
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceIndexedOrNull(operation: (index: Int, acc: ULong, ULong) -> ULong): ULong? {
@@ -8178,6 +8260,7 @@ public inline fun ULongArray.reduceIndexedOrNull(operation: (index: Int, acc: UL
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceIndexedOrNull(operation: (index: Int, acc: UByte, UByte) -> UByte): UByte? {
@@ -8202,6 +8285,7 @@ public inline fun UByteArray.reduceIndexedOrNull(operation: (index: Int, acc: UB
  * @sample samples.collections.Collections.Aggregates.reduceOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceIndexedOrNull(operation: (index: Int, acc: UShort, UShort) -> UShort): UShort? {
@@ -8227,6 +8311,7 @@ public inline fun UShortArray.reduceIndexedOrNull(operation: (index: Int, acc: U
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceOrNull(operation: (acc: UInt, UInt) -> UInt): UInt? {
@@ -8252,6 +8337,7 @@ public inline fun UIntArray.reduceOrNull(operation: (acc: UInt, UInt) -> UInt): 
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceOrNull(operation: (acc: ULong, ULong) -> ULong): ULong? {
@@ -8277,6 +8363,7 @@ public inline fun ULongArray.reduceOrNull(operation: (acc: ULong, ULong) -> ULon
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceOrNull(operation: (acc: UByte, UByte) -> UByte): UByte? {
@@ -8302,6 +8389,7 @@ public inline fun UByteArray.reduceOrNull(operation: (acc: UByte, UByte) -> UByt
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceOrNull(operation: (acc: UShort, UShort) -> UShort): UShort? {
@@ -8327,6 +8415,7 @@ public inline fun UShortArray.reduceOrNull(operation: (acc: UShort, UShort) -> U
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceRight(operation: (UInt, acc: UInt) -> UInt): UInt {
@@ -8352,6 +8441,7 @@ public inline fun UIntArray.reduceRight(operation: (UInt, acc: UInt) -> UInt): U
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceRight(operation: (ULong, acc: ULong) -> ULong): ULong {
@@ -8377,6 +8467,7 @@ public inline fun ULongArray.reduceRight(operation: (ULong, acc: ULong) -> ULong
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceRight(operation: (UByte, acc: UByte) -> UByte): UByte {
@@ -8402,6 +8493,7 @@ public inline fun UByteArray.reduceRight(operation: (UByte, acc: UByte) -> UByte
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceRight(operation: (UShort, acc: UShort) -> UShort): UShort {
@@ -8427,6 +8519,7 @@ public inline fun UShortArray.reduceRight(operation: (UShort, acc: UShort) -> US
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceRightIndexed(operation: (index: Int, UInt, acc: UInt) -> UInt): UInt {
@@ -8453,6 +8546,7 @@ public inline fun UIntArray.reduceRightIndexed(operation: (index: Int, UInt, acc
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceRightIndexed(operation: (index: Int, ULong, acc: ULong) -> ULong): ULong {
@@ -8479,6 +8573,7 @@ public inline fun ULongArray.reduceRightIndexed(operation: (index: Int, ULong, a
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceRightIndexed(operation: (index: Int, UByte, acc: UByte) -> UByte): UByte {
@@ -8505,6 +8600,7 @@ public inline fun UByteArray.reduceRightIndexed(operation: (index: Int, UByte, a
  * @sample samples.collections.Collections.Aggregates.reduceRight
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceRightIndexed(operation: (index: Int, UShort, acc: UShort) -> UShort): UShort {
@@ -8530,6 +8626,7 @@ public inline fun UShortArray.reduceRightIndexed(operation: (index: Int, UShort,
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceRightIndexedOrNull(operation: (index: Int, UInt, acc: UInt) -> UInt): UInt? {
@@ -8555,6 +8652,7 @@ public inline fun UIntArray.reduceRightIndexedOrNull(operation: (index: Int, UIn
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceRightIndexedOrNull(operation: (index: Int, ULong, acc: ULong) -> ULong): ULong? {
@@ -8580,6 +8678,7 @@ public inline fun ULongArray.reduceRightIndexedOrNull(operation: (index: Int, UL
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceRightIndexedOrNull(operation: (index: Int, UByte, acc: UByte) -> UByte): UByte? {
@@ -8605,6 +8704,7 @@ public inline fun UByteArray.reduceRightIndexedOrNull(operation: (index: Int, UB
  * @sample samples.collections.Collections.Aggregates.reduceRightOrNull
  */
 @SinceKotlin("1.4")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceRightIndexedOrNull(operation: (index: Int, UShort, acc: UShort) -> UShort): UShort? {
@@ -8631,6 +8731,7 @@ public inline fun UShortArray.reduceRightIndexedOrNull(operation: (index: Int, U
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.reduceRightOrNull(operation: (UInt, acc: UInt) -> UInt): UInt? {
@@ -8656,6 +8757,7 @@ public inline fun UIntArray.reduceRightOrNull(operation: (UInt, acc: UInt) -> UI
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.reduceRightOrNull(operation: (ULong, acc: ULong) -> ULong): ULong? {
@@ -8681,6 +8783,7 @@ public inline fun ULongArray.reduceRightOrNull(operation: (ULong, acc: ULong) ->
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.reduceRightOrNull(operation: (UByte, acc: UByte) -> UByte): UByte? {
@@ -8706,6 +8809,7 @@ public inline fun UByteArray.reduceRightOrNull(operation: (UByte, acc: UByte) ->
  */
 @SinceKotlin("1.4")
 @WasExperimental(ExperimentalStdlibApi::class)
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.reduceRightOrNull(operation: (UShort, acc: UShort) -> UShort): UShort? {
@@ -9358,6 +9462,7 @@ public inline fun UShortArray.scanReduceIndexed(operation: (index: Int, acc: USh
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.sumBy(selector: (UInt) -> UInt): UInt {
@@ -9372,6 +9477,7 @@ public inline fun UIntArray.sumBy(selector: (UInt) -> UInt): UInt {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.sumBy(selector: (ULong) -> UInt): UInt {
@@ -9386,6 +9492,7 @@ public inline fun ULongArray.sumBy(selector: (ULong) -> UInt): UInt {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.sumBy(selector: (UByte) -> UInt): UInt {
@@ -9400,6 +9507,7 @@ public inline fun UByteArray.sumBy(selector: (UByte) -> UInt): UInt {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.sumBy(selector: (UShort) -> UInt): UInt {
@@ -9414,6 +9522,7 @@ public inline fun UShortArray.sumBy(selector: (UShort) -> UInt): UInt {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UIntArray.sumByDouble(selector: (UInt) -> Double): Double {
@@ -9428,6 +9537,7 @@ public inline fun UIntArray.sumByDouble(selector: (UInt) -> Double): Double {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun ULongArray.sumByDouble(selector: (ULong) -> Double): Double {
@@ -9442,6 +9552,7 @@ public inline fun ULongArray.sumByDouble(selector: (ULong) -> Double): Double {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UByteArray.sumByDouble(selector: (UByte) -> Double): Double {
@@ -9456,6 +9567,7 @@ public inline fun UByteArray.sumByDouble(selector: (UByte) -> Double): Double {
  * Returns the sum of all values produced by [selector] function applied to each element in the array.
  */
 @SinceKotlin("1.3")
+@CompileTimeCalculation
 @ExperimentalUnsignedTypes
 @kotlin.internal.InlineOnly
 public inline fun UShortArray.sumByDouble(selector: (UShort) -> Double): Double {
