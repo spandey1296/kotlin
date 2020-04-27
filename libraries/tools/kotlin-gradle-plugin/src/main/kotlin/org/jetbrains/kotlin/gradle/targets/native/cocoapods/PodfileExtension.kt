@@ -3,7 +3,7 @@
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
-package org.jetbrains.kotlin.gradle.targets.native.cocoapods.podfile
+package org.jetbrains.kotlin.gradle.targets.native.cocoapods
 
 import org.gradle.api.Named
 import org.gradle.api.NamedDomainObjectSet
@@ -11,28 +11,19 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.*
 import java.io.File
 
-open class PodfileExtension(val project: Project) {
-    @InputFile
-    @Optional
-    var xcodeproj: File? = null
-
-    /**
-     * Configure path to the Xcodeproj.
-     */
-    fun xcodeproj(path: String) {
-        xcodeproj = project.file(path)
-    }
+open class PodfileExtension(private val project: Project) {
+    @get:Input
+    lateinit var xcodeproj: String
 
     @get:Nested
-    @Optional
-    var target: Target? = null
+    lateinit var target: Target
 
 
-    private val _kotlinPods = project.container(KotlinPod::class.java)
+    private val _kotlinPods = project.container(KotlinPodDependency::class.java)
 
     // For some reason Gradle doesn't consume the @Nested annotation on NamedDomainObjectContainer.
     @get:Nested
-    protected val kotlinPodsAsTaskInput: List<KotlinPod>
+    protected val kotlinPodsAsTaskInputDependency: List<KotlinPodDependency>
         get() = _kotlinPods.toList()
 
     /**
@@ -40,21 +31,20 @@ open class PodfileExtension(val project: Project) {
      */
     // Already taken into account as a task input in the [podsAsTaskInput] property.
     @get:Internal
-    val kotlinPods: NamedDomainObjectSet<KotlinPod>
+    val kotlinPodDependencies: NamedDomainObjectSet<KotlinPodDependency>
         get() = _kotlinPods
 
     /**
      * Add a CocoaPods dependency to the pod built from this project.
      */
     @JvmOverloads
-    fun kotlinPod(name: String, path: File) {
+    fun kotlinPod(name: String) {
         check(_kotlinPods.findByName(name) == null) { "Project already depends on a local Kotlin Pod with name $name" }
-        _kotlinPods.add(KotlinPod(name, path))
+        _kotlinPods.add(KotlinPodDependency(name))
     }
 
-    data class KotlinPod(
-        private val name: String,
-        @get:Input val path: File
+    data class KotlinPodDependency(
+        private val name: String
     ) : Named {
         @Input
         override fun getName(): String = name
@@ -62,8 +52,8 @@ open class PodfileExtension(val project: Project) {
 
     data class Target(
         private val name: String,
-        @get:Input val artifact: Artifact,
-        @get:Input val platform: Platform
+        @get:Nested val dependencyMode: DependencyMode,
+        @get:Nested val platform: Platform
     ) : Named {
         @Input
         override fun getName(): String = name
@@ -75,16 +65,14 @@ open class PodfileExtension(val project: Project) {
     ) : Named {
         @Input
         override fun getName(): String = name
-        override fun toString(): String = name + version?.let { ", '$it'" }
     }
 
-    interface Artifact
+    sealed class DependencyMode(private val name: String) : Named {
+        object UseModularHeaders : DependencyMode("use_modular_headers!")
+        object UseFramework : DependencyMode("use_frameworks!")
 
-    val UseModularHeaders = object : Artifact {
-        override fun toString(): String = "use_modular_headers!"
+        @Input
+        override fun getName(): String = name
     }
 
-    val UseFramework = object : Artifact {
-        override fun toString(): String = "use_frameworks!"
-    }
 }

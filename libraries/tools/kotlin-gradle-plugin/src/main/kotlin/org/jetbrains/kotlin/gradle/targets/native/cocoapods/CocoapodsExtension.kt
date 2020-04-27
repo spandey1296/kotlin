@@ -17,17 +17,6 @@ open class CocoapodsExtension(private val project: Project) {
     val version: String
         get() = project.version.toString()
 
-    @Optional
-    @InputFile
-    var podfile: File? = null
-
-    /**
-     * Configure path to the Podfile.
-     */
-    fun podfile(path: String) {
-        podfile = project.file(path)
-    }
-
     /**
      * Configure authors of the pod built from this project.
      */
