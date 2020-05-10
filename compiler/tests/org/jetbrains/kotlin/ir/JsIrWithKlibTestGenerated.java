@@ -313,6 +313,44 @@ public class JsIrWithKlibTestGenerated extends AbstractJsIrWithKlibTest {
         runTest("compiler/testData/ir/interpreter/withReceivers.kt");
     }
 
+    @TestMetadata("overrideExtension.kt")
+    public void testOverrideExtension() throws Exception {
+        runTest("compiler/testData/ir/interpreter/overrideExtension.kt");
+    }
+
+    @TestMetadata("compiler/testData/ir/interpreter/collections")
+    @TestDataPath("$PROJECT_ROOT")
+    @RunWith(JUnit3RunnerWithInners.class)
+    public static class Collections extends AbstractJsIrWithKlibTest {
+        private void runTest(String testDataFilePath) throws Exception {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInCollections() throws Exception {
+            KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter/collections"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
+        }
+
+        @TestMetadata("mapOf.kt")
+        public void testMapOf() throws Exception {
+            runTest("compiler/testData/ir/interpreter/collections/mapOf.kt");
+        }
+
+        @TestMetadata("mutableMapOf.kt")
+        public void testMutableMapOf() throws Exception {
+            runTest("compiler/testData/ir/interpreter/collections/mutableMapOf.kt");
+        }
+
+        @TestMetadata("mutableSetOf.kt")
+        public void testMutableSetOf() throws Exception {
+            runTest("compiler/testData/ir/interpreter/collections/mutableSetOf.kt");
+        }
+
+        @TestMetadata("setOf.kt")
+        public void testSetOf() throws Exception {
+            runTest("compiler/testData/ir/interpreter/collections/setOf.kt");
+        }
+    }
+
     @TestMetadata("compiler/testData/ir/interpreter/exceptions")
     @TestDataPath("$PROJECT_ROOT")
     @RunWith(JUnit3RunnerWithInners.class)
@@ -431,35 +469,6 @@ public class JsIrWithKlibTestGenerated extends AbstractJsIrWithKlibTest {
         @TestMetadata("toList.kt")
         public void testToList() throws Exception {
             runTest("compiler/testData/ir/interpreter/generatedStdlib/toList.kt");
-        }
-    }
-
-    @TestMetadata("compiler/testData/ir/interpreter/collections")
-    @TestDataPath("$PROJECT_ROOT")
-    @RunWith(JUnit3RunnerWithInners.class)
-    public static class Collections extends AbstractJsIrWithKlibTest {
-        private void runTest(String testDataFilePath) throws Exception {
-            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
-        }
-
-        @TestMetadata("setOf.kt")
-        public void testSetOf() throws Exception {
-            runTest("compiler/testData/ir/interpreter/collections/setOf.kt");
-        }
-
-        @TestMetadata("mutableSetOf.kt")
-        public void testMutableSetOf() throws Exception {
-            runTest("compiler/testData/ir/interpreter/collections/mutableSetOf.kt");
-        }
-
-        @TestMetadata("mapOf.kt")
-        public void testMapOf() throws Exception {
-            runTest("compiler/testData/ir/interpreter/collections/mapOf.kt");
-        }
-
-        @TestMetadata("mutableMapOf.kt")
-        public void testMutableMapOf() throws Exception {
-            runTest("compiler/testData/ir/interpreter/collections/mutableMapOf.kt");
         }
     }
 }
