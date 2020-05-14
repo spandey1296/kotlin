@@ -205,7 +205,8 @@ abstract class BaseGradleIT {
         val withBuildCache: Boolean = false,
         val kaptOptions: KaptOptions? = null,
         val parallelTasksInProject: Boolean? = null,
-        val jsCompilerType: KotlinJsCompilerType? = null
+        val jsCompilerType: KotlinJsCompilerType? = null,
+        val instantExecution: Boolean = true
     )
 
     data class KaptOptions(
@@ -763,6 +764,10 @@ Finished executing task ':$taskName'|
 
             options.jsCompilerType?.let {
                 add("-Pkotlin.js.compiler=$it")
+            }
+
+            options.instantExecution.let {
+                add("-Dorg.gradle.unsafe.instant-execution=$it")
             }
 
             // Workaround: override a console type set in the user machine gradle.properties (since Gradle 4.3):
