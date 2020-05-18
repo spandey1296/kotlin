@@ -42,7 +42,7 @@ abstract class AbstractPodfileManagmentTask : DefaultTask() {
     abstract fun specificInvoke()
 
     private fun podfileCheck() {
-        check(project.file(podfileExtension.xcodeproj).exists()) {
+        check(podfileExtension.xcodeproj != null && project.file(podfileExtension.xcodeproj!!).exists()) {
             """
                 |Execution of task '$name' requires the path to the existing Xcode project.
                 |Specify it in the file ${project.buildFile.path} by adding the line `xcodeproj("<PATH>")` inside `podfile` block
@@ -60,43 +60,41 @@ open class PodfileInitTask : AbstractPodfileManagmentTask() {
     @get:OutputFile
     @get:Optional
     internal val podfileProvider: Provider<File> = project.provider {
-        project.file(podfileExtension.xcodeproj)
-            .parentFile
-            .resolve("Podfile")
+        podfileExtension.xcodeproj?.let { project.file(it).parentFile.resolve("Podfile") }
     }
 
     override fun specificInvoke() {
         // If Podfile exists we could offer user to manage it manually. Otherwise we will manage it automatically
-        with(podfileProvider.get()) {
-            writeText(calculatePodfileContent())
-        }
+//        with(podfileProvider.get()) {
+//            writeText(calculatePodfileContent())
+//        }
     }
 
-    private fun calculatePodfileContent(): String {
-        with(podfileExtension) {
-            val ktPodToSubprojectMap = project.rootProject.allprojects
-                .filter { it.name in kotlinPodDependencies.names }
-                .map { kotlinPodDependencies.getByName(it.name) to it }
-                .toMap()
-
-            val kotlinPodDependencies = kotlinPodDependencies.joinToString(separator = "\n") { pod ->
-
-                "|   pod '${pod.name}', :path => '${ktPodToSubprojectMap[pod]!!.projectDir.absolutePath}'"
-            }
-
-            with(target) {
-                val podfileContent = """
-                |target '${name}' do
-                |   ${dependencyMode.name}
-                |   platform ${platform.name}${platform.version?.let { ", '$it'" }}
-                $kotlinPodDependencies
-                |end
-                """.trimMargin()
-
-                return podfileContent
-            }
-        }
-    }
+//    private fun calculatePodfileContent(): String {
+//        with(podfileExtension) {
+//            val ktPodToSubprojectMap = project.rootProject.allprojects
+//                .filter { it.name in kotlinPodDependencies.names }
+//                .map { kotlinPodDependencies.getByName(it.name) to it }
+//                .toMap()
+//
+//            val kotlinPodDependencies = kotlinPodDependencies.joinToString(separator = "\n") { pod ->
+//
+//                "|   pod '${pod.name}', :path => '${ktPodToSubprojectMap[pod]!!.projectDir.absolutePath}'"
+//            }
+//
+//            with(target) {
+//                val podfileContent = """
+//                |target '${name}' do
+//                |   ${dependencyMode.name}
+//                |   platform ${platform.name}${platform.version?.let { ", '$it'" }}
+//                $kotlinPodDependencies
+//                |end
+//                """.trimMargin()
+//
+//                return podfileContent
+//            }
+//        }
+//    }
 }
 
 /**
@@ -133,6 +131,46 @@ open class PodInstallTask : AbstractPodfileManagmentTask() {
     }
 }
 
+/**
+ * The task takes the path to the .podspec file and calls `pod gen`
+ * to create synthetic xcode project and workspace.
+ */
+open class PodGenTask : DefaultTask() {
+
+    @get:InputFile
+    internal lateinit var podspecProvider: Provider<File>
+
+    @get:OutputDirectory
+    internal val podsXcodeProjDirProvider: Provider<File> = project.provider {
+        project.buildDir
+            .resolve(project.name)
+            .resolve("Pods")
+            .resolve("Pods.xcodeproj")
+    }
+
+    @TaskAction
+    fun generate() {
+        val podspecDir = podspecProvider.get().parentFile
+        val podGenProcess = ProcessBuilder(
+            "pod", "gen",
+            "--platforms=ios", //TODO add mapping from target to ios/macos string
+            "--gen-directory=${project.buildDir}",
+            podspecProvider.get().name
+        ).apply {
+            directory(podspecDir)
+            inheritIO()
+        }.start()
+        val podGenRetCode = podGenProcess.waitFor()
+        check(podGenRetCode == 0) { "Unable to run 'pod gen', return code $podGenRetCode" }
+
+        val podsXcprojFile = podsXcodeProjDirProvider.get()
+        check(podsXcprojFile.exists() && podsXcprojFile.isDirectory) {
+            "The directory '${podsXcprojFile.path}' was not created as a result of the `pod gen` call."
+        }
+    }
+}
+
+
 open class PodSetupBuildTask : DefaultTask() {
     @get:InputDirectory
     internal lateinit var podsXcodeProjDirProvider: Provider<File>
@@ -159,14 +197,14 @@ open class PodSetupBuildTask : DefaultTask() {
 
         val buildSettingsReceivingCommand = listOf(
             "xcodebuild", "-showBuildSettings",
-            "-project", podsXcodeProjDir!!.name,
+            "-project", podsXcodeProjDir.name,
             "-scheme", cocoapodsExtension.frameworkName,
             "-sdk", kotlinNativeTarget.toValidSDK
         )
 
         val buildSettingsProcess = ProcessBuilder(buildSettingsReceivingCommand)
             .apply {
-                directory(podsXcodeProjDir!!.parentFile)
+                directory(podsXcodeProjDir.parentFile)
             }.start()
 
         val buildSettingsRetCode = buildSettingsProcess.waitFor()
@@ -178,7 +216,7 @@ open class PodSetupBuildTask : DefaultTask() {
         val stdOut = buildSettingsProcess.inputStream
 
         val buildSettingsProperties = PodBuildSettingsProperties.readSettingsFromStream(stdOut)
-        buildSettingsFileProvider.get()?.let { buildSettingsProperties.writeSettings(it) }
+        buildSettingsFileProvider.get().let { buildSettingsProperties.writeSettings(it) }
     }
 }
 

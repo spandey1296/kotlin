@@ -13,10 +13,10 @@ import java.io.File
 
 open class PodfileExtension(private val project: Project) {
     @get:Input
-    lateinit var xcodeproj: String
+    var xcodeproj: String? = null
 
     @get:Nested
-    lateinit var target: Target
+    var target: Target? = null
 
 
     private val _kotlinPods = project.container(KotlinPodDependency::class.java)
@@ -37,7 +37,6 @@ open class PodfileExtension(private val project: Project) {
     /**
      * Add a CocoaPods dependency to the pod built from this project.
      */
-    @JvmOverloads
     fun kotlinPod(name: String) {
         check(_kotlinPods.findByName(name) == null) { "Project already depends on a local Kotlin Pod with name $name" }
         _kotlinPods.add(KotlinPodDependency(name))

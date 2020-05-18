@@ -6,6 +6,7 @@
 @file:Suppress("PackageDirectoryMismatch") // Old package for compatibility
 package org.jetbrains.kotlin.gradle.plugin.cocoapods
 
+import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -181,7 +182,6 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         cocoapodsExtension: CocoapodsExtension
     ) {
         val moduleNames = mutableSetOf<String>()
-        val podInstallTask = project.rootProject.tasks.named(POD_INSTALL_TASK_NAME, PodInstallTask::class.java)
 
         cocoapodsExtension.pods.all { pod ->
             if (moduleNames.contains(pod.moduleName)) {
@@ -214,8 +214,6 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
                         val podBuildTaskProvider = project.tasks.named(target.toBuildDependenciesTaskName, PodBuildTask::class.java)
 //                        interopTask.inputs.file(podBuildTaskProvider.get().buildSettingsFileProvider)
                         interopTask.dependsOn(podBuildTaskProvider)
-                        interopTask.dependsOn(podInstallTask)
-
                     }
 
                     project.findProperty(CFLAGS_PROPERTY)?.toString()?.let { args ->
@@ -292,14 +290,13 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         project: Project,
         podfileExtension: PodfileExtension
     ) {
+
         project.tasks.register(PODFILE_INIT_TASK_NAME, PodfileInitTask::class.java) {
             it.group = TASK_GROUP
             it.description = "Invokes `pod install` call within Podfile location directory"
             it.podfileExtension = podfileExtension
-            project.subprojects.forEach { pr ->
-                val podspecTasks = pr.tasks.withType(PodspecTask::class.java)
-                podspecTasks.all { podspec -> it.dependsOn(podspec) }
-            }
+            val podspecTask = project.tasks.named(project.toPodspecTaskName, PodspecTask::class.java)
+            it.dependsOn(podspecTask)
         }
     }
 
@@ -309,24 +306,48 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         podfileExtension: PodfileExtension
     ) {
 
-        val podfileInitTaskProvider = project.tasks.named(PODFILE_INIT_TASK_NAME, PodfileInitTask::class.java)
+//        if (project.rootProject.tasks.findByName(POD_INSTALL_TASK_NAME) != null) {
+//            return
+//        }
+
+        val rootPodInitTaskProvider = project.rootProject.tasks.named(PODFILE_INIT_TASK_NAME, PodfileInitTask::class.java)
 
         project.tasks.register(POD_INSTALL_TASK_NAME, PodInstallTask::class.java) {
             it.group = TASK_GROUP
             it.description = "Invokes `pod install` call within Podfile location directory"
-            it.dependsOn(podfileInitTaskProvider)
+            it.dependsOn(rootPodInitTaskProvider)
             it.podfileExtension = podfileExtension
-            it.podfileProvider = podfileInitTaskProvider.get().podfileProvider
+            it.podfileProvider = rootPodInitTaskProvider.get().podfileProvider
+            project.tasks.withType(PodSetupBuildTask::class.java).forEach { psbt ->
+                psbt.dependsOn(it)
+                psbt.podsXcodeProjDirProvider = it.podsXcodeProjDirProvider
+            }
+        }
+    }
+
+    private fun registerPodGenTask(
+        project: Project
+    ) {
+
+        val podspecTaskProvider = project.tasks.named(project.toPodspecTaskName, PodspecTask::class.java)
+
+        project.tasks.register(POD_GEN_TASK_NAME, PodGenTask::class.java) {
+            it.group = TASK_GROUP
+            it.description = "Invokes `pod install` call within Podfile location directory"
+            it.podspecProvider = podspecTaskProvider.get().outputFileProvider
+            it.dependsOn(podspecTaskProvider)
+            project.tasks.withType(PodSetupBuildTask::class.java).forEach { psbt ->
+                psbt.dependsOn(it)
+            }
         }
     }
 
     private fun registerPodSetupBuildTasks(
         project: Project,
         kotlinExtension: KotlinMultiplatformExtension,
+        podfileExtension: PodfileExtension,
         cocoapodsExtension: CocoapodsExtension
     ) {
-
-        val podInstallTaskProvider = project.rootProject.tasks.named(POD_INSTALL_TASK_NAME, PodInstallTask::class.java)
 
         kotlinExtension.supportedTargets().all { target ->
             project.tasks.register(target.toBuildSetupTaskName, PodSetupBuildTask::class.java) {
@@ -334,8 +355,17 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
                 it.description = "Collect environment variables from .xcworkspace file"
                 it.kotlinNativeTarget = target
                 it.cocoapodsExtension = cocoapodsExtension
-                it.podsXcodeProjDirProvider = podInstallTaskProvider.get().podsXcodeProjDirProvider
-                it.dependsOn(podInstallTaskProvider)
+
+                val dependentTask = podfileExtension.xcodeproj
+                    ?.let { project.tasks.named(POD_INSTALL_TASK_NAME, PodInstallTask::class.java).get() }
+                    ?: project.tasks.named(POD_GEN_TASK_NAME, PodGenTask::class.java).get()
+
+                it.podsXcodeProjDirProvider = when (dependentTask) {
+                    is PodInstallTask -> dependentTask.podsXcodeProjDirProvider
+                    is PodGenTask -> dependentTask.podsXcodeProjDirProvider
+                    else -> throw IllegalArgumentException("PodSetupBuildTask cannot depend on task with type ${it.javaClass.name}")
+                }
+                it.dependsOn(dependentTask)
             }
         }
     }
@@ -385,24 +415,21 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
         pluginManager.withPlugin("kotlin-multiplatform") {
             val kotlinExtension = project.multiplatformExtension
-            if (this == this.rootProject) {
-                val podfileExtension = PodfileExtension(this)
-                kotlinExtension.addExtension(PODFILE_EXTENSION_NAME, podfileExtension)
-                registerPodfileInitTask(project, podfileExtension)
-                registerPodInstallTask(project, podfileExtension)
-                registerPodImportTask(project, kotlinExtension)
-
-            } else {
-                val cocoapodsExtension = CocoapodsExtension(this)
-                kotlinExtension.addExtension(COCOAPODS_EXTENSION_NAME, cocoapodsExtension)
-                createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
-                registerDummyFrameworkTask(project, cocoapodsExtension)
-                createSyncTask(project, kotlinExtension)
-                registerPodspecTask(project, cocoapodsExtension)
-                registerPodSetupBuildTasks(project, kotlinExtension, cocoapodsExtension)
-                registerPodBuildTasks(project, kotlinExtension, cocoapodsExtension)
-                createInterops(project, kotlinExtension, cocoapodsExtension)
-            }
+            val cocoapodsExtension = CocoapodsExtension(this)
+            val podfileExtension = PodfileExtension(this)
+            kotlinExtension.addExtension(COCOAPODS_EXTENSION_NAME, cocoapodsExtension)
+            kotlinExtension.addExtension(PODFILE_EXTENSION_NAME, podfileExtension)
+            createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
+            registerPodfileInitTask(project, podfileExtension)
+            registerDummyFrameworkTask(project, cocoapodsExtension)
+            createSyncTask(project, kotlinExtension)
+            registerPodspecTask(project, cocoapodsExtension)
+            registerPodGenTask(project)
+            registerPodInstallTask(project, podfileExtension)
+            registerPodSetupBuildTasks(project, kotlinExtension, podfileExtension, cocoapodsExtension)
+            registerPodBuildTasks(project, kotlinExtension, cocoapodsExtension)
+//            registerPodImportTask(project, kotlinExtension)
+            createInterops(project, kotlinExtension, cocoapodsExtension)
         }
     }
 
@@ -415,6 +442,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         const val DUMMY_FRAMEWORK_TASK_NAME = "generateDummyFramework"
         const val PODFILE_INIT_TASK_NAME = "podInit"
         const val POD_INSTALL_TASK_NAME = "podInstall"
+        const val POD_GEN_TASK_NAME = "podGen"
         const val POD_SETUP_BUILD_TASK_NAME = "podSetupBuild"
         const val POD_BUILD_DEPENDENCIES_TASK_NAME = "podBuildDependencies"
         const val POD_IMPORT_TASK_NAME = "podImport"
