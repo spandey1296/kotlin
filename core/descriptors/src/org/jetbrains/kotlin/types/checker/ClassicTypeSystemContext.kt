@@ -294,7 +294,7 @@ interface ClassicTypeSystemContext : TypeSystemInferenceExtensionContext, TypeSy
 
         val maxInArguments = arguments.asSequence().map {
             if (it.isStarProjection) 1 else it.type.unwrap().typeDepth()
-        }.max() ?: 0
+        }.maxOrNull() ?: 0
 
         return maxInArguments + 1
     }
