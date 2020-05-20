@@ -306,18 +306,24 @@ object Aggregates : TemplateGroupBase() {
     }
 
 
-    val f_minMax = run {
+    private fun FamilyPrimitiveMemberDefinition.minMaxIncludes() {
         val genericSpecializations = PrimitiveType.floatingPointPrimitives + setOf(null)
 
+        include(Iterables, genericSpecializations)
+        include(Sequences, genericSpecializations)
+        include(ArraysOfObjects, genericSpecializations)
+        include(ArraysOfPrimitives, PrimitiveType.defaultPrimitives - PrimitiveType.Boolean)
+        include(ArraysOfUnsigned)
+        include(CharSequences)
+    }
+
+    val f_minMax = run {
         listOf("min", "max").map { op ->
             fn("$op()") {
-                include(Iterables, genericSpecializations)
-                include(Sequences, genericSpecializations)
-                include(ArraysOfObjects, genericSpecializations)
-                include(ArraysOfPrimitives, PrimitiveType.defaultPrimitives - PrimitiveType.Boolean)
-                include(ArraysOfUnsigned)
-                include(CharSequences)
+                minMaxIncludes()
             } builder {
+                deprecate(Deprecation("Use ${op}OrNull instead.", "${op}OrNull()", DeprecationLevel.WARNING))
+
                 val isFloat = primitive?.isFloatingPoint() == true
                 val isGeneric = f in listOf(Iterables, Sequences, ArraysOfObjects)
 
@@ -326,10 +332,31 @@ object Aggregates : TemplateGroupBase() {
                     if (isFloat && isGeneric)
                         since("1.1")
                 }
+                returns("T?")
+
+                body {
+                    """
+                    return ${op}OrNull()
+                    """
+                }
+            }
+        }
+    }
+
+    val f_minMaxOrNull = run {
+        listOf("min", "max").map { op ->
+            fn("${op}OrNull()") {
+                minMaxIncludes()
+            } builder {
+                since("1.4")
+
+                val isFloat = primitive?.isFloatingPoint() == true
+
                 doc {
                     "Returns the ${if (op == "max") "largest" else "smallest"} ${f.element} or `null` if there are no ${f.element.pluralize()}." +
-                    if (isFloat) "\n\n" + "If any of ${f.element.pluralize()} is `NaN` returns `NaN`." else ""
+                            if (isFloat) "\n\n" + "If any of ${f.element.pluralize()} is `NaN` returns `NaN`." else ""
                 }
+                typeParam("T : Comparable<T>")
                 returns("T?")
 
                 val acc = op
