@@ -23,7 +23,7 @@ class InstantExecutionIT : BaseGradleIT() {
             androidGradlePluginVersion = androidGradlePluginVersion
         )
 
-    private val minimumGradleVersion = GradleVersionRequired.AtLeast("6.1-rc-3")
+    private val minimumGradleVersion = GradleVersionRequired.AtLeast("6.5-20200525230107+0000")
 
     @Test
     fun testSimpleKotlinJvmProject() = with(Project("kotlinProject", minimumGradleVersion)) {

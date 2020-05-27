@@ -768,6 +768,8 @@ Finished executing task ':$taskName'|
 
             options.instantExecution.let {
                 add("-Dorg.gradle.unsafe.instant-execution=$it")
+                add("-Dconfiguration-cache=warn")
+                add("--configuration-cache=warn")
             }
 
             // Workaround: override a console type set in the user machine gradle.properties (since Gradle 4.3):
