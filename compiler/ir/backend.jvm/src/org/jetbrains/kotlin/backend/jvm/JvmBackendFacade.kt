@@ -14,9 +14,13 @@ import org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen
 import org.jetbrains.kotlin.backend.jvm.lower.MultifileFacadeFileEntry
 import org.jetbrains.kotlin.backend.jvm.serialization.JvmIdSignatureDescriptor
 import org.jetbrains.kotlin.codegen.state.GenerationState
+import org.jetbrains.kotlin.config.CommonConfigurationKeys
+import org.jetbrains.kotlin.config.JVMConfigurationKeys
+import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.descriptors.konan.DeserializedKlibModuleOrigin
 import org.jetbrains.kotlin.descriptors.konan.KlibModuleOrigin
 import org.jetbrains.kotlin.idea.MainFunctionDetector
+import org.jetbrains.kotlin.ir.backend.jvm.jvmResolveLibraries
 import org.jetbrains.kotlin.ir.backend.jvm.serialization.EmptyLoggingContext
 import org.jetbrains.kotlin.ir.backend.jvm.serialization.JvmIrLinker
 import org.jetbrains.kotlin.ir.backend.jvm.serialization.JvmManglerDesc
@@ -30,6 +34,7 @@ import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi2ir.Psi2IrTranslator
 import org.jetbrains.kotlin.psi2ir.PsiSourceManager
+import org.jetbrains.kotlin.util.DummyLogger
 
 object JvmBackendFacade {
     fun doGenerateFiles(files: Collection<KtFile>, state: GenerationState, phaseConfig: PhaseConfig) {
@@ -53,7 +58,12 @@ object JvmBackendFacade {
             functionFactory,
             stubGenerator,
             mangler
-        )
+        ).apply {
+            state.configuration.get(JVMConfigurationKeys.KLIB_PATH_FOR_COMPILE_TIME)?.let {
+                val klibForCompileTimeCalculations = jvmResolveLibraries(listOf(it), DummyLogger).getFullList().single()
+                addDeserializerForCompileTimeDeclarations(psi2irContext.moduleDescriptor, klibForCompileTimeCalculations)
+            }
+        }
 
         val pluginContext by lazy {
             psi2irContext.run {
@@ -88,6 +98,10 @@ object JvmBackendFacade {
         irLinker.postProcess()
 
         stubGenerator.unboundSymbolGeneration = true
+
+        if (state.languageVersionSettings.supportsFeature(LanguageFeature.CompileTimeCalculations)) {
+            state.configuration.put(CommonConfigurationKeys.IR_BODY_MAP, irLinker.deserializerForCompileTime!!.getBodies() as Map<*, *>)
+        }
 
         // We need to compile all files we reference in Klibs
         irModuleFragment.files.addAll(dependencies.flatMap { it.files })
