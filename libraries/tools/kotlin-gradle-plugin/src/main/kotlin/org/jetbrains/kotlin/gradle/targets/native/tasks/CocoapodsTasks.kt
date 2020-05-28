@@ -29,13 +29,17 @@ open class PodspecTask : DefaultTask() {
     private val specName = project.name.asValidFrameworkName()
 
     @get:OutputFile
-    internal val outputFileProvider: Provider<File> = project.provider { project.file("$specName.podspec") }
+    internal val outputFileProvider: Provider<File>
+        get() = project.provider { project.file("$specName.podspec") }
 
     @get:Nested
     internal lateinit var cocoapodsExtension: CocoapodsExtension
 
     @TaskAction
     fun generate() {
+        //If Podfile determined in cocoapods block, there is no need to perform this action
+        if (cocoapodsExtension.podfile != null) return
+
         val frameworkDir = project.cocoapodsBuildDirs.framework.relativeTo(outputFileProvider.get().parentFile).path
         val dependencies = cocoapodsExtension.pods.map { pod ->
             val versionSuffix = if (pod.version != null) ", '${pod.version}'" else ""
@@ -137,10 +141,10 @@ open class DummyFrameworkTask : DefaultTask() {
     val destinationDir = project.cocoapodsBuildDirs.framework
 
     @Input
-    val frameworkNameProvider: Provider<String> = project.provider { settings.frameworkName }
+    val frameworkNameProvider: Provider<String> = project.provider { cocoapodsExtension.frameworkName }
 
     @get:Nested
-    internal lateinit var settings: CocoapodsExtension
+    internal lateinit var cocoapodsExtension: CocoapodsExtension
 
     private val frameworkDir: File
         get() = destinationDir.resolve("${frameworkNameProvider.get()}.framework")
@@ -181,6 +185,9 @@ open class DummyFrameworkTask : DefaultTask() {
 
     @TaskAction
     fun create() {
+        //If Podfile determined in cocoapods block, there is no need to perform this action
+        if (cocoapodsExtension.podfile != null) return
+
         // Reset the destination directory
         with(destinationDir) {
             deleteRecursively()

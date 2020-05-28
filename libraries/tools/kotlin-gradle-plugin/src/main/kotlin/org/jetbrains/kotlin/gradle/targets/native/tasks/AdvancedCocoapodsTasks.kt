@@ -12,7 +12,6 @@ import org.gradle.api.tasks.Optional
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.targets.native.cocoapods.PodfileExtension
 import org.jetbrains.kotlin.gradle.targets.native.tasks.PodBuildTask.Companion.toValidSDK
 import org.jetbrains.kotlin.konan.target.KonanTarget
 import java.io.File
@@ -29,104 +28,44 @@ internal val KotlinNativeTarget.toBuildDirHashSumFileName: String
     get() = "build-dir-hash-$disambiguationClassifier.txt"
 
 
-abstract class AbstractPodfileManagmentTask : DefaultTask() {
-    @get:Nested
-    internal lateinit var podfileExtension: PodfileExtension
-
-    @TaskAction
-    fun commonInvoke() {
-        podfileCheck()
-        specificInvoke()
-    }
-
-    abstract fun specificInvoke()
-
-    private fun podfileCheck() {
-        check(podfileExtension.xcodeproj != null && project.file(podfileExtension.xcodeproj!!).exists()) {
-            """
-                |Execution of task '$name' requires the path to the existing Xcode project.
-                |Specify it in the file ${project.buildFile.path} by adding the line `xcodeproj("<PATH>")` inside `podfile` block
-                """.trimMargin()
-        }
-    }
-}
-
-/**
- * The task generates the Podfile (if user has not select Manual management)
- * This task is a part of CocoaPods integration infrastructure.
- */
-open class PodfileInitTask : AbstractPodfileManagmentTask() {
-
-    @get:OutputFile
-    @get:Optional
-    internal val podfileProvider: Provider<File> = project.provider {
-        podfileExtension.xcodeproj?.let { project.file(it).parentFile.resolve("Podfile") }
-    }
-
-    override fun specificInvoke() {
-        // If Podfile exists we could offer user to manage it manually. Otherwise we will manage it automatically
-//        with(podfileProvider.get()) {
-//            writeText(calculatePodfileContent())
-//        }
-    }
-
-//    private fun calculatePodfileContent(): String {
-//        with(podfileExtension) {
-//            val ktPodToSubprojectMap = project.rootProject.allprojects
-//                .filter { it.name in kotlinPodDependencies.names }
-//                .map { kotlinPodDependencies.getByName(it.name) to it }
-//                .toMap()
-//
-//            val kotlinPodDependencies = kotlinPodDependencies.joinToString(separator = "\n") { pod ->
-//
-//                "|   pod '${pod.name}', :path => '${ktPodToSubprojectMap[pod]!!.projectDir.absolutePath}'"
-//            }
-//
-//            with(target) {
-//                val podfileContent = """
-//                |target '${name}' do
-//                |   ${dependencyMode.name}
-//                |   platform ${platform.name}${platform.version?.let { ", '$it'" }}
-//                $kotlinPodDependencies
-//                |end
-//                """.trimMargin()
-//
-//                return podfileContent
-//            }
-//        }
-//    }
-}
-
 /**
  * The task takes the path to the Podfile and calls `pod install`
  * to obtain sources or artifacts for the declared dependencies.
  * This task is a part of CocoaPods integration infrastructure.
  */
-open class PodInstallTask : AbstractPodfileManagmentTask() {
+open class PodInstallTask : DefaultTask() {
+    @get:Nested
+    internal var cocoapodsExtension: CocoapodsExtension? = null
 
+    @get:Optional
     @get:InputFile
-    internal lateinit var podfileProvider: Provider<File>
+    internal val podfileProvider: Provider<File>?
+        get() = cocoapodsExtension?.podfile?.let { project.provider { project.file(it) } }
 
+    @get:Optional
     @get:OutputDirectory
-    internal val podsXcodeProjDirProvider: Provider<File> = project.provider {
-        podfileProvider.get()
-            .parentFile
-            .resolve("Pods")
-            .resolve("Pods.xcodeproj")
-    }
+    internal val podsXcodeProjDirProvider: Provider<File>?
+        get() = podfileProvider?.let {
+            project.provider { it.get().parentFile.resolve("Pods").resolve("Pods.xcodeproj") }
+        }
 
-    override fun specificInvoke() {
-        val podfileDir = podfileProvider.get().parentFile
-        val podInstallProcess = ProcessBuilder("pod", "install").apply {
-            directory(podfileDir)
-            inheritIO()
-        }.start()
-        val podInstallRetCode = podInstallProcess.waitFor()
-        check(podInstallRetCode == 0) { "Unable to run 'pod install', return code $podInstallRetCode" }
 
-        val podsXcprojFile = podsXcodeProjDirProvider.get()
-        check(podsXcprojFile.exists() && podsXcprojFile.isDirectory) {
-            "The directory '${podsXcprojFile.path}' was not created as a result of the `pod install` call."
+    @TaskAction
+    fun invoke() {
+        //If Podfile is not determined in cocoapods block, there is no need to perform this action
+        if (cocoapodsExtension?.podfile == null) return
+        podfileProvider?.get()?.parentFile.also {
+            val podInstallProcess = ProcessBuilder("pod", "install").apply {
+                directory(it)
+                inheritIO()
+            }.start()
+            val podInstallRetCode = podInstallProcess.waitFor()
+            check(podInstallRetCode == 0) { "Unable to run 'pod install', return code $podInstallRetCode" }
+            with(podsXcodeProjDirProvider) {
+                check(this != null && get().exists() && get().isDirectory) {
+                    "The directory 'Pods/Pods.xcodeproj' was not created as a result of the `pod install` call."
+                }
+            }
         }
     }
 }
@@ -136,25 +75,40 @@ open class PodInstallTask : AbstractPodfileManagmentTask() {
  * to create synthetic xcode project and workspace.
  */
 open class PodGenTask : DefaultTask() {
+    @get:Nested
+    internal lateinit var cocoapodsExtension: CocoapodsExtension
 
     @get:InputFile
     internal lateinit var podspecProvider: Provider<File>
 
+    @Internal
+    lateinit var kotlinNativeTarget: KotlinNativeTarget
+
     @get:OutputDirectory
-    internal val podsXcodeProjDirProvider: Provider<File> = project.provider {
-        project.buildDir
-            .resolve(project.name)
-            .resolve("Pods")
-            .resolve("Pods.xcodeproj")
-    }
+    internal val podsXcodeProjDirProvider: Provider<File>
+        get() = project.provider {
+            project.buildDir
+                .resolve(kotlinNativeTarget.konanTarget.name)
+                .resolve(project.name)
+                .resolve("Pods")
+                .resolve("Pods.xcodeproj")
+        }
 
     @TaskAction
     fun generate() {
+        //If Podfile determined in cocoapods block, there is no need to perform this action
+        if (cocoapodsExtension.podfile != null) return
+
+        val platformLiteral = when (kotlinNativeTarget.konanTarget) {
+            KonanTarget.MACOS_X64 -> "macos"
+            KonanTarget.IOS_ARM64, KonanTarget.IOS_ARM32, KonanTarget.IOS_X64 -> "ios"
+            else -> throw IllegalArgumentException("Only 'ios' and 'macos' native targets supported for CocoaPods integration")
+        }
         val podspecDir = podspecProvider.get().parentFile
         val podGenProcess = ProcessBuilder(
             "pod", "gen",
-            "--platforms=ios", //TODO add mapping from target to ios/macos string
-            "--gen-directory=${project.buildDir}",
+            "--platforms=$platformLiteral",
+            "--gen-directory=${project.buildDir.resolve(kotlinNativeTarget.konanTarget.name).absolutePath}",
             podspecProvider.get().name
         ).apply {
             directory(podspecDir)
@@ -172,19 +126,18 @@ open class PodGenTask : DefaultTask() {
 
 
 open class PodSetupBuildTask : DefaultTask() {
-    @get:InputDirectory
-    internal lateinit var podsXcodeProjDirProvider: Provider<File>
-
     @get:Nested
     internal lateinit var cocoapodsExtension: CocoapodsExtension
+
+    @get:InputDirectory
+    internal lateinit var podsXcodeProjDirProvider: Provider<File>
 
     @Internal
     lateinit var kotlinNativeTarget: KotlinNativeTarget
 
     @get:OutputFile
-    @get:Optional
-    internal val buildSettingsFileProvider: Provider<File> =
-        project.provider {
+    internal val buildSettingsFileProvider: Provider<File>
+        get() = project.provider {
             project
                 .cocoapodsBuildDirs
                 .buildSettings
@@ -224,11 +177,11 @@ open class PodSetupBuildTask : DefaultTask() {
  * The task compiles external cocoa pods sources.
  */
 open class PodBuildTask : DefaultTask() {
-    @get:InputDirectory
-    internal lateinit var podsXcodeProjDirProvider: Provider<File>
-
     @get:Nested
     internal lateinit var cocoapodsExtension: CocoapodsExtension
+
+    @get:InputDirectory
+    internal lateinit var podsXcodeProjDirProvider: Provider<File>
 
     @get:InputFile
     internal lateinit var buildSettingsFileProvider: Provider<File>
@@ -237,13 +190,14 @@ open class PodBuildTask : DefaultTask() {
     lateinit var kotlinNativeTarget: KotlinNativeTarget
 
     @get:OutputFile
-    internal val buildDirHashFileProvider: Provider<File> =
-        project.provider {
-            project
-                .cocoapodsBuildDirs
-                .buildDirHashSums
-                .resolve(kotlinNativeTarget.toBuildDirHashSumFileName)
-        }
+    internal val buildDirHashFileProvider: Provider<File>
+        get() =
+            project.provider {
+                project
+                    .cocoapodsBuildDirs
+                    .buildDirHashSums
+                    .resolve(kotlinNativeTarget.toBuildDirHashSumFileName)
+            }
 
     @TaskAction
     fun invoke() {
@@ -312,7 +266,7 @@ open class PodBuildTask : DefaultTask() {
                     KonanTarget.TVOS_X64 -> "appletvsimulator"
                     KonanTarget.TVOS_ARM64 -> "appletvos"
                     KonanTarget.MACOS_X64 -> "macos"
-                    else -> throw Error("Bad target ${konanTarget.name}")
+                    else -> throw IllegalArgumentException("Bad target ${konanTarget.name}.")
                 }
             }
     }

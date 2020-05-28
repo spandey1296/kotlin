@@ -12,7 +12,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.*
 import java.io.File
 
-open class CocoapodsExtension(private val project: Project) {
+open class CocoapodsExtension(@get:Internal internal val project: Project) {
     @get:Input
     val version: String
         get() = project.version.toString()
@@ -23,6 +23,13 @@ open class CocoapodsExtension(private val project: Project) {
     @Optional
     @Input
     var authors: String? = null
+
+    /**
+     * Configure path to existing file `Podfile`.
+     */
+    @Optional
+    @Input
+    var podfile: String? = null
 
     /**
      * Configure license of the pod built from this project.
