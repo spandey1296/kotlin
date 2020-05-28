@@ -270,6 +270,14 @@ private val kotlinNothingValueExceptionPhase = makeIrFilePhase<CommonBackendCont
     description = "Throw proper exception for calls returning value of type 'kotlin.Nothing'"
 )
 
+val compileTimeEvaluationPhase = makeIrModulePhase<JvmBackendContext>(
+    ::CompileTimeCalculationLowering,
+    name = "CompileTimeEvaluation",
+    //TODO change annotation to modifier
+    description = "Evaluate calls that are marked with @CompileTimeCalculation annotation",
+    prerequisite = setOf(expectDeclarationsRemovingPhase)
+)
+
 @Suppress("Reformat")
 private val jvmFilePhases =
         typeAliasAnnotationMethodsPhase then
@@ -378,6 +386,7 @@ val jvmPhases = namedIrModulePhase(
     lower = validateIrBeforeLowering then
             processOptionalAnnotationsPhase then
             expectDeclarationsRemovingPhase then
+            compileTimeEvaluationPhase then
             fileClassPhase then
             performByIrFile(lower = jvmFilePhases) then
             generateMultifileFacadesPhase then
