@@ -10,6 +10,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.Optional
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
+import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.native.tasks.PodBuildTask.Companion.toValidSDK
@@ -53,21 +54,49 @@ open class PodInstallTask : DefaultTask() {
     @TaskAction
     fun invoke() {
         //If Podfile is not determined in cocoapods block, there is no need to perform this action
-        if (cocoapodsExtension?.podfile == null) return
-        podfileProvider?.get()?.parentFile.also {
-            val podInstallProcess = ProcessBuilder("pod", "install").apply {
-                directory(it)
-                inheritIO()
-            }.start()
-            val podInstallRetCode = podInstallProcess.waitFor()
-            check(podInstallRetCode == 0) { "Unable to run 'pod install', return code $podInstallRetCode" }
-            with(podsXcodeProjDirProvider) {
-                check(this != null && get().exists() && get().isDirectory) {
-                    "The directory 'Pods/Pods.xcodeproj' was not created as a result of the `pod install` call."
-                }
+        if (cocoapodsExtension?.podfile == null) {
+            if (!hasPodfileInSelfOrParent) {
+                logger.quiet(
+                    """
+                    Execution of task '$name' requires the path to the existing Podfile.
+                    If you have already created Podfile, please specify path to it in the file ${project.rootProject.buildscript.sourceFile?.absolutePath} as follows:
+                    kotlin {
+                        ...
+                        cocoapods {
+                            ...
+                            podfile("../path-to-ios-app/Podfile")
+                            ...
+                        }
+                        ...
+                    }
+                """.trimIndent()
+                )
+            }
+            return
+        }
+
+        val podfileDir = podfileProvider!!.get().parentFile
+        val podInstallProcess = ProcessBuilder("pod", "install").apply {
+            directory(podfileDir)
+            inheritIO()
+        }.start()
+        val podInstallRetCode = podInstallProcess.waitFor()
+        check(podInstallRetCode == 0) { "Unable to run 'pod install', return code $podInstallRetCode" }
+        with(podsXcodeProjDirProvider) {
+            check(this != null && get().exists() && get().isDirectory) {
+                "The directory 'Pods/Pods.xcodeproj' was not created as a result of the `pod install` call."
             }
         }
     }
+
+
+    private val hasPodfileInSelfOrParent: Boolean
+        get() = if (project.rootProject == project)
+            podfileProvider != null
+        else podfileProvider != null || (project.parent?.tasks?.named(
+            KotlinCocoapodsPlugin.POD_INSTALL_TASK_NAME,
+            PodInstallTask::class.java
+        )?.get()?.hasPodfileInSelfOrParent ?: false)
 }
 
 /**

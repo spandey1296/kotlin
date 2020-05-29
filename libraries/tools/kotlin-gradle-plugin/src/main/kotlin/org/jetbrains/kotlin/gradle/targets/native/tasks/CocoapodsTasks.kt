@@ -114,7 +114,7 @@ open class PodspecTask : DefaultTask() {
             logger.quiet(
                 """
             Generated a podspec file at: ${absolutePath}.
-            To include it in your Xcode project, add the following dependency snippet in your Podfile:
+            To include it in your Xcode project, check that the following dependency snippet exists in your Podfile:
 
                 pod '$specName', :path => '${parentFile.absolutePath}'
 

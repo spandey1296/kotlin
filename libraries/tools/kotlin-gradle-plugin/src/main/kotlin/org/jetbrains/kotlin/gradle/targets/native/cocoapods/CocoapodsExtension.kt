@@ -12,7 +12,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.*
 import java.io.File
 
-open class CocoapodsExtension(@get:Internal internal val project: Project) {
+open class CocoapodsExtension(private val project: Project) {
     @get:Input
     val version: String
         get() = project.version.toString()

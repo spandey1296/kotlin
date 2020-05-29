@@ -217,7 +217,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
                     if (project.findProperty(TARGET_PROPERTY) == null && project.findProperty(CONFIGURATION_PROPERTY) == null) {
                         val podBuildTaskProvider = project.tasks.named(target.toBuildDependenciesTaskName, PodBuildTask::class.java)
-//                        interopTask.inputs.file(podBuildTaskProvider.get().buildSettingsFileProvider)
+                        interopTask.inputs.file(podBuildTaskProvider.get().buildSettingsFileProvider)
                         interopTask.dependsOn(podBuildTaskProvider)
                     }
 
@@ -315,7 +315,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         kotlinExtension.supportedTargets().all { target ->
             project.tasks.register(target.toPodGenTaskName, PodGenTask::class.java) {
                 it.group = TASK_GROUP
-                it.description = "By generated .podspec file creates synthetic Xcode project and applies CocoaPods logic to it"
+                it.description = "Creates synthetic Xcode project and applies CocoaPods logic to it"
                 it.podspecProvider = podspecTaskProvider.get().outputFileProvider
                 it.kotlinNativeTarget = target
                 it.cocoapodsExtension = cocoapodsExtension
@@ -375,7 +375,8 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
     private fun registerPodImportTask(
         project: Project,
-        kotlinExtension: KotlinMultiplatformExtension
+        kotlinExtension: KotlinMultiplatformExtension,
+        cocoapodsExtension: CocoapodsExtension
     ) {
 
         val podInstallTaskProvider = project.tasks.named(POD_INSTALL_TASK_NAME, PodInstallTask::class.java)
@@ -407,7 +408,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             registerPodInstallTask(project, cocoapodsExtension)
             registerPodSetupBuildTasks(project, kotlinExtension, cocoapodsExtension)
             registerPodBuildTasks(project, kotlinExtension, cocoapodsExtension)
-            registerPodImportTask(project, kotlinExtension)
+            registerPodImportTask(project, kotlinExtension, cocoapodsExtension)
             createInterops(project, kotlinExtension, cocoapodsExtension)
         }
     }
