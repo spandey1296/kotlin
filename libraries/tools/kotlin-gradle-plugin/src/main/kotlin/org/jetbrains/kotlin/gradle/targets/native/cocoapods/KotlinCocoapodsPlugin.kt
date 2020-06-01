@@ -331,6 +331,9 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     ) {
 
         kotlinExtension.supportedTargets().all { target ->
+
+            val podGenTaskProvider = project.tasks.named(target.toPodGenTaskName, PodGenTask::class.java)
+
             project.tasks.register(target.toBuildSetupTaskName, PodSetupBuildTask::class.java) {
                 it.group = TASK_GROUP
                 it.description = "Collect environment variables from .xcworkspace file"
@@ -338,15 +341,8 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
                 it.cocoapodsExtension = cocoapodsExtension
                 it.kotlinNativeTarget = target
 
-                if (cocoapodsExtension.podfile == null) {
-                    val podGenTaskProvider = project.tasks.named(target.toPodGenTaskName, PodGenTask::class.java)
-                    it.dependsOn(podGenTaskProvider)
-                    it.podsXcodeProjDirProvider = podGenTaskProvider.get().podsXcodeProjDirProvider
-                } else {
-                    val podInstallTaskProvider = project.tasks.named(POD_INSTALL_TASK_NAME, PodInstallTask::class.java)
-                    it.dependsOn(podInstallTaskProvider)
-                    it.podsXcodeProjDirProvider = podInstallTaskProvider.get().podsXcodeProjDirProvider!!
-                }
+                it.dependsOn(podGenTaskProvider)
+                it.podsXcodeProjDirProvider = podGenTaskProvider.get().podsXcodeProjDirProvider
             }
         }
     }
