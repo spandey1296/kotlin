@@ -38,7 +38,7 @@ open class PodspecTask : DefaultTask() {
     @TaskAction
     fun generate() {
         //If Podfile determined in cocoapods block, there is no need to perform this action
-        if (cocoapodsExtension.podfile != null) return
+        if (!cocoapodsExtension.needPodspec) return
 
         val frameworkDir = project.cocoapodsBuildDirs.framework.relativeTo(outputFileProvider.get().parentFile).path
         val dependencies = cocoapodsExtension.pods.map { pod ->

@@ -31,6 +31,9 @@ open class CocoapodsExtension(private val project: Project) {
     @Input
     var podfile: String? = null
 
+    @get:Input
+    var needPodspec: Boolean = true
+
     /**
      * Configure license of the pod built from this project.
      */
