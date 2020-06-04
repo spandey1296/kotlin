@@ -1947,6 +1947,11 @@ public class DiagnosticsTestWithStdLibGenerated extends AbstractDiagnosticsTestW
                 runTest("compiler/testData/diagnostics/testsWithStdLib/coroutines/inference/correctMember.kt");
             }
 
+            @TestMetadata("dontDoubleTypeCheckOnPlusAssign.kt")
+            public void testDontDoubleTypeCheckOnPlusAssign() throws Exception {
+                runTest("compiler/testData/diagnostics/testsWithStdLib/coroutines/inference/dontDoubleTypeCheckOnPlusAssign.kt");
+            }
+
             @TestMetadata("doubleColonExpressionToClassWithParameters.kt")
             public void testDoubleColonExpressionToClassWithParameters() throws Exception {
                 runTest("compiler/testData/diagnostics/testsWithStdLib/coroutines/inference/doubleColonExpressionToClassWithParameters.kt");
