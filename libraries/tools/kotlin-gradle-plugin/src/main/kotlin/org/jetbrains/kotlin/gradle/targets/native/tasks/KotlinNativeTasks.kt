@@ -472,7 +472,7 @@ open class KotlinNativeLink : AbstractKotlinNativeCompile<KotlinCommonToolOption
     lateinit var binary: NativeBinary
 
     @get:Internal // Taken into account by getSources().
-    val intermediateLibrary: File by compilation.map { it.compileKotlinTask.outputFile.get() }
+    val intermediateLibrary: File by compilation.map { it.compileKotlinTaskHolder.outputFile}.get()
 
     // explicitly store the provider in order for Gradle Instant Execution to capture the state
     private val sourceProvider = compilation.map { compilationInstance ->
@@ -688,7 +688,7 @@ open class KotlinNativeLink : AbstractKotlinNativeCompile<KotlinCommonToolOption
     }
 
     private val apiFilesProvider: Provider<List<File>> = compilation.map {
-        project.configurations.getByName(it.apiConfigurationName).files.filterExternalKlibs(project)
+        project.configurations.getByName(it.apiConfigurationName).files.filterKlibsPassedToCompiler(project)
     }
 
     private val binaryNameProvider = project.provider {
@@ -697,8 +697,7 @@ open class KotlinNativeLink : AbstractKotlinNativeCompile<KotlinCommonToolOption
 
     private fun validatedExportedLibraries() {
         val exportConfiguration = exportLibraries as? Configuration ?: return
-//        val apiFiles = apiFilesProvider.get()
-        val apiFiles = project.configurations.getByName(compilation.apiConfigurationName).files.filterKlibsPassedToCompiler(project)
+        val apiFiles = apiFilesProvider.get()
 
         val failed = mutableSetOf<Dependency>()
         exportConfiguration.allDependencies.forEach {
