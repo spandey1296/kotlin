@@ -52,7 +52,7 @@ open class PodInstallTask : DefaultTask() {
 
 
     @TaskAction
-    fun invoke() {
+    fun doPodInstall() {
         //If Podfile is not determined in cocoapods block, there is no need to perform this action
         if (cocoapodsExtension?.podfile == null) {
             if (!hasPodfileInSelfOrParent) {
@@ -116,8 +116,7 @@ open class PodGenTask : DefaultTask() {
     @get:OutputDirectory
     internal val podsXcodeProjDirProvider: Provider<File>
         get() = project.provider {
-            project.buildDir
-                .resolve(kotlinNativeTarget.konanTarget.name)
+            project.cocoapodsBuildDirs.synthetic(kotlinNativeTarget)
                 .resolve(project.name)
                 .resolve("Pods")
                 .resolve("Pods.xcodeproj")
@@ -125,9 +124,6 @@ open class PodGenTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        //If Podfile determined in cocoapods block, there is no need to perform this action
-        if (cocoapodsExtension.podfile != null) return
-
         val platformLiteral = when (kotlinNativeTarget.konanTarget) {
             KonanTarget.MACOS_X64 -> "macos"
             KonanTarget.IOS_ARM64, KonanTarget.IOS_ARM32, KonanTarget.IOS_X64 -> "ios"
@@ -137,7 +133,7 @@ open class PodGenTask : DefaultTask() {
         val podGenProcess = ProcessBuilder(
             "pod", "gen",
             "--platforms=$platformLiteral",
-            "--gen-directory=${project.buildDir.resolve(kotlinNativeTarget.konanTarget.name).absolutePath}",
+            "--gen-directory=${project.cocoapodsBuildDirs.synthetic(kotlinNativeTarget).absolutePath}",
             podspecProvider.get().name
         ).apply {
             directory(podspecDir)
@@ -165,16 +161,14 @@ open class PodSetupBuildTask : DefaultTask() {
     lateinit var kotlinNativeTarget: KotlinNativeTarget
 
     @get:OutputFile
-    internal val buildSettingsFileProvider: Provider<File>
-        get() = project.provider {
-            project
-                .cocoapodsBuildDirs
-                .buildSettings
-                .resolve(kotlinNativeTarget.toBuildSettingsFileName)
-        }
+    internal val buildSettingsFileProvider: Provider<File> = project.provider {
+        project.cocoapodsBuildDirs
+            .buildSettings
+            .resolve(kotlinNativeTarget.toBuildSettingsFileName)
+    }
 
     @TaskAction
-    fun specificAction() {
+    fun setupBuild() {
         val podsXcodeProjDir = podsXcodeProjDirProvider.get()
 
         val buildSettingsReceivingCommand = listOf(
@@ -219,17 +213,14 @@ open class PodBuildTask : DefaultTask() {
     lateinit var kotlinNativeTarget: KotlinNativeTarget
 
     @get:OutputFile
-    internal val buildDirHashFileProvider: Provider<File>
-        get() =
-            project.provider {
-                project
-                    .cocoapodsBuildDirs
-                    .buildDirHashSums
-                    .resolve(kotlinNativeTarget.toBuildDirHashSumFileName)
-            }
+    internal val buildDirHashFileProvider: Provider<File> = project.provider {
+        project.cocoapodsBuildDirs
+            .buildDirHashSums
+            .resolve(kotlinNativeTarget.toBuildDirHashSumFileName)
+    }
 
     @TaskAction
-    fun invoke() {
+    fun buildDependencies() {
         val podBuildSettings = PodBuildSettingsProperties.readSettingsFromStream(
             FileInputStream(buildSettingsFileProvider.get())
         )

@@ -35,10 +35,12 @@ open class PodspecTask : DefaultTask() {
     @get:Nested
     internal lateinit var cocoapodsExtension: CocoapodsExtension
 
+    init {
+        onlyIf { cocoapodsExtension.needPodspec }
+    }
+
     @TaskAction
     fun generate() {
-        //If Podfile determined in cocoapods block, there is no need to perform this action
-        if (!cocoapodsExtension.needPodspec) return
 
         val frameworkDir = project.cocoapodsBuildDirs.framework.relativeTo(outputFileProvider.get().parentFile).path
         val dependencies = cocoapodsExtension.pods.map { pod ->
@@ -97,7 +99,7 @@ open class PodspecTask : DefaultTask() {
                 |            :shell_path => '/bin/sh',
                 |            :script => <<-SCRIPT
                 |                set -ev
-                |                REPO_ROOT="${'$'}PODS_TARGET_SRCROOT/"
+                |                REPO_ROOT="${'$'}PODS_TARGET_SRCROOT"
                 |                "$gradleCommand" -p "${'$'}REPO_ROOT" $syncTask \
                 |                    -P${KotlinCocoapodsPlugin.TARGET_PROPERTY}=${'$'}KOTLIN_TARGET \
                 |                    -P${KotlinCocoapodsPlugin.CONFIGURATION_PROPERTY}=${'$'}CONFIGURATION \
@@ -185,9 +187,6 @@ open class DummyFrameworkTask : DefaultTask() {
 
     @TaskAction
     fun create() {
-        //If Podfile determined in cocoapods block, there is no need to perform this action
-        if (cocoapodsExtension.podfile != null) return
-
         // Reset the destination directory
         with(destinationDir) {
             deleteRecursively()
