@@ -306,58 +306,42 @@ object Aggregates : TemplateGroupBase() {
     }
 
 
-    private fun FamilyPrimitiveMemberDefinition.minMaxIncludes() {
+    val f_minMax = sequence {
         val genericSpecializations = PrimitiveType.floatingPointPrimitives + setOf(null)
 
-        include(Iterables, genericSpecializations)
-        include(Sequences, genericSpecializations)
-        include(ArraysOfObjects, genericSpecializations)
-        include(ArraysOfPrimitives, PrimitiveType.defaultPrimitives - PrimitiveType.Boolean)
-        include(ArraysOfUnsigned)
-        include(CharSequences)
-    }
-
-    val f_minMax = run {
-        listOf("min", "max").map { op ->
-            fn("$op()") {
-                minMaxIncludes()
+        fun def(op: String, nullable: Boolean, orNull: String = "OrNull".ifOrEmpty(nullable)) =
+            fn("$op$orNull()") {
+                include(Iterables, genericSpecializations)
+                include(Sequences, genericSpecializations)
+                include(ArraysOfObjects, genericSpecializations)
+                include(ArraysOfPrimitives, PrimitiveType.defaultPrimitives - PrimitiveType.Boolean)
+                include(ArraysOfUnsigned)
+                include(CharSequences)
             } builder {
-                deprecate(Deprecation("Use ${op}OrNull instead.", "${op}OrNull()", DeprecationLevel.WARNING))
-
-                val isFloat = primitive?.isFloatingPoint() == true
-                val isGeneric = f in listOf(Iterables, Sequences, ArraysOfObjects)
-
                 typeParam("T : Comparable<T>")
-                if (primitive != null) {
-                    if (isFloat && isGeneric)
-                        since("1.1")
-                }
                 returns("T?")
 
-                body {
-                    """
-                    return ${op}OrNull()
-                    """
-                }
-            }
-        }
-    }
-
-    val f_minMaxOrNull = run {
-        listOf("min", "max").map { op ->
-            fn("${op}OrNull()") {
-                minMaxIncludes()
-            } builder {
-                since("1.4")
-
                 val isFloat = primitive?.isFloatingPoint() == true
+
+                if (!nullable) {
+                    deprecate(Deprecation("Use ${op}OrNull instead.", "${op}OrNull()", DeprecationLevel.WARNING))
+
+                    val isGeneric = f in listOf(Iterables, Sequences, ArraysOfObjects)
+                    if (isFloat && isGeneric) {
+                        since("1.1")
+                    }
+
+                    body { "return ${op}OrNull()" }
+
+                    return@builder
+                }
+
+                since("1.4")
 
                 doc {
                     "Returns the ${if (op == "max") "largest" else "smallest"} ${f.element} or `null` if there are no ${f.element.pluralize()}." +
-                            if (isFloat) "\n\n" + "If any of ${f.element.pluralize()} is `NaN` returns `NaN`." else ""
+                    if (isFloat) "\n\n" + "If any of ${f.element.pluralize()} is `NaN` returns `NaN`." else ""
                 }
-                typeParam("T : Comparable<T>")
-                returns("T?")
 
                 val acc = op
                 val cmpBlock = if (isFloat)
@@ -388,7 +372,10 @@ object Aggregates : TemplateGroupBase() {
                     """
                 }
             }
-        }
+
+        for (op in listOf("min", "max"))
+            for (nullable in listOf(false, true))
+                yield(def(op, nullable))
     }
 
     val f_minBy = fn("minBy(selector: (T) -> R)") {
