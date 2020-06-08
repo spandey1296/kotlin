@@ -21,7 +21,7 @@ kotlin {
     cocoapods {
         summary = "CocoaPods test library"
         homepage = "https://github.com/JetBrains/kotlin"
-        pod("pod_dependency", "1.0")
-        pod("subspec_dependency/Core", "1.0")
+        pod("pod_dependency", "1.0", "../pod_dependency")
+        pod("subspec_dependency/Core", "1.0", "../subspec_dependency")
     }
 }

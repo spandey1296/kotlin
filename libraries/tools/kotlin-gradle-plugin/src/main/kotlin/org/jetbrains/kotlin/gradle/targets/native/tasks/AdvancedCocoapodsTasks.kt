@@ -11,6 +11,7 @@ import org.gradle.api.tasks.*
 import org.gradle.api.tasks.Optional
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
+import org.jetbrains.kotlin.gradle.plugin.cocoapods.asValidFrameworkName
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.native.tasks.PodBuildTask.Companion.toValidSDK
@@ -117,7 +118,7 @@ open class PodGenTask : DefaultTask() {
     internal val podsXcodeProjDirProvider: Provider<File>
         get() = project.provider {
             project.cocoapodsBuildDirs.synthetic(kotlinNativeTarget)
-                .resolve(project.name)
+                .resolve(project.name.asValidFrameworkName())
                 .resolve("Pods")
                 .resolve("Pods.xcodeproj")
         }
@@ -130,12 +131,19 @@ open class PodGenTask : DefaultTask() {
             else -> throw IllegalArgumentException("Only 'ios' and 'macos' native targets supported for CocoaPods integration")
         }
         val podspecDir = podspecProvider.get().parentFile
-        val podGenProcess = ProcessBuilder(
+        val localPodspecPaths = cocoapodsExtension.pods.mapNotNull { it.podspec }
+            .map { project.projectDir.resolve(it).absolutePath }
+
+        val podGenProcessArgs = listOfNotNull(
             "pod", "gen",
             "--platforms=$platformLiteral",
             "--gen-directory=${project.cocoapodsBuildDirs.synthetic(kotlinNativeTarget).absolutePath}",
+            localPodspecPaths.takeIf { it.isNotEmpty() }?.joinToString(separator = ",")?.let { "--local-sources=$it" },
             podspecProvider.get().name
-        ).apply {
+        )
+        logger.info(podGenProcessArgs.joinToString(" "))
+
+        val podGenProcess = ProcessBuilder(podGenProcessArgs).apply {
             directory(podspecDir)
             inheritIO()
         }.start()

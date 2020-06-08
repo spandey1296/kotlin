@@ -20,7 +20,7 @@ class CocoaPodsIT : BaseGradleIT() {
         get() = GradleVersionRequired.FOR_MPP_SUPPORT
 
     // We use Kotlin DSL. Earlier Gradle versions fail at accessors codegen.
-    val gradleVersion = GradleVersionRequired.None
+    val gradleVersion = GradleVersionRequired.FOR_MPP_SUPPORT
 
     val PODFILE_IMPORT_DIRECTIVE_PLACEHOLDER = "<import_mode_directive>"
 
@@ -118,21 +118,8 @@ class CocoaPodsIT : BaseGradleIT() {
         assumeTrue(HostManager.hostIsMac)
         val gradleProject = transformProjectWithPluginsDsl("new-mpp-cocoapods", gradleVersion)
         with(gradleProject) {
-            // Check that a project with CocoaPods interop fails to be built from command line.
-            build(":kotlin-library:build") {
-                assertFailed()
-                assertContains("Cannot perform cinterop processing for module pod_dependency: cannot determine headers location.")
-            }
-
-            // Check that a project without CocoaPods interop can be built from command line.
-            gradleBuildScript("kotlin-library").modify {
-                it.replace("""pod("pod_dependency", "1.0")""", "").replace("""pod("subspec_dependency/Core", "1.0")""", "")
-            }
-            projectDir.resolve("kotlin-library/src/iosMain/kotlin/A.kt").modify {
-                it.replace("import cocoapods.pod_dependency.*", "").replace("println(foo())", "")
-                    .replace("import cocoapods.subspec_dependency.*", "").replace("println(baz())", "")
-            }
-            build(":kotlin-library:linkReleaseFrameworkIOS") {
+            // Check that a project with CocoaPods interop can be built from command line.
+            build(":kotlin-library:build", "-Pkotlin.native.cocoapods.generate.wrapper=true") {
                 assertSuccessful()
             }
         }
