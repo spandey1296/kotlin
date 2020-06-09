@@ -6,5 +6,5 @@ INFO: listOf(1, "2", 3.0).first() as Int at 4 line will be replaced on: 1
 
 EXCEPTION: listOf<Int>().first() at 5 line will produce exception:
 Exception kotlin.NoSuchElementException: List is empty.
-	at _CollectionsKt.kotlin.collections.first(_Collections.kt:208)
-	at CollectionsKt.kotlin.collections.listOf(Collections.kt:85)
+	at _CollectionsKt.kotlin.collections.first(_Collections.kt:219)
+	at CollectionsKt.kotlin.collections.listOf(Collections.kt:89)

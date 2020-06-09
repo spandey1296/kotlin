@@ -163,6 +163,11 @@ public class JsInterpreterTestCaseGenerated extends AbstractJsInterpreterTestCas
         runTest("compiler/testData/ir/interpreter/instanceOf.kt");
     }
 
+    @TestMetadata("instanceOfWithTypeParameters.kt")
+    public void testInstanceOfWithTypeParameters() throws Exception {
+        runTest("compiler/testData/ir/interpreter/instanceOfWithTypeParameters.kt");
+    }
+
     @TestMetadata("intMethods.kt")
     public void testIntMethods() throws Exception {
         runTest("compiler/testData/ir/interpreter/intMethods.kt");
@@ -256,6 +261,11 @@ public class JsInterpreterTestCaseGenerated extends AbstractJsInterpreterTestCas
     @TestMetadata("regex.kt")
     public void testRegex() throws Exception {
         runTest("compiler/testData/ir/interpreter/regex.kt");
+    }
+
+    @TestMetadata("safeClassCast.kt")
+    public void testSafeClassCast() throws Exception {
+        runTest("compiler/testData/ir/interpreter/safeClassCast.kt");
     }
 
     @TestMetadata("scopeFunctions.kt")
