@@ -35,6 +35,8 @@ import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.util.*
+import org.jetbrains.kotlin.load.kotlin.FileBasedKotlinClass
+import org.jetbrains.kotlin.load.kotlin.KotlinJvmBinarySourceElement
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.resolve.checkers.ExpectedActualDeclarationChecker
@@ -43,6 +45,7 @@ import org.jetbrains.kotlin.types.TypeSystemCommonBackendContext
 import org.jetbrains.kotlin.types.isNullabilityFlexible
 import org.jetbrains.kotlin.types.model.KotlinTypeMarker
 import org.jetbrains.org.objectweb.asm.AnnotationVisitor
+import org.jetbrains.org.objectweb.asm.Opcodes
 import org.jetbrains.org.objectweb.asm.Type
 import org.jetbrains.org.objectweb.asm.TypePath
 import java.lang.annotation.RetentionPolicy
@@ -341,11 +344,11 @@ abstract class AnnotationCodegen(
         override fun KotlinTypeMarker.extractAnnotations(): List<IrConstructorCall> {
             require(this is IrType)
             return annotations.filter {
-                //We only generate annotations which have the TYPE_USE Java target.
+                // We only generate annotations which have the TYPE_USE Java target.
                 // Those are type annotations which were compiled with JVM target bytecode version 1.8 or greater
                 (it.annotationClass.origin != IrDeclarationOrigin.IR_EXTERNAL_DECLARATION_STUB &&
                         it.annotationClass.origin != IrDeclarationOrigin.IR_EXTERNAL_JAVA_DECLARATION_STUB) ||
-                        isCompiledToJvm8OrHigher(it.annotationClass.descriptor)
+                        it.annotationClass.isCompiledToJvm8OrHigher
             }
         }
     }
@@ -398,3 +401,10 @@ private val IrClass.isOptionalAnnotationClass: Boolean
     get() = kind == ClassKind.ANNOTATION_CLASS &&
             isExpect &&
             hasAnnotation(ExpectedActualDeclarationChecker.OPTIONAL_EXPECTATION_FQ_NAME)
+
+// From TypeAnnotationCollector
+private val IrClass.isCompiledToJvm8OrHigher: Boolean
+    get() =
+        (origin == IrDeclarationOrigin.IR_EXTERNAL_DECLARATION_STUB || origin == IrDeclarationOrigin.IR_EXTERNAL_JAVA_DECLARATION_STUB) &&
+                (source !is KotlinJvmBinarySourceElement ||
+                        ((source as KotlinJvmBinarySourceElement).binaryClass as? FileBasedKotlinClass)?.classVersion ?: 0 >= Opcodes.V1_8)
