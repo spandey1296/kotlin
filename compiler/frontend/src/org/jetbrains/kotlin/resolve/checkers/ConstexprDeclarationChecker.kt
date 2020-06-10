@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.diagnostics.Errors
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
+import org.jetbrains.kotlin.resolve.BindingContext
 
 object ConstexprDeclarationChecker : DeclarationChecker {
     override fun check(declaration: KtDeclaration, descriptor: DeclarationDescriptor, context: DeclarationCheckerContext) {
@@ -33,7 +34,7 @@ object ConstexprDeclarationChecker : DeclarationChecker {
 
             fun List<KtAnnotationEntry>?.containsCompileTimeAnnotation(): Boolean {
                 this ?: return false
-                return this.any { it.typeReference?.text == compileTimeAnnotationName.shortName().asString() }
+                return this.any { context.trace.bindingContext[BindingContext.ANNOTATION, it]?.fqName == compileTimeAnnotationName }
             }
 
             if (!annotationEntries.containsCompileTimeAnnotation() && !classAnnotationEntries.containsCompileTimeAnnotation()) {
