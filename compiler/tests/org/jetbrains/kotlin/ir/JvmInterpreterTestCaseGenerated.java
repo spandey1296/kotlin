@@ -45,7 +45,7 @@ public class JvmInterpreterTestCaseGenerated extends AbstractJvmInterpreterTestC
     }
 
     public void testAllFilesPresentInInterpreter() throws Exception {
-        //KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
+        KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
     }
 
     @TestMetadata("arrayConstructor.kt")
@@ -238,6 +238,11 @@ public class JvmInterpreterTestCaseGenerated extends AbstractJvmInterpreterTestC
         runTest("compiler/testData/ir/interpreter/overrideDifferentName.kt");
     }
 
+    @TestMetadata("overrideExtension.kt")
+    public void testOverrideExtension() throws Exception {
+        runTest("compiler/testData/ir/interpreter/overrideExtension.kt");
+    }
+
     @TestMetadata("progressionFromClosedRange.kt")
     public void testProgressionFromClosedRange() throws Exception {
         runTest("compiler/testData/ir/interpreter/progressionFromClosedRange.kt");
@@ -318,11 +323,6 @@ public class JvmInterpreterTestCaseGenerated extends AbstractJvmInterpreterTestC
         runTest("compiler/testData/ir/interpreter/withReceivers.kt");
     }
 
-    @TestMetadata("overrideExtension.kt")
-    public void testOverrideExtension() throws Exception {
-        runTest("compiler/testData/ir/interpreter/overrideExtension.kt");
-    }
-
     @TestMetadata("compiler/testData/ir/interpreter/collections")
     @TestDataPath("$PROJECT_ROOT")
     @RunWith(JUnit3RunnerWithInners.class)
@@ -332,7 +332,7 @@ public class JvmInterpreterTestCaseGenerated extends AbstractJvmInterpreterTestC
         }
 
         public void testAllFilesPresentInCollections() throws Exception {
-            //KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter/collections"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
+            KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter/collections"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
         }
 
         @TestMetadata("mapOf.kt")
@@ -474,6 +474,24 @@ public class JvmInterpreterTestCaseGenerated extends AbstractJvmInterpreterTestC
         @TestMetadata("toList.kt")
         public void testToList() throws Exception {
             runTest("compiler/testData/ir/interpreter/generatedStdlib/toList.kt");
+        }
+    }
+
+    @TestMetadata("compiler/testData/ir/interpreter/jvm")
+    @TestDataPath("$PROJECT_ROOT")
+    @RunWith(JUnit3RunnerWithInners.class)
+    public static class Jvm extends AbstractJvmInterpreterTestCase {
+        private void runTest(String testDataFilePath) throws Exception {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInJvm() throws Exception {
+            KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter/jvm"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
+        }
+
+        @TestMetadata("javaStatic.kt")
+        public void testJavaStatic() throws Exception {
+            runTest("compiler/testData/ir/interpreter/jvm/javaStatic.kt");
         }
     }
 }

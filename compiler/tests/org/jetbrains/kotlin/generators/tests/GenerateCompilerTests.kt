@@ -229,6 +229,10 @@ fun main(args: Array<String>) {
                 model("ir/interpreter", pattern = "^(.+)\\.kt(s)?\$")
             }
 
+            testClass<AbstractJvmInterpreterTestCase> {
+                model("ir/interpreter", pattern = "^(.+)\\.kt(s)?\$")
+            }
+
             testClass<AbstractIrCfgTestCase> {
                 model("ir/irCfg")
             }

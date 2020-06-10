@@ -45,7 +45,7 @@ public class JsInterpreterTestCaseGenerated extends AbstractJsInterpreterTestCas
     }
 
     public void testAllFilesPresentInInterpreter() throws Exception {
-        KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true);
+        KotlinTestUtils.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/ir/interpreter"), Pattern.compile("^(.+)\\.kt(s)?$"), null, true, "jvm");
     }
 
     @TestMetadata("arrayConstructor.kt")
@@ -238,6 +238,11 @@ public class JsInterpreterTestCaseGenerated extends AbstractJsInterpreterTestCas
         runTest("compiler/testData/ir/interpreter/overrideDifferentName.kt");
     }
 
+    @TestMetadata("overrideExtension.kt")
+    public void testOverrideExtension() throws Exception {
+        runTest("compiler/testData/ir/interpreter/overrideExtension.kt");
+    }
+
     @TestMetadata("progressionFromClosedRange.kt")
     public void testProgressionFromClosedRange() throws Exception {
         runTest("compiler/testData/ir/interpreter/progressionFromClosedRange.kt");
@@ -316,11 +321,6 @@ public class JsInterpreterTestCaseGenerated extends AbstractJsInterpreterTestCas
     @TestMetadata("withReceivers.kt")
     public void testWithReceivers() throws Exception {
         runTest("compiler/testData/ir/interpreter/withReceivers.kt");
-    }
-
-    @TestMetadata("overrideExtension.kt")
-    public void testOverrideExtension() throws Exception {
-        runTest("compiler/testData/ir/interpreter/overrideExtension.kt");
     }
 
     @TestMetadata("compiler/testData/ir/interpreter/collections")
