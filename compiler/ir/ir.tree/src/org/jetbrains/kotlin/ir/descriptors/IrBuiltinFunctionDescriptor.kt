@@ -16,22 +16,33 @@
 
 package org.jetbrains.kotlin.ir.descriptors
 
+import org.jetbrains.kotlin.builtins.DefaultBuiltIns
 import org.jetbrains.kotlin.descriptors.*
+import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptorImpl
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
 import org.jetbrains.kotlin.descriptors.impl.DeclarationDescriptorNonRootImpl
 import org.jetbrains.kotlin.descriptors.impl.VariableDescriptorImpl
+import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.resolve.constants.ConstantValue
 import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.TypeSubstitutor
 import java.util.*
 
+// TODO remove after adding constexpr modifier
+private val compileTimeAnnotationName = FqName("kotlin.CompileTimeCalculation")
+private val compileTimeClassDescriptor = DefaultBuiltIns.Instance.getBuiltInClassByFqName(compileTimeAnnotationName)
+private val compileTimeAnnotationDescriptor =
+    AnnotationDescriptorImpl(compileTimeClassDescriptor.defaultType, mapOf(), SourceElement.NO_SOURCE)
+private val compileTimeAnnotation = Annotations.create(listOf(compileTimeAnnotationDescriptor))
+private fun getEmptyOrCompileTime(isCompileTime: Boolean) = if (isCompileTime) compileTimeAnnotation else Annotations.EMPTY
+
 interface IrBuiltinOperatorDescriptor : SimpleFunctionDescriptor
 
 interface IrBuiltinValueParameterDescriptor : ValueParameterDescriptor
 
-abstract class IrBuiltinOperatorDescriptorBase(containingDeclaration: DeclarationDescriptor, name: Name) :
-    DeclarationDescriptorNonRootImpl(containingDeclaration, Annotations.EMPTY, name, SourceElement.NO_SOURCE),
+abstract class IrBuiltinOperatorDescriptorBase(containingDeclaration: DeclarationDescriptor, name: Name, isCompileTime: Boolean) :
+    DeclarationDescriptorNonRootImpl(containingDeclaration, getEmptyOrCompileTime(isCompileTime), name, SourceElement.NO_SOURCE),
     IrBuiltinOperatorDescriptor {
     override fun getDispatchReceiverParameter(): ReceiverParameterDescriptor? = null
     override fun getExtensionReceiverParameter(): ReceiverParameterDescriptor? = null
@@ -77,8 +88,9 @@ abstract class IrBuiltinOperatorDescriptorBase(containingDeclaration: Declaratio
 class IrSimpleBuiltinOperatorDescriptorImpl(
     containingDeclaration: DeclarationDescriptor,
     name: Name,
-    private val returnType: KotlinType
-) : IrBuiltinOperatorDescriptorBase(containingDeclaration, name), IrBuiltinOperatorDescriptor {
+    private val returnType: KotlinType,
+    isCompileTime: Boolean
+) : IrBuiltinOperatorDescriptorBase(containingDeclaration, name, isCompileTime), IrBuiltinOperatorDescriptor {
     private val valueParameters: MutableList<IrBuiltinValueParameterDescriptor> = ArrayList()
 
     fun addValueParameter(valueParameter: IrBuiltinValueParameterDescriptor) {

@@ -51,8 +51,12 @@ class IrBuiltIns(
     private fun ClassDescriptor.toIrSymbol() = symbolTable.referenceClass(this)
     private fun KotlinType.toIrType() = typeTranslator.translateType(this)
 
-    fun defineOperator(name: String, returnType: IrType, valueParameterTypes: List<IrType>): IrSimpleFunctionSymbol {
-        val operatorDescriptor = IrSimpleBuiltinOperatorDescriptorImpl(packageFragmentDescriptor, Name.identifier(name), returnType.originalKotlinType!!)
+    fun defineOperator(
+        name: String, returnType: IrType, valueParameterTypes: List<IrType>, isCompileTime: Boolean = false
+    ): IrSimpleFunctionSymbol {
+        val operatorDescriptor = IrSimpleBuiltinOperatorDescriptorImpl(
+            packageFragmentDescriptor, Name.identifier(name), returnType.originalKotlinType!!, isCompileTime
+        )
 
         for ((i, valueParameterType) in valueParameterTypes.withIndex()) {
             val valueParameterDescriptor =
@@ -152,11 +156,11 @@ class IrBuiltIns(
         }.symbol
     }
 
-    private fun defineComparisonOperator(name: String, operandType: IrType) =
-        defineOperator(name, booleanType, listOf(operandType, operandType))
+    private fun defineComparisonOperator(name: String, operandType: IrType, isCompileTime: Boolean = false) =
+        defineOperator(name, booleanType, listOf(operandType, operandType), isCompileTime)
 
-    private fun List<IrType>.defineComparisonOperatorForEachIrType(name: String) =
-        associate { it.classifierOrFail to defineComparisonOperator(name, it) }
+    private fun List<IrType>.defineComparisonOperatorForEachIrType(name: String, isCompileTime: Boolean = false) =
+        associate { it.classifierOrFail to defineComparisonOperator(name, it, isCompileTime) }
 
     val any = builtIns.anyType
     val anyN = builtIns.nullableAnyType
@@ -262,25 +266,25 @@ class IrBuiltIns(
         PrimitiveType.DOUBLE to doubleType
     )
 
-    val lessFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.LESS)
-    val lessOrEqualFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.LESS_OR_EQUAL)
-    val greaterOrEqualFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.GREATER_OR_EQUAL)
-    val greaterFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.GREATER)
+    val lessFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.LESS, true)
+    val lessOrEqualFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.LESS_OR_EQUAL, true)
+    val greaterOrEqualFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.GREATER_OR_EQUAL, true)
+    val greaterFunByOperandType = primitiveIrTypesWithComparisons.defineComparisonOperatorForEachIrType(OperatorNames.GREATER, true)
 
     val ieee754equalsFunByOperandType =
         primitiveFloatingPointIrTypes.map {
-            it.classifierOrFail to defineOperator(OperatorNames.IEEE754_EQUALS, booleanType, listOf(it.makeNullable(), it.makeNullable()))
+            it.classifierOrFail to defineOperator(OperatorNames.IEEE754_EQUALS, booleanType, listOf(it.makeNullable(), it.makeNullable()), true)
         }.toMap()
 
     private val booleanNot = builtIns.boolean.unsubstitutedMemberScope.getContributedFunctions(Name.identifier("not"), NoLookupLocation.FROM_BACKEND).single()
     val booleanNotSymbol = symbolTable.referenceSimpleFunction(booleanNot)
 
-    val eqeqeqSymbol = defineOperator(OperatorNames.EQEQEQ, booleanType, listOf(anyNType, anyNType))
-    val eqeqSymbol = defineOperator(OperatorNames.EQEQ, booleanType, listOf(anyNType, anyNType))
+    val eqeqeqSymbol = defineOperator(OperatorNames.EQEQEQ, booleanType, listOf(anyNType, anyNType), true)
+    val eqeqSymbol = defineOperator(OperatorNames.EQEQ, booleanType, listOf(anyNType, anyNType), true)
     val throwCceSymbol = defineOperator(OperatorNames.THROW_CCE, nothingType, listOf())
     val throwIseSymbol = defineOperator(OperatorNames.THROW_ISE, nothingType, listOf())
-    val andandSymbol = defineOperator(OperatorNames.ANDAND, booleanType, listOf(booleanType, booleanType))
-    val ororSymbol = defineOperator(OperatorNames.OROR, booleanType, listOf(booleanType, booleanType))
+    val andandSymbol = defineOperator(OperatorNames.ANDAND, booleanType, listOf(booleanType, booleanType), true)
+    val ororSymbol = defineOperator(OperatorNames.OROR, booleanType, listOf(booleanType, booleanType), true)
     val noWhenBranchMatchedExceptionSymbol = defineOperator(OperatorNames.NO_WHEN_BRANCH_MATCHED_EXCEPTION, nothingType, listOf())
     val illegalArgumentExceptionSymbol = defineOperator(OperatorNames.ILLEGAL_ARGUMENT_EXCEPTION, nothingType, listOf(stringType))
 
