@@ -29,6 +29,9 @@ private val compileTimeAnnotationDescriptor =
     AnnotationDescriptorImpl(compileTimeClassDescriptor.defaultType, mapOf(), SourceElement.NO_SOURCE)
 val compileTimeAnnotation = Annotations.create(listOf(compileTimeAnnotationDescriptor))
 fun getEmptyOrCompileTime(isCompileTime: Boolean) = if (isCompileTime) compileTimeAnnotation else Annotations.EMPTY
+val compileTimeTypeAliases = setOf(
+    "java.lang.StringBuilder", "java.lang.IllegalArgumentException", "java.util.NoSuchElementException"
+)
 
 class DefaultBuiltIns(loadBuiltInsFromCurrentClassLoader: Boolean = true) : KotlinBuiltIns(LockBasedStorageManager("DefaultBuiltIns")) {
     init {
