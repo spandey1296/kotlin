@@ -311,6 +311,7 @@ public interface MutableSet<E> : Set<E>, MutableCollection<E> {
  *          can accept key as a parameter (of [containsKey] for example) and return it in [keys] set.
  * @param V the type of map values. The map is covariant on its value type.
  */
+@CompileTimeCalculation
 public interface Map<K, out V> {
     // Query Operations
     /**
@@ -369,6 +370,7 @@ public interface Map<K, out V> {
     /**
      * Represents a key/value pair held by a [Map].
      */
+    @CompileTimeCalculation
     public interface Entry<out K, out V> {
         /**
          * Returns the key of this key/value pair.
@@ -388,6 +390,7 @@ public interface Map<K, out V> {
  * @param K the type of map keys. The map is invariant on its key type.
  * @param V the type of map values. The mutable map is invariant on its value type.
  */
+@CompileTimeCalculation
 public interface MutableMap<K, V> : Map<K, V> {
     // Modification Operations
     /**
@@ -446,6 +449,7 @@ public interface MutableMap<K, V> : Map<K, V> {
     /**
      * Represents a key/value pair held by a [MutableMap].
      */
+    @CompileTimeCalculation
     public interface MutableEntry<K, V> : Map.Entry<K, V> {
         /**
          * Changes the value associated with the key of this entry.
