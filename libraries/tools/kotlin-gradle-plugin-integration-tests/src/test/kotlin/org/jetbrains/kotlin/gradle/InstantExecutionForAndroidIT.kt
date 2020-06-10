@@ -15,7 +15,7 @@ import kotlin.test.fail
 
 class InstantExecutionForAndroidIT : BaseGradleIT() {
     private val androidGradlePluginVersion: AGPVersion
-        get() = AGPVersion.v4_0_ALPHA_1
+        get() = AGPVersion.v4_1_ALPHA_10
 
     override fun defaultBuildOptions() =
         super.defaultBuildOptions().copy(
@@ -23,15 +23,15 @@ class InstantExecutionForAndroidIT : BaseGradleIT() {
             androidGradlePluginVersion = androidGradlePluginVersion
         )
 
-    private val minimumGradleVersion = GradleVersionRequired.AtLeast("6.1-milestone-1")
+    override val defaultGradleVersion = GradleVersionRequired.AtLeast("6.6-20200603220033+0000")
 
     @Test
-    fun testSimpleKotlinJvmProject() = with(Project("kotlinProject", minimumGradleVersion)) {
+    fun testSimpleKotlinJvmProject() = with(Project("kotlinProject")) {
         testInstantExecutionOf(":compileKotlin")
     }
 
     @Test
-    fun testSimpleKotlinAndroidProject() = with(Project("AndroidProject", minimumGradleVersion)) {
+    fun testSimpleKotlinAndroidProject() = with(Project("AndroidProject")) {
         applyAndroidAndroid40Alpha4KotlinVersionWorkaround()
         testInstantExecutionOf(":Lib:compileFlavor1DebugKotlin", ":Android:compileFlavor1DebugKotlin")
     }

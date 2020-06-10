@@ -13,7 +13,6 @@ import org.jetbrains.kotlin.gradle.model.ModelContainer
 import org.jetbrains.kotlin.gradle.model.ModelFetcherBuildAction
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.util.*
-import org.jetbrains.kotlin.test.util.trimTrailingWhitespaces
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert
@@ -31,7 +30,7 @@ abstract class BaseGradleIT {
     protected open fun defaultBuildOptions(): BuildOptions = BuildOptions(withDaemon = true)
 
     open val defaultGradleVersion: GradleVersionRequired
-        get() = GradleVersionRequired.None
+        get() = GradleVersionRequired.AtLeast("6.6-20200603220033+0000")
 
     @Before
     fun setUp() {
@@ -206,7 +205,7 @@ abstract class BaseGradleIT {
         val kaptOptions: KaptOptions? = null,
         val parallelTasksInProject: Boolean? = null,
         val jsCompilerType: KotlinJsCompilerType? = null,
-        val instantExecution: Boolean = true
+        val configurationCaching: Boolean = true
     )
 
     data class KaptOptions(
@@ -222,6 +221,9 @@ abstract class BaseGradleIT {
         directoryPrefix: String? = null,
         val minLogLevel: LogLevel = LogLevel.DEBUG
     ) {
+        //TODO remove it
+        val radle6 = GradleVersionRequired.AtLeast("6.6-20200603220033+0000")
+
         internal val testCase = this@BaseGradleIT
 
         val resourceDirName = if (directoryPrefix != null) "$directoryPrefix/$projectName" else projectName
@@ -766,10 +768,12 @@ Finished executing task ':$taskName'|
                 add("-Pkotlin.js.compiler=$it")
             }
 
-            options.instantExecution.let {
-                add("-Dorg.gradle.unsafe.instant-execution=$it")
-                add("-Dconfiguration-cache=warn")
-                add("--configuration-cache=warn")
+            options.configurationCaching.let {
+                add("-Dorg.gradle.unsafe.configuration-cache=$it")
+                add("-Dorg.gradle.unsafe.configuration-cache")
+                add("-Dorg.gradle.unsafe.configuration-cache-problems=warn")
+                add("--configuration-cache")
+                add("--configuration-cache-problems=fail")
             }
 
             // Workaround: override a console type set in the user machine gradle.properties (since Gradle 4.3):
