@@ -16,7 +16,19 @@
 
 package org.jetbrains.kotlin.builtins
 
+import org.jetbrains.kotlin.descriptors.SourceElement
+import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptorImpl
+import org.jetbrains.kotlin.descriptors.annotations.Annotations
+import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
+
+//TODO remove after introducing constexpr modifier
+private val compileTimeAnnotationName = FqName("kotlin.CompileTimeCalculation")
+private val compileTimeClassDescriptor = DefaultBuiltIns.Instance.getBuiltInClassByFqName(compileTimeAnnotationName)
+private val compileTimeAnnotationDescriptor =
+    AnnotationDescriptorImpl(compileTimeClassDescriptor.defaultType, mapOf(), SourceElement.NO_SOURCE)
+val compileTimeAnnotation = Annotations.create(listOf(compileTimeAnnotationDescriptor))
+fun getEmptyOrCompileTime(isCompileTime: Boolean) = if (isCompileTime) compileTimeAnnotation else Annotations.EMPTY
 
 class DefaultBuiltIns(loadBuiltInsFromCurrentClassLoader: Boolean = true) : KotlinBuiltIns(LockBasedStorageManager("DefaultBuiltIns")) {
     init {

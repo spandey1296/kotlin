@@ -17,6 +17,7 @@
 package org.jetbrains.kotlin.ir.descriptors
 
 import org.jetbrains.kotlin.builtins.DefaultBuiltIns
+import org.jetbrains.kotlin.builtins.getEmptyOrCompileTime
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptorImpl
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
@@ -28,14 +29,6 @@ import org.jetbrains.kotlin.resolve.constants.ConstantValue
 import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.TypeSubstitutor
 import java.util.*
-
-// TODO remove after adding constexpr modifier
-private val compileTimeAnnotationName = FqName("kotlin.CompileTimeCalculation")
-private val compileTimeClassDescriptor = DefaultBuiltIns.Instance.getBuiltInClassByFqName(compileTimeAnnotationName)
-private val compileTimeAnnotationDescriptor =
-    AnnotationDescriptorImpl(compileTimeClassDescriptor.defaultType, mapOf(), SourceElement.NO_SOURCE)
-private val compileTimeAnnotation = Annotations.create(listOf(compileTimeAnnotationDescriptor))
-private fun getEmptyOrCompileTime(isCompileTime: Boolean) = if (isCompileTime) compileTimeAnnotation else Annotations.EMPTY
 
 interface IrBuiltinOperatorDescriptor : SimpleFunctionDescriptor
 

@@ -5,11 +5,10 @@
 
 package org.jetbrains.kotlin.builtins.functions
 
-import org.jetbrains.kotlin.builtins.DefaultBuiltIns
 import org.jetbrains.kotlin.builtins.KOTLIN_REFLECT_FQ_NAME
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns.BUILT_INS_PACKAGE_FQ_NAME
+import org.jetbrains.kotlin.builtins.compileTimeAnnotation
 import org.jetbrains.kotlin.descriptors.*
-import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptorImpl
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
 import org.jetbrains.kotlin.descriptors.impl.AbstractClassDescriptor
 import org.jetbrains.kotlin.descriptors.impl.TypeParameterDescriptorImpl
@@ -22,13 +21,6 @@ import org.jetbrains.kotlin.storage.StorageManager
 import org.jetbrains.kotlin.types.*
 import org.jetbrains.kotlin.types.checker.KotlinTypeRefiner
 import java.util.*
-
-// TODO make these fields common with the same one in IrBuiltinFunctionDescriptor.kt
-private val compileTimeAnnotationName = FqName("kotlin.CompileTimeCalculation")
-private val compileTimeClassDescriptor = DefaultBuiltIns.Instance.getBuiltInClassByFqName(compileTimeAnnotationName)
-private val compileTimeAnnotationDescriptor =
-    AnnotationDescriptorImpl(compileTimeClassDescriptor.defaultType, mapOf(), SourceElement.NO_SOURCE)
-private val compileTimeAnnotation = Annotations.create(listOf(compileTimeAnnotationDescriptor))
 
 /**
  * A [ClassDescriptor] representing the fictitious class for a function type, such as kotlin.Function1 or kotlin.reflect.KFunction2.

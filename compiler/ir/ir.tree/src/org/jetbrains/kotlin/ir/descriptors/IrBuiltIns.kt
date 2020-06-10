@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.ir.descriptors
 
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.builtins.PrimitiveType
+import org.jetbrains.kotlin.builtins.compileTimeAnnotation
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
 import org.jetbrains.kotlin.descriptors.impl.SimpleFunctionDescriptorImpl
@@ -94,7 +95,7 @@ class IrBuiltIns(
         // Note: We still need a complete function descriptor here because `CHECK_NOT_NULL` is being substituted by psi2ir
         val operatorDescriptor = SimpleFunctionDescriptorImpl.create(
             packageFragmentDescriptor,
-            Annotations.EMPTY,
+            compileTimeAnnotation,
             name,
             CallableMemberDescriptor.Kind.SYNTHESIZED,
             SourceElement.NO_SOURCE
