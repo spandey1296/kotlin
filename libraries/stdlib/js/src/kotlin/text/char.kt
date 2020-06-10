@@ -6,6 +6,8 @@
 package kotlin.text
 
 // actually \s is enough to match all whitespace, but \xA0 added because of different regexp behavior of Rhino used in Selenium tests
+@CompileTimeCalculation
+@EvaluateIntrinsic("kotlin.text.CharsKt")
 public actual fun Char.isWhitespace(): Boolean = toString().matches("[\\s\\xA0]")
 
 @kotlin.internal.InlineOnly
