@@ -48,7 +48,7 @@ open class KotlinNativeTargetConfigurator<T : KotlinNativeTarget>(
         return buildDir.resolve("classes/kotlin/$targetSubDirectory${compilation.name}")
     }
 
-    private fun AbstractKotlinNativeCompile<*>.addCompilerPlugins() {
+    private fun AbstractKotlinNativeCompile<*, *>.addCompilerPlugins() {
         SubpluginEnvironment
             .loadSubplugins(project, kotlinPluginVersion)
             .addSubpluginOptions(project, this, compilerPluginOptions)

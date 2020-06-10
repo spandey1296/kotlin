@@ -20,7 +20,7 @@ internal operator fun <T> Property<T>.setValue(thisRef: Any?, property: KPropert
     set(value)
 }
 
-internal fun <T : Any> Project.newProperty(initialize: (() -> T)? = null): Property<T> =
+internal fun <T : Any> Project.newPropertyInit(initialize: (() -> T)? = null): Property<T> =
     @Suppress("UNCHECKED_CAST")
     // use Any and not T::class to allow using lists and maps as the property type, which is otherwise not allowed
     (project.objects.property(Any::class.java) as Property<T>).apply {
