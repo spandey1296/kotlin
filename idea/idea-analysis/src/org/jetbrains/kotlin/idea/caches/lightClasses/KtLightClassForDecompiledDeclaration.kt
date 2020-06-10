@@ -5,19 +5,389 @@
 
 package org.jetbrains.kotlin.idea.caches.lightClasses
 
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiField
-import com.intellij.psi.PsiMethod
+import com.intellij.psi.*
+import com.intellij.psi.impl.PsiClassImplUtil
+import com.intellij.psi.impl.PsiImplUtil
+import com.intellij.psi.impl.PsiSuperMethodImplUtil
 import com.intellij.psi.impl.compiled.ClsClassImpl
+import com.intellij.psi.javadoc.PsiDocComment
+import com.intellij.psi.scope.PsiScopeProcessor
+import com.intellij.psi.util.MethodSignatureBackedByPsiMethod
+import com.intellij.psi.util.PsiUtil
+import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.asJava.builder.LightMemberOrigin
+import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClassBase
-import org.jetbrains.kotlin.asJava.elements.KtLightFieldImpl
-import org.jetbrains.kotlin.asJava.elements.KtLightMethodImpl
+import org.jetbrains.kotlin.asJava.classes.lazyPub
+import org.jetbrains.kotlin.asJava.elements.*
+import org.jetbrains.kotlin.asJava.propertyNameByAccessor
+import org.jetbrains.kotlin.codegen.state.KotlinTypeMapper
 import org.jetbrains.kotlin.idea.decompiler.classFile.KtClsFile
 import org.jetbrains.kotlin.load.java.structure.LightClassOriginKind
+import org.jetbrains.kotlin.load.kotlin.MemberSignature
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClassOrObject
+import org.jetbrains.kotlin.psi.KtDeclaration
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.type.MapPsiToAsmDesc
+import com.intellij.psi.util.MethodSignature
+import com.intellij.openapi.util.Pair
 
 class KtLightClassForDecompiledDeclaration(
+    override val clsDelegate: PsiClass,
+    private val clsParent: PsiElement,
+    private val file: KtClsFile,
+    override val kotlinOrigin: KtClassOrObject?
+) : KtLightElementBase(clsParent), PsiClass, KtLightClass {
+
+    constructor(
+        clsDelegate: PsiClass,
+        kotlinOrigin: KtClassOrObject?,
+        file: KtClsFile,
+    ) : this(
+        clsDelegate = clsDelegate,
+        clsParent = file,
+        file = file,
+        kotlinOrigin = kotlinOrigin,
+    )
+
+    override fun findFieldByName(@NonNls name: String?, checkBases: Boolean): PsiField? =
+        PsiClassImplUtil.findFieldByName(this, name, checkBases)
+
+    override fun hasModifierProperty(p0: String): Boolean =
+        clsDelegate.hasModifierProperty(p0)
+
+    override fun findMethodBySignature(patternMethod: PsiMethod?, checkBases: Boolean): PsiMethod? =
+        patternMethod?.let { PsiClassImplUtil.findMethodBySignature(this, it, checkBases) }
+
+    override fun findInnerClassByName(myClass: String?, checkBases: Boolean): PsiClass? =
+        myClass?.let { PsiClassImplUtil.findInnerByName(this, it, checkBases) }
+
+    override fun findMethodsBySignature(patternMethod: PsiMethod?, checkBases: Boolean): Array<PsiMethod?> =
+        patternMethod?.let { PsiClassImplUtil.findMethodsBySignature(this, it, checkBases) } ?: emptyArray()
+
+    override fun findMethodsByName(@NonNls name: String?, checkBases: Boolean): Array<PsiMethod?> =
+        PsiClassImplUtil.findMethodsByName(this, name, checkBases)
+
+    override fun findMethodsAndTheirSubstitutorsByName(@NonNls name: String?, checkBases: Boolean): List<Pair<PsiMethod, PsiSubstitutor>> =
+        PsiClassImplUtil.findMethodsAndTheirSubstitutorsByName(this, name, checkBases)
+
+    override fun getImplementsList(): PsiReferenceList? = clsDelegate.implementsList
+
+    override fun getRBrace(): PsiElement? = null
+
+    override fun getLBrace(): PsiElement? = null
+
+    override fun getInitializers(): Array<PsiClassInitializer> = clsDelegate.initializers
+
+    override fun getContainingClass(): PsiClass? = parent as? PsiClass
+
+    override fun isInheritorDeep(p0: PsiClass?, p1: PsiClass?): Boolean = clsDelegate.isInheritorDeep(p0, p1)
+
+    override fun getAllMethodsAndTheirSubstitutors(): List<Pair<PsiMethod?, PsiSubstitutor?>?> =
+        PsiClassImplUtil.getAllWithSubstitutorsByMap<PsiMethod>(this, PsiClassImplUtil.MemberType.METHOD)
+
+    override fun isInterface(): Boolean = clsDelegate.isInterface
+
+    override fun getTypeParameters(): Array<PsiTypeParameter> =
+        clsDelegate.typeParameters
+
+    override fun isInheritor(p0: PsiClass, p1: Boolean): Boolean =
+        clsDelegate.isInheritor(p0, p1)
+
+    override fun processDeclarations(
+        processor: PsiScopeProcessor,
+        state: ResolveState,
+        lastParent: PsiElement?,
+        place: PsiElement
+    ): Boolean = PsiClassImplUtil.processDeclarationsInClass(
+        this,
+        processor,
+        state,
+        null,
+        lastParent,
+        place,
+        PsiUtil.getLanguageLevel(place),
+        false
+    )
+
+    override fun isEnum(): Boolean = clsDelegate.isEnum
+
+    override fun getExtendsListTypes(): Array<PsiClassType?> =
+        PsiClassImplUtil.getExtendsListTypes(this)
+
+    override fun getTypeParameterList(): PsiTypeParameterList? = clsDelegate.typeParameterList
+
+    override fun isAnnotationType(): Boolean = clsDelegate.isAnnotationType
+
+    override fun getNameIdentifier(): PsiIdentifier? = clsDelegate.nameIdentifier
+
+    override fun getInterfaces(): Array<PsiClass> =
+        PsiClassImplUtil.getInterfaces(this)
+
+    override fun getSuperClass(): PsiClass? =
+        PsiClassImplUtil.getSuperClass(this)
+
+    override fun getSupers(): Array<PsiClass> =
+        PsiClassImplUtil.getSupers(this)
+
+    override fun getSuperTypes(): Array<PsiClassType> =
+        PsiClassImplUtil.getSuperTypes(this)
+
+    override fun getVisibleSignatures(): MutableCollection<HierarchicalMethodSignature> =
+        PsiSuperMethodImplUtil.getVisibleSignatures(this)
+
+    override fun getQualifiedName(): String? = clsDelegate.qualifiedName
+
+    override fun getImplementsListTypes(): Array<PsiClassType?> =
+        PsiClassImplUtil.getImplementsListTypes(this)
+
+    override fun getConstructors(): Array<PsiMethod> = PsiImplUtil.getConstructors(this)
+
+    override fun isDeprecated(): Boolean = clsDelegate.isDeprecated
+
+    override fun setName(p0: String): PsiElement = clsDelegate.setName(p0)
+
+    override fun hasTypeParameters(): Boolean =
+        PsiImplUtil.hasTypeParameters(this)
+
+    override fun getExtendsList(): PsiReferenceList? = clsDelegate.extendsList
+
+    override fun getDocComment(): PsiDocComment? = clsDelegate.docComment
+
+    override fun getModifierList(): PsiModifierList? = clsDelegate.modifierList
+
+    override fun getScope(): PsiElement = clsDelegate.scope
+
+    override fun getAllInnerClasses(): Array<PsiClass> = PsiClassImplUtil.getAllInnerClasses(this)
+
+    override fun getAllMethods(): Array<PsiMethod> = PsiClassImplUtil.getAllMethods(this)
+
+    override fun getAllFields(): Array<PsiField> = PsiClassImplUtil.getAllFields(this)
+
+    private fun findMethodDeclaration(psiMethod: PsiMethod): KtNamedFunction? {
+        val desc = MapPsiToAsmDesc.methodDesc(psiMethod)
+        val name = if (psiMethod.isConstructor) "<init>" else psiMethod.name
+        val signature = MemberSignature.fromMethodNameAndDesc(name, desc)
+        return findDeclarationInCompiledFile(file, psiMethod, signature) as? KtNamedFunction
+    }
+
+    private fun findFieldDeclaration(psiField: PsiField): KtDeclaration? {
+        val desc = MapPsiToAsmDesc.typeDesc(psiField.type)
+        val signature = MemberSignature.fromFieldNameAndDesc(psiField.name, desc)
+        return findDeclarationInCompiledFile(file, psiField, signature)
+    }
+
+    private val _methods: Array<PsiMethod> by lazyPub {
+        clsDelegate.methods.map { psiMethod ->
+            FUN2(
+                funDelegate = psiMethod,
+                funParent = this,
+                file = file,
+                kotlinOrigin = findMethodDeclaration(psiMethod),
+            )
+        }.toTypedArray()
+    }
+
+    private val _fields: Array<PsiField> by lazyPub {
+        clsDelegate.fields.map { psiField ->
+            FLD2(
+                fldDelegate = psiField,
+                fldParent = this,
+                file = file,
+                kotlinOrigin = findFieldDeclaration(psiField),
+            )
+        }.toTypedArray()
+    }
+
+    private val _innerClasses: Array<PsiClass> by lazyPub {
+        clsDelegate.innerClasses.map { psiClass ->
+            val innerDeclaration = kotlinOrigin
+                ?.declarations
+                ?.filterIsInstance<KtClassOrObject>()
+                ?.firstOrNull { it.name == clsDelegate.name }
+
+            KtLightClassForDecompiledDeclaration(
+                clsDelegate = psiClass,
+                clsParent = this,
+                file = file,
+                kotlinOrigin = innerDeclaration,
+            )
+        }.toTypedArray()
+    }
+
+    override fun getInnerClasses(): Array<PsiClass> = _innerClasses
+
+    override fun getMethods(): Array<PsiMethod> = _methods
+
+    override fun getFields(): Array<PsiField> = _fields
+
+    override val originKind: LightClassOriginKind = LightClassOriginKind.BINARY
+
+    override fun getNavigationElement() = kotlinOrigin?.navigationElement ?: file
+
+    val fqName = kotlinOrigin?.fqName ?: FqName(qualifiedName.orEmpty())
+
+    override fun equals(other: Any?): Boolean =
+        other is KtLightClassForDecompiledDeclaration && kotlinOrigin == other.kotlinOrigin
+
+    override fun hashCode(): Int = clsDelegate.hashCode()
+
+    override fun copy(): PsiElement = this
+
+    override fun clone(): Any = this
+
+    override fun toString(): String = "${this.javaClass.simpleName} of $parent"
+
+    override fun getName(): String? = clsDelegate.name
+}
+
+class FUN2(
+    private val funDelegate: PsiMethod,
+    private val funParent: KtLightClass,
+    file: KtClsFile,
+    override val kotlinOrigin: KtDeclaration?
+) : KtLightElementBase(funParent), PsiMethod, KtLightMethod, KtLightMember<PsiMethod> {
+
+    //CP
+    override val isMangled: Boolean
+        get() {
+            val demangledName = KotlinTypeMapper.InternalNameMapper.demangleInternalName(name) ?: return false
+            val originalName = propertyNameByAccessor(demangledName, this) ?: demangledName
+            return originalName == kotlinOrigin?.name
+        }
+
+    override fun hasModifierProperty(p0: String): Boolean = funDelegate.hasModifierProperty(p0)
+
+    override fun getReturnTypeElement(): PsiTypeElement? = funDelegate.returnTypeElement
+
+    override fun getContainingClass(): KtLightClass = funParent
+
+    override fun getTypeParameters(): Array<PsiTypeParameter> = funDelegate.typeParameters
+
+    override fun getThrowsList(): PsiReferenceList = funDelegate.throwsList
+
+    override fun getReturnType(): PsiType? = funDelegate.returnType
+
+    override fun hasTypeParameters(): Boolean = funDelegate.hasTypeParameters()
+
+    override fun getTypeParameterList(): PsiTypeParameterList? = funDelegate.typeParameterList
+
+    override fun isVarArgs(): Boolean = funDelegate.isVarArgs
+
+    override fun isConstructor(): Boolean = funDelegate.isConstructor
+
+    override fun getNameIdentifier(): PsiIdentifier? = funDelegate.nameIdentifier
+
+    override fun getName(): String = funDelegate.name
+
+    override fun getDocComment(): PsiDocComment? = funDelegate.docComment
+
+    override fun getModifierList(): PsiModifierList = funDelegate.modifierList
+
+    override fun getBody(): PsiCodeBlock? = null
+
+    override fun getDefaultValue(): PsiAnnotationMemberValue? = (funDelegate as? PsiAnnotationMethod)?.defaultValue
+
+    override fun isDeprecated(): Boolean = funDelegate.isDeprecated
+
+    override fun setName(p0: String): PsiElement = funDelegate.setName(p0)
+
+    override fun getParameterList(): PsiParameterList = funDelegate.parameterList
+
+    override fun getHierarchicalMethodSignature() = PsiSuperMethodImplUtil.getHierarchicalMethodSignature(this)
+
+    override fun findSuperMethodSignaturesIncludingStatic(checkAccess: Boolean): List<MethodSignatureBackedByPsiMethod> =
+        PsiSuperMethodImplUtil.findSuperMethodSignaturesIncludingStatic(this, checkAccess)
+
+    override fun findDeepestSuperMethod() = PsiSuperMethodImplUtil.findDeepestSuperMethod(this)
+
+    override fun findDeepestSuperMethods(): Array<out PsiMethod> = PsiSuperMethodImplUtil.findDeepestSuperMethods(this)
+
+    override fun findSuperMethods(): Array<out PsiMethod> = PsiSuperMethodImplUtil.findSuperMethods(this)
+
+    override fun findSuperMethods(checkAccess: Boolean): Array<out PsiMethod> =
+        PsiSuperMethodImplUtil.findSuperMethods(this, checkAccess)
+
+    override fun findSuperMethods(parentClass: PsiClass?): Array<out PsiMethod> =
+        PsiSuperMethodImplUtil.findSuperMethods(this, parentClass)
+
+    override fun getSignature(substitutor: PsiSubstitutor): MethodSignature =
+        MethodSignatureBackedByPsiMethod.create(this, substitutor)
+
+    override fun equals(other: Any?): Boolean = other is FUN2 && kotlinOrigin == other.kotlinOrigin
+
+    override fun hashCode(): Int = funDelegate.hashCode()
+
+    override fun copy(): PsiElement = this
+
+    override fun clone(): Any = this
+
+    override fun toString(): String = "${this.javaClass.simpleName} of $funParent"
+
+    override val clsDelegate: PsiMethod = funDelegate
+
+    override val lightMemberOrigin: LightMemberOrigin? = LightMemberOriginForCompiledMethod(funDelegate, file)
+}
+
+class FLD2(
+    private val fldDelegate: PsiField,
+    private val fldParent: KtLightClass,
+    file: KtClsFile,
+    override val kotlinOrigin: KtDeclaration?
+) : KtLightElementBase(fldParent), PsiField, KtLightField, KtLightMember<PsiField> {
+
+    override fun hasModifierProperty(p0: String): Boolean = fldDelegate.hasModifierProperty(p0)
+
+    override fun setInitializer(p0: PsiExpression?) {
+        fldDelegate.initializer = p0
+    }
+
+    override fun getContainingClass(): KtLightClass = fldParent
+
+    override fun normalizeDeclaration() = fldDelegate.normalizeDeclaration()
+
+    override fun getNameIdentifier(): PsiIdentifier = fldDelegate.nameIdentifier
+
+    override fun getName(): String = fldDelegate.name
+
+    override fun getInitializer(): PsiExpression? = fldDelegate.initializer
+
+    override fun getDocComment(): PsiDocComment? = fldDelegate.docComment
+
+    override fun getTypeElement(): PsiTypeElement? = fldDelegate.typeElement
+
+    override fun getModifierList(): PsiModifierList? = fldDelegate.modifierList
+
+    override fun hasInitializer(): Boolean = fldDelegate.hasInitializer()
+
+    override fun getType(): PsiType = fldDelegate.type
+
+    override fun isDeprecated(): Boolean = fldDelegate.isDeprecated
+
+    override fun setName(p0: String): PsiElement = fldDelegate.setName(p0)
+
+    override fun computeConstantValue(): Any? = fldDelegate.computeConstantValue()
+
+    override fun computeConstantValue(p0: MutableSet<PsiVariable>?): Any? = fldDelegate.computeConstantValue()
+
+    override fun equals(other: Any?): Boolean = other is FUN2 && kotlinOrigin == other.kotlinOrigin
+
+    override fun hashCode(): Int = fldDelegate.hashCode()
+
+    override fun copy(): PsiElement = this
+
+    override fun clone(): Any = this
+
+    override fun toString(): String = "${this.javaClass.simpleName} of $fldParent"
+
+    override val clsDelegate: PsiField = fldDelegate
+
+    override val lightMemberOrigin: LightMemberOrigin? = LightMemberOriginForCompiledField(fldDelegate, file)
+}
+
+
+class KtLightClassForDecompiledDeclaration1(
     override val clsDelegate: ClsClassImpl,
     override val kotlinOrigin: KtClassOrObject?,
     private val file: KtClsFile
