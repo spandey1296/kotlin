@@ -24,6 +24,7 @@ import org.jetbrains.kotlin.cfg.variable.VariableUseState.*
 import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.descriptors.*
+import org.jetbrains.kotlin.descriptors.impl.AnonymousFunctionDescriptor
 import org.jetbrains.kotlin.diagnostics.Diagnostic
 import org.jetbrains.kotlin.diagnostics.DiagnosticFactory
 import org.jetbrains.kotlin.diagnostics.Errors
@@ -51,6 +52,7 @@ import org.jetbrains.kotlin.resolve.calls.util.isSingleUnderscore
 import org.jetbrains.kotlin.resolve.checkers.PlatformDiagnosticSuppressor
 import org.jetbrains.kotlin.resolve.descriptorUtil.isEffectivelyExternal
 import org.jetbrains.kotlin.resolve.descriptorUtil.module
+import org.jetbrains.kotlin.resolve.scopes.receivers.ExtensionReceiver
 import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.TypeUtils.*
 import org.jetbrains.kotlin.types.expressions.ExpressionTypingUtils
@@ -806,6 +808,27 @@ class ControlFlowInformationProvider private constructor(
             trace.record(USED_AS_EXPRESSION, element, isUsedAsExpression)
             trace.record(USED_AS_RESULT_OF_LAMBDA, element, isUsedAsResultOfLambda)
         }
+        markReadOfSuspendLambdaParameter(instruction)
+        markImplicitReceiverOfSuspendLambda(instruction)
+    }
+
+    private fun markReadOfSuspendLambdaParameter(instruction: Instruction) {
+        if (instruction !is ReadValueInstruction) return
+        val target = instruction.target as? AccessTarget.Call ?: return
+        val descriptor = target.resolvedCall.resultingDescriptor
+        if (descriptor !is ParameterDescriptor) return
+        val containing = descriptor.containingDeclaration
+        if (containing !is AnonymousFunctionDescriptor || !containing.isSuspend) return
+        trace.record(SUSPEND_LAMBDA_PARAMETER_USED, descriptor)
+    }
+
+    private fun markImplicitReceiverOfSuspendLambda(instruction: Instruction) {
+        if (instruction !is MagicInstruction || instruction.kind != MagicKind.IMPLICIT_RECEIVER) return
+        val call = (instruction.element as? KtCallExpression).getResolvedCall(trace.bindingContext) ?: return
+        val containing = (call.dispatchReceiver as? ExtensionReceiver)?.declarationDescriptor
+            ?: (call.extensionReceiver as? ExtensionReceiver)?.declarationDescriptor ?: return
+        if (containing !is AnonymousFunctionDescriptor || !containing.isSuspend) return
+        trace.record(SUSPEND_LAMBDA_PARAMETER_USED, containing.extensionReceiverParameter)
     }
 
     private fun markAnnotationArguments() {

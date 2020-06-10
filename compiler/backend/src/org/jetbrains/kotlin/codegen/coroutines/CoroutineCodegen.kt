@@ -229,6 +229,7 @@ class CoroutineCodegenForLambda private constructor(
 
     override fun generateClosureBody() {
         for (parameter in allFunctionParameters()) {
+            if (isUnused(parameter)) continue
             val fieldInfo = parameter.getFieldInfoForCoroutineLambdaParameter()
             v.newField(
                 OtherOrigin(parameter),
@@ -398,39 +399,41 @@ class CoroutineCodegenForLambda private constructor(
             var index = 1
             for (parameter in allFunctionParameters()) {
                 val fieldInfoForCoroutineLambdaParameter = parameter.getFieldInfoForCoroutineLambdaParameter()
-                if (isBigArity) {
-                    load(cloneIndex, fieldInfoForCoroutineLambdaParameter.ownerType)
-                    load(1, AsmTypes.OBJECT_TYPE)
-                    iconst(index - 1)
-                    aload(AsmTypes.OBJECT_TYPE)
-                    StackValue.coerce(
-                        AsmTypes.OBJECT_TYPE, builtIns.nullableAnyType,
-                        fieldInfoForCoroutineLambdaParameter.fieldType, fieldInfoForCoroutineLambdaParameter.fieldKotlinType,
-                        this
-                    )
-                    putfield(
-                        fieldInfoForCoroutineLambdaParameter.ownerInternalName,
-                        fieldInfoForCoroutineLambdaParameter.fieldName,
-                        fieldInfoForCoroutineLambdaParameter.fieldType.descriptor
-                    )
-                } else {
-                    if (generateErasedCreate) {
-                        load(index, AsmTypes.OBJECT_TYPE)
+                if (!isUnused(parameter)) {
+                    if (isBigArity) {
+                        load(cloneIndex, fieldInfoForCoroutineLambdaParameter.ownerType)
+                        load(1, AsmTypes.OBJECT_TYPE)
+                        iconst(index - 1)
+                        aload(AsmTypes.OBJECT_TYPE)
                         StackValue.coerce(
                             AsmTypes.OBJECT_TYPE, builtIns.nullableAnyType,
                             fieldInfoForCoroutineLambdaParameter.fieldType, fieldInfoForCoroutineLambdaParameter.fieldKotlinType,
                             this
                         )
+                        putfield(
+                            fieldInfoForCoroutineLambdaParameter.ownerInternalName,
+                            fieldInfoForCoroutineLambdaParameter.fieldName,
+                            fieldInfoForCoroutineLambdaParameter.fieldType.descriptor
+                        )
                     } else {
-                        load(index, fieldInfoForCoroutineLambdaParameter.fieldType)
+                        if (generateErasedCreate) {
+                            load(index, AsmTypes.OBJECT_TYPE)
+                            StackValue.coerce(
+                                AsmTypes.OBJECT_TYPE, builtIns.nullableAnyType,
+                                fieldInfoForCoroutineLambdaParameter.fieldType, fieldInfoForCoroutineLambdaParameter.fieldKotlinType,
+                                this
+                            )
+                        } else {
+                            load(index, fieldInfoForCoroutineLambdaParameter.fieldType)
+                        }
+                        AsmUtil.genAssignInstanceFieldFromParam(
+                            fieldInfoForCoroutineLambdaParameter,
+                            index,
+                            this,
+                            cloneIndex,
+                            generateErasedCreate
+                        )
                     }
-                    AsmUtil.genAssignInstanceFieldFromParam(
-                        fieldInfoForCoroutineLambdaParameter,
-                        index,
-                        this,
-                        cloneIndex,
-                        generateErasedCreate
-                    )
                 }
                 index += if (isBigArity || generateErasedCreate) 1 else fieldInfoForCoroutineLambdaParameter.fieldType.size
             }
@@ -442,6 +445,7 @@ class CoroutineCodegenForLambda private constructor(
 
     private fun ExpressionCodegen.initializeCoroutineParameters() {
         for (parameter in allFunctionParameters()) {
+            if (isUnused(parameter)) continue
             val fieldStackValue =
                 StackValue.field(
                     parameter.getFieldInfoForCoroutineLambdaParameter(), generateThisOrOuter(context.thisDescriptor, false)
@@ -464,6 +468,10 @@ class CoroutineCodegenForLambda private constructor(
         }
 
         initializeVariablesForDestructuredLambdaParameters(this, originalSuspendFunctionDescriptor.valueParameters, endLabel)
+    }
+
+    private fun isUnused(parameter: ParameterDescriptor): Boolean {
+        return bindingContext[BindingContext.SUSPEND_LAMBDA_PARAMETER_USED, parameter] != true
     }
 
     private fun allFunctionParameters(): List<ParameterDescriptor> =

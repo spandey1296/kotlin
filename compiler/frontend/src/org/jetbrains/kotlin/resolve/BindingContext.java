@@ -169,6 +169,8 @@ public interface BindingContext {
     WritableSlice<KtExpression, Boolean> VARIABLE_REASSIGNMENT = Slices.createSimpleSetSlice();
     WritableSlice<ValueParameterDescriptor, Boolean> AUTO_CREATED_IT = Slices.createSimpleSetSlice();
 
+    WritableSlice<ParameterDescriptor, Boolean> SUSPEND_LAMBDA_PARAMETER_USED = Slices.createSimpleSlice();
+
     /**
      * Has type of current expression has been already resolved
      */
