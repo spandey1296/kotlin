@@ -7,6 +7,7 @@ package kotlin.text
 
 import kotlin.internal.LowPriorityInOverloadResolution
 
+@CompileTimeCalculation
 expect class Regex {
     constructor(pattern: String)
     constructor(pattern: String, option: RegexOption)
@@ -47,12 +48,16 @@ expect class Regex {
     fun split(input: CharSequence, limit: Int = 0): List<String>
 
     companion object {
+        @CompileTimeCalculation
         fun fromLiteral(literal: String): Regex
+        @CompileTimeCalculation
         fun escape(literal: String): String
+        @CompileTimeCalculation
         fun escapeReplacement(literal: String): String
     }
 }
 
+@CompileTimeCalculation
 expect class MatchGroup {
     val value: String
 }
