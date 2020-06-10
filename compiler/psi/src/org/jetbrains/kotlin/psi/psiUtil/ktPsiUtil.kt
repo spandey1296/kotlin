@@ -673,3 +673,11 @@ fun getTrailingCommaByElementsList(elementList: PsiElement?): PsiElement? {
     val lastChild = elementList?.lastChild?.let { if (it !is PsiComment) it else it.getPrevSiblingIgnoringWhitespaceAndComments() }
     return lastChild?.takeIf { it.node.elementType == KtTokens.COMMA }
 }
+
+fun PsiElement.getLambdasInside() =
+    collectDescendantsOfType<PsiElement>({ true }) { it is KtLambdaExpression }
+
+fun PsiElement.isInsideLambdas(lambdas: List<PsiElement>) =
+    lambdas.any { lambda ->
+        getParentOfTypesAndPredicate(true, KtLambdaExpression::class.java) { parent -> lambda == parent } != null
+    }

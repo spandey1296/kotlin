@@ -16,17 +16,20 @@
 
 package org.jetbrains.kotlin.types.expressions;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
 import kotlin.Pair;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns;
-import org.jetbrains.kotlin.config.LanguageFeature;
 import org.jetbrains.kotlin.descriptors.*;
 import org.jetbrains.kotlin.diagnostics.Errors;
 import org.jetbrains.kotlin.lexer.KtTokens;
 import org.jetbrains.kotlin.name.Name;
 import org.jetbrains.kotlin.psi.*;
+import org.jetbrains.kotlin.psi.psiUtil.KtPsiUtilKt;
 import org.jetbrains.kotlin.resolve.BindingContext;
 import org.jetbrains.kotlin.resolve.BindingContextUtils;
 import org.jetbrains.kotlin.resolve.TemporaryBindingTrace;
@@ -50,8 +53,7 @@ import org.jetbrains.kotlin.types.checker.KotlinTypeChecker;
 import org.jetbrains.kotlin.types.expressions.typeInfoFactory.TypeInfoFactoryKt;
 import org.jetbrains.kotlin.util.OperatorNameConventions;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 import static org.jetbrains.kotlin.diagnostics.Errors.*;
 import static org.jetbrains.kotlin.psi.KtPsiUtil.deparenthesize;
@@ -241,7 +243,19 @@ public class ExpressionTypingVisitorForStatements extends ExpressionTypingVisito
                 context, "trace to check binary operation like '+' for", expression);
         TemporaryBindingTrace ignoreReportsTrace = TemporaryBindingTrace.create(context.trace, "Trace for checking assignability");
         boolean lhsAssignable = basic.checkLValue(ignoreReportsTrace, context, left, right, expression, false);
+
+        List<PsiElement> lambdasInsideRightExpression = KtPsiUtilKt.getLambdasInside(right);
+        Pair<Function0<Unit>, Function0<Unit>> commitCallbacks =
+                temporaryForAssignmentOperation.trace.getCallbacksToPrecommit((slice, key) -> {
+                    if (!(key instanceof PsiElement)) return false;
+                    if (lambdasInsideRightExpression.contains(key)) return true;
+                    return KtPsiUtilKt.isInsideLambdas((PsiElement)key, lambdasInsideRightExpression);
+                }, true);
+        Function0<Unit> commitLambdasInfoFromTraceForAssignmentOperation = commitCallbacks.component1();
+        Function0<Unit> commitAllRemainingFromTraceForAssignmentOperation = commitCallbacks.component2();
+
         if (assignmentOperationType == null || lhsAssignable) {
+            commitLambdasInfoFromTraceForAssignmentOperation.invoke();
             // Check for '+'
             Name counterpartName = OperatorConventions.BINARY_OPERATION_NAMES.get(OperatorConventions.ASSIGNMENT_OPERATION_COUNTERPARTS.get(operationType));
             binaryOperationDescriptors = components.callResolver.resolveBinaryCall(
@@ -278,7 +292,9 @@ public class ExpressionTypingVisitorForStatements extends ExpressionTypingVisito
                  (assignmentOperationDescriptors.isSuccess() || !binaryOperationDescriptors.isSuccess()) &&
                  (!hasRemBinaryOperation || !binaryOperationDescriptors.isSuccess())) {
             // There's 'plusAssign()', so we do a.plusAssign(b)
-            temporaryForAssignmentOperation.commit();
+
+            commitAllRemainingFromTraceForAssignmentOperation.invoke();
+            temporaryForAssignmentOperation.cache.commit();
             if (!KotlinTypeChecker.DEFAULT.equalTypes(components.builtIns.getUnitType(), assignmentOperationType)) {
                 context.trace.report(ASSIGNMENT_OPERATOR_SHOULD_RETURN_UNIT.on(operationSign, assignmentOperationDescriptors.getResultingDescriptor(), operationSign));
             }
