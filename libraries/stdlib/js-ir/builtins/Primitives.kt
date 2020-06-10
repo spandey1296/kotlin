@@ -12,6 +12,7 @@ package kotlin
  * Represents a 8-bit signed integer.
  * On the JVM, non-nullable values of this type are represented as values of the primitive type `byte`.
  */
+@CompileTimeCalculation
 public class Byte private constructor() : Number(), Comparable<Byte> {
     companion object {
         /**
@@ -42,7 +43,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public override operator fun compareTo(other: Byte): Int
 
     /**
@@ -50,7 +50,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Short): Int
 
     /**
@@ -58,7 +57,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Int): Int
 
     /**
@@ -66,7 +64,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Long): Int
 
     /**
@@ -74,7 +71,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Float): Int
 
     /**
@@ -82,108 +78,77 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Byte): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Short): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Int): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Byte): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Short): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Int): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Byte): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Short): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Int): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Byte): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Short): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Int): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Double): Double
 
     /** Increments this value. */
@@ -191,27 +156,20 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
     /** Decrements this value. */
     public operator fun dec(): Byte
     /** Returns this value. */
-    @CompileTimeCalculation
     public operator fun unaryPlus(): Int
     /** Returns the negative of this value. */
-    @CompileTimeCalculation
     public operator fun unaryMinus(): Int
 
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Byte): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Short): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Int): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Long): LongRange
 
     /** Returns this value. */
-    @CompileTimeCalculation
     public override fun toByte(): Byte
     /**
      * Converts this [Byte] value to [Char].
@@ -221,7 +179,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * The least significant 8 bits of the resulting `Char` code are the same as the bits of this `Byte` value,
      * whereas the most significant 8 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toChar(): Char
     /**
      * Converts this [Byte] value to [Short].
@@ -231,7 +188,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * The least significant 8 bits of the resulting `Short` value are the same as the bits of this `Byte` value,
      * whereas the most significant 8 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toShort(): Short
     /**
      * Converts this [Byte] value to [Int].
@@ -241,7 +197,6 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * The least significant 8 bits of the resulting `Int` value are the same as the bits of this `Byte` value,
      * whereas the most significant 24 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toInt(): Int
     /**
      * Converts this [Byte] value to [Long].
@@ -251,30 +206,22 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
      * The least significant 8 bits of the resulting `Long` value are the same as the bits of this `Byte` value,
      * whereas the most significant 56 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toLong(): Long
     /**
      * Converts this [Byte] value to [Float].
      *
      * The resulting `Float` value represents the same numerical value as this `Byte`.
      */
-    @CompileTimeCalculation
     public override fun toFloat(): Float
     /**
      * Converts this [Byte] value to [Double].
      *
      * The resulting `Double` value represents the same numerical value as this `Byte`.
      */
-    @CompileTimeCalculation
     public override fun toDouble(): Double
 
-    @CompileTimeCalculation
     public override fun equals(other: Any?): Boolean
-
-    @CompileTimeCalculation
     public override fun hashCode(): Int
-
-    @CompileTimeCalculation
     public override fun toString(): String
 }
 
@@ -282,6 +229,7 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
  * Represents a 16-bit signed integer.
  * On the JVM, non-nullable values of this type are represented as values of the primitive type `short`.
  */
+@CompileTimeCalculation
 public class Short private constructor() : Number(), Comparable<Short> {
     companion object {
         /**
@@ -312,7 +260,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Byte): Int
 
     /**
@@ -320,7 +267,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public override operator fun compareTo(other: Short): Int
 
     /**
@@ -328,7 +274,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Int): Int
 
     /**
@@ -336,7 +281,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Long): Int
 
     /**
@@ -344,7 +288,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Float): Int
 
     /**
@@ -352,108 +295,77 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Byte): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Short): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Int): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Byte): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Short): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Int): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Byte): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Short): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Int): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Byte): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Short): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Int): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Double): Double
 
     /** Increments this value. */
@@ -461,23 +373,17 @@ public class Short private constructor() : Number(), Comparable<Short> {
     /** Decrements this value. */
     public operator fun dec(): Short
     /** Returns this value. */
-    @CompileTimeCalculation
     public operator fun unaryPlus(): Int
     /** Returns the negative of this value. */
-    @CompileTimeCalculation
     public operator fun unaryMinus(): Int
 
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Byte): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Short): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Int): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Long): LongRange
 
     /**
@@ -488,7 +394,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      *
      * The resulting `Byte` value is represented by the least significant 8 bits of this `Short` value.
      */
-    @CompileTimeCalculation
     public override fun toByte(): Byte
     /**
      * Converts this [Short] value to [Char].
@@ -496,10 +401,8 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * The resulting `Char` code is equal to this value reinterpreted as an unsigned number,
      * i.e. it has the same binary representation as this `Short`.
      */
-    @CompileTimeCalculation
     public override fun toChar(): Char
     /** Returns this value. */
-    @CompileTimeCalculation
     public override fun toShort(): Short
     /**
      * Converts this [Short] value to [Int].
@@ -509,7 +412,6 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * The least significant 16 bits of the resulting `Int` value are the same as the bits of this `Short` value,
      * whereas the most significant 16 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toInt(): Int
     /**
      * Converts this [Short] value to [Long].
@@ -519,28 +421,22 @@ public class Short private constructor() : Number(), Comparable<Short> {
      * The least significant 16 bits of the resulting `Long` value are the same as the bits of this `Short` value,
      * whereas the most significant 48 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toLong(): Long
     /**
      * Converts this [Short] value to [Float].
      *
      * The resulting `Float` value represents the same numerical value as this `Short`.
      */
-    @CompileTimeCalculation
     public override fun toFloat(): Float
     /**
      * Converts this [Short] value to [Double].
      *
      * The resulting `Double` value represents the same numerical value as this `Short`.
      */
-    @CompileTimeCalculation
     public override fun toDouble(): Double
 
-    @CompileTimeCalculation
     public override fun equals(other: Any?): Boolean
-    @CompileTimeCalculation
     public override fun hashCode(): Int
-    @CompileTimeCalculation
     public override fun toString(): String
 }
 
@@ -548,6 +444,7 @@ public class Short private constructor() : Number(), Comparable<Short> {
  * Represents a 32-bit signed integer.
  * On the JVM, non-nullable values of this type are represented as values of the primitive type `int`.
  */
+@CompileTimeCalculation
 public class Int private constructor() : Number(), Comparable<Int> {
     companion object {
         /**
@@ -578,7 +475,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Byte): Int
 
     /**
@@ -586,7 +482,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Short): Int
 
     /**
@@ -594,7 +489,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public override operator fun compareTo(other: Int): Int
 
     /**
@@ -602,7 +496,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Long): Int
 
     /**
@@ -610,7 +503,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Float): Int
 
     /**
@@ -618,108 +510,77 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Byte): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Short): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Int): Int
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Byte): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Short): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Int): Int
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Byte): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Short): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Int): Int
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Byte): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Short): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Int): Int
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Double): Double
 
     /** Increments this value. */
@@ -727,45 +588,32 @@ public class Int private constructor() : Number(), Comparable<Int> {
     /** Decrements this value. */
     public operator fun dec(): Int
     /** Returns this value. */
-    @CompileTimeCalculation
     public operator fun unaryPlus(): Int
     /** Returns the negative of this value. */
-    @CompileTimeCalculation
     public operator fun unaryMinus(): Int
 
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Byte): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Short): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Int): IntRange
      /** Creates a range from this value to the specified [other] value. */
-    @CompileTimeCalculation
     public operator fun rangeTo(other: Long): LongRange
 
     /** Shifts this value left by the [bitCount] number of bits. */
-    @CompileTimeCalculation
     public infix fun shl(bitCount: Int): Int
     /** Shifts this value right by the [bitCount] number of bits, filling the leftmost bits with copies of the sign bit. */
-    @CompileTimeCalculation
     public infix fun shr(bitCount: Int): Int
     /** Shifts this value right by the [bitCount] number of bits, filling the leftmost bits with zeros. */
-    @CompileTimeCalculation
     public infix fun ushr(bitCount: Int): Int
     /** Performs a bitwise AND operation between the two values. */
-    @CompileTimeCalculation
     public infix fun and(other: Int): Int
     /** Performs a bitwise OR operation between the two values. */
-    @CompileTimeCalculation
     public infix fun or(other: Int): Int
     /** Performs a bitwise XOR operation between the two values. */
-    @CompileTimeCalculation
     public infix fun xor(other: Int): Int
     /** Inverts the bits in this value. */
-    @CompileTimeCalculation
     public fun inv(): Int
 
     /**
@@ -776,7 +624,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      *
      * The resulting `Byte` value is represented by the least significant 8 bits of this `Int` value.
      */
-    @CompileTimeCalculation
     public override fun toByte(): Byte
     /**
      * Converts this [Int] value to [Char].
@@ -786,7 +633,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      *
      * The resulting `Char` code is represented by the least significant 16 bits of this `Int` value.
      */
-    @CompileTimeCalculation
     public override fun toChar(): Char
     /**
      * Converts this [Int] value to [Short].
@@ -796,10 +642,8 @@ public class Int private constructor() : Number(), Comparable<Int> {
      *
      * The resulting `Short` value is represented by the least significant 16 bits of this `Int` value.
      */
-    @CompileTimeCalculation
     public override fun toShort(): Short
     /** Returns this value. */
-    @CompileTimeCalculation
     public override fun toInt(): Int
     /**
      * Converts this [Int] value to [Long].
@@ -809,7 +653,6 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * The least significant 32 bits of the resulting `Long` value are the same as the bits of this `Int` value,
      * whereas the most significant 32 bits are filled with the sign bit of this value.
      */
-    @CompileTimeCalculation
     public override fun toLong(): Long
     /**
      * Converts this [Int] value to [Float].
@@ -818,21 +661,16 @@ public class Int private constructor() : Number(), Comparable<Int> {
      * In case when this `Int` value is exactly between two `Float`s,
      * the one with zero at least significant bit of mantissa is selected.
      */
-    @CompileTimeCalculation
     public override fun toFloat(): Float
     /**
      * Converts this [Int] value to [Double].
      *
      * The resulting `Double` value represents the same numerical value as this `Int`.
      */
-    @CompileTimeCalculation
     public override fun toDouble(): Double
 
-    @CompileTimeCalculation
     public override fun equals(other: Any?): Boolean
-    @CompileTimeCalculation
     public override fun hashCode(): Int
-    @CompileTimeCalculation
     public override fun toString(): String
 }
 
@@ -840,6 +678,7 @@ public class Int private constructor() : Number(), Comparable<Int> {
  * Represents a single-precision 32-bit IEEE 754 floating point number.
  * On the JVM, non-nullable values of this type are represented as values of the primitive type `float`.
  */
+@CompileTimeCalculation
 public class Float private constructor() : Number(), Comparable<Float> {
     companion object {
         /**
@@ -885,7 +724,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Byte): Int
 
     /**
@@ -893,7 +731,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Short): Int
 
     /**
@@ -901,7 +738,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Int): Int
 
     /**
@@ -909,7 +745,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Long): Int
 
     /**
@@ -917,7 +752,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public override operator fun compareTo(other: Float): Int
 
     /**
@@ -925,108 +759,77 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Byte): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Short): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Int): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Long): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Byte): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Short): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Int): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Long): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Byte): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Short): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Int): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Long): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Byte): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Short): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Int): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Long): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Byte): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Short): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Int): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Long): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Double): Double
 
     /** Increments this value. */
@@ -1034,10 +837,8 @@ public class Float private constructor() : Number(), Comparable<Float> {
     /** Decrements this value. */
     public operator fun dec(): Float
     /** Returns this value. */
-    @CompileTimeCalculation
     public operator fun unaryPlus(): Float
     /** Returns the negative of this value. */
-    @CompileTimeCalculation
     public operator fun unaryMinus(): Float
 
 
@@ -1047,14 +848,12 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * The resulting `Byte` value is equal to `this.toInt().toByte()`.
      */
     @Deprecated("Unclear conversion. To achieve the same result convert to Int explicitly and then to Byte.", ReplaceWith("toInt().toByte()"))
-    @CompileTimeCalculation
     public override fun toByte(): Byte
     /**
      * Converts this [Float] value to [Char].
      *
      * The resulting `Char` value is equal to `this.toInt().toChar()`.
      */
-    @CompileTimeCalculation
     public override fun toChar(): Char
     /**
      * Converts this [Float] value to [Short].
@@ -1062,7 +861,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * The resulting `Short` value is equal to `this.toInt().toShort()`.
      */
     @Deprecated("Unclear conversion. To achieve the same result convert to Int explicitly and then to Short.", ReplaceWith("toInt().toShort()"))
-    @CompileTimeCalculation
     public override fun toShort(): Short
     /**
      * Converts this [Float] value to [Int].
@@ -1071,7 +869,6 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this `Float` value is `NaN`, [Int.MIN_VALUE] if it's less than `Int.MIN_VALUE`,
      * [Int.MAX_VALUE] if it's bigger than `Int.MAX_VALUE`.
      */
-    @CompileTimeCalculation
     public override fun toInt(): Int
     /**
      * Converts this [Float] value to [Long].
@@ -1080,24 +877,18 @@ public class Float private constructor() : Number(), Comparable<Float> {
      * Returns zero if this `Float` value is `NaN`, [Long.MIN_VALUE] if it's less than `Long.MIN_VALUE`,
      * [Long.MAX_VALUE] if it's bigger than `Long.MAX_VALUE`.
      */
-    @CompileTimeCalculation
     public override fun toLong(): Long
     /** Returns this value. */
-    @CompileTimeCalculation
     public override fun toFloat(): Float
     /**
      * Converts this [Float] value to [Double].
      *
      * The resulting `Double` value represents the same numerical value as this `Float`.
      */
-    @CompileTimeCalculation
     public override fun toDouble(): Double
 
-    @CompileTimeCalculation
     public override fun equals(other: Any?): Boolean
-    @CompileTimeCalculation
     public override fun hashCode(): Int
-    @CompileTimeCalculation
     public override fun toString(): String
 }
 
@@ -1105,6 +896,7 @@ public class Float private constructor() : Number(), Comparable<Float> {
  * Represents a double-precision 64-bit IEEE 754 floating point number.
  * On the JVM, non-nullable values of this type are represented as values of the primitive type `double`.
  */
+@CompileTimeCalculation
 public class Double private constructor() : Number(), Comparable<Double> {
     companion object {
         /**
@@ -1150,7 +942,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Byte): Int
 
     /**
@@ -1158,7 +949,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Short): Int
 
     /**
@@ -1166,7 +956,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Int): Int
 
     /**
@@ -1174,7 +963,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Long): Int
 
     /**
@@ -1182,7 +970,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public operator fun compareTo(other: Float): Int
 
     /**
@@ -1190,108 +977,77 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @CompileTimeCalculation
     public override operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Byte): Double
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Short): Double
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Int): Double
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Long): Double
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Float): Double
     /** Adds the other value to this value. */
-    @CompileTimeCalculation
     public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Byte): Double
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Short): Double
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Int): Double
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Long): Double
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Float): Double
     /** Subtracts the other value from this value. */
-    @CompileTimeCalculation
     public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Byte): Double
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Short): Double
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Int): Double
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Long): Double
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Float): Double
     /** Multiplies this value by the other value. */
-    @CompileTimeCalculation
     public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Byte): Double
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Short): Double
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Int): Double
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Long): Double
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Float): Double
     /** Divides this value by the other value. */
-    @CompileTimeCalculation
     public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Byte): Double
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Short): Double
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Int): Double
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Long): Double
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Float): Double
     /** Calculates the remainder of dividing this value by the other value. */
     @SinceKotlin("1.1")
-    @CompileTimeCalculation
     public operator fun rem(other: Double): Double
 
     /** Increments this value. */
@@ -1299,10 +1055,8 @@ public class Double private constructor() : Number(), Comparable<Double> {
     /** Decrements this value. */
     public operator fun dec(): Double
     /** Returns this value. */
-    @CompileTimeCalculation
     public operator fun unaryPlus(): Double
     /** Returns the negative of this value. */
-    @CompileTimeCalculation
     public operator fun unaryMinus(): Double
 
 
@@ -1312,14 +1066,12 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * The resulting `Byte` value is equal to `this.toInt().toByte()`.
      */
     @Deprecated("Unclear conversion. To achieve the same result convert to Int explicitly and then to Byte.", ReplaceWith("toInt().toByte()"))
-    @CompileTimeCalculation
     public override fun toByte(): Byte
     /**
      * Converts this [Double] value to [Char].
      *
      * The resulting `Char` value is equal to `this.toInt().toChar()`.
      */
-    @CompileTimeCalculation
     public override fun toChar(): Char
     /**
      * Converts this [Double] value to [Short].
@@ -1327,7 +1079,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * The resulting `Short` value is equal to `this.toInt().toShort()`.
      */
     @Deprecated("Unclear conversion. To achieve the same result convert to Int explicitly and then to Short.", ReplaceWith("toInt().toShort()"))
-    @CompileTimeCalculation
     public override fun toShort(): Short
     /**
      * Converts this [Double] value to [Int].
@@ -1336,7 +1087,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this `Double` value is `NaN`, [Int.MIN_VALUE] if it's less than `Int.MIN_VALUE`,
      * [Int.MAX_VALUE] if it's bigger than `Int.MAX_VALUE`.
      */
-    @CompileTimeCalculation
     public override fun toInt(): Int
     /**
      * Converts this [Double] value to [Long].
@@ -1345,7 +1095,6 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * Returns zero if this `Double` value is `NaN`, [Long.MIN_VALUE] if it's less than `Long.MIN_VALUE`,
      * [Long.MAX_VALUE] if it's bigger than `Long.MAX_VALUE`.
      */
-    @CompileTimeCalculation
     public override fun toLong(): Long
     /**
      * Converts this [Double] value to [Float].
@@ -1354,17 +1103,12 @@ public class Double private constructor() : Number(), Comparable<Double> {
      * In case when this `Double` value is exactly between two `Float`s,
      * the one with zero at least significant bit of mantissa is selected.
      */
-    @CompileTimeCalculation
     public override fun toFloat(): Float
     /** Returns this value. */
-    @CompileTimeCalculation
     public override fun toDouble(): Double
 
-    @CompileTimeCalculation
     public override fun equals(other: Any?): Boolean
-    @CompileTimeCalculation
     public override fun hashCode(): Int
-    @CompileTimeCalculation
     public override fun toString(): String
 }
 
