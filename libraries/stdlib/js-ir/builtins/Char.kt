@@ -13,6 +13,7 @@ package kotlin
 //@Suppress("NON_PUBLIC_PRIMARY_CONSTRUCTOR_OF_INLINE_CLASS")
 //public inline class Char internal constructor (val value: Int) : Comparable<Char> {
 @CompileTimeCalculation
+@EvaluateIntrinsic("kotlin.Char")
 public class Char internal constructor(private val value: Int) : Comparable<Char> {
 
     /**
