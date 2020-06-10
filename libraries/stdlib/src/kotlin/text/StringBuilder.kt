@@ -13,6 +13,7 @@ package kotlin.text
  *
  * String builder can be used to efficiently perform multiple string manipulation operations.
  */
+@CompileTimeCalculation
 expect class StringBuilder : Appendable, CharSequence {
     /** Constructs an empty string builder. */
     constructor()
