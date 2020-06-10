@@ -1,5 +1,8 @@
 package
 
+public fun foo(/*0*/ total: kotlin.Float): kotlin.Int
+public fun foo(/*0*/ total: kotlin.Int): kotlin.Int
+public fun foo(/*0*/ total: kotlin.String): kotlin.Int
 public fun </*0*/ T> id(/*0*/ x: T): T
 public fun main(): kotlin.Unit
 public operator fun </*0*/ T> T.plus(/*0*/ x: (T) -> kotlin.Int): A

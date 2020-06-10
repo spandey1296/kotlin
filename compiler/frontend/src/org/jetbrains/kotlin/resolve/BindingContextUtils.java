@@ -218,13 +218,20 @@ public class BindingContextUtils {
             return null;
         });
 
-        if (!commitDiagnostics) return;
+        if (commitDiagnostics) {
+            reportDiagnostics(trace, filter, diagnostics);
+        }
+    }
 
+    static void reportDiagnostics(
+            @NotNull BindingTrace trace,
+            @Nullable TraceEntryFilter filter,
+            MutableDiagnosticsWithSuppression diagnostics
+    ) {
         for (Diagnostic diagnostic : diagnostics.getOwnDiagnostics()) {
             if (filter == null || filter.accept(null, diagnostic.getPsiElement())) {
                 trace.report(diagnostic);
             }
         }
-
     }
 }

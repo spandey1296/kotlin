@@ -6,7 +6,6 @@
 package org.jetbrains.kotlin.resolve
 
 import org.jetbrains.kotlin.resolve.BindingTraceFilter.Companion.ACCEPT_ALL
-import org.jetbrains.kotlin.util.slicedMap.WritableSlice
 
 class TemporaryBindingTrace(val trace: BindingTrace, debugName: String, filter: BindingTraceFilter) :
     DelegatingBindingTrace(trace.bindingContext, debugName, true, filter, false) {
@@ -20,25 +19,13 @@ class TemporaryBindingTrace(val trace: BindingTrace, debugName: String, filter: 
         clear()
     }
 
-    fun getCallbacksToPrecommit(
-        filter: (WritableSlice<*, *>?, Any) -> Boolean,
-        commitDiagnostics: Boolean
-    ): Pair<() -> Unit, () -> Unit> {
-        var wasPrecommitted = false
-        val precommit = {
-            addOwnDataTo(trace, filter, commitDiagnostics)
-            wasPrecommitted = true
-        }
-        val commitAllRemaining = {
-            if (wasPrecommitted) {
-                addOwnDataTo(trace, { slice, key -> !filter(slice, key) }, commitDiagnostics)
-                clear()
-            } else {
-                commit()
-            }
-        }
+    @JvmOverloads
+    fun commitWithoutClearing(filter: TraceEntryFilter? = null, commitDiagnostics: Boolean) {
+        addOwnDataTo(trace, filter, commitDiagnostics)
+    }
 
-        return precommit to commitAllRemaining
+    fun reportDiagnostics() {
+        BindingContextUtils.reportDiagnostics(trace, null, mutableDiagnostics)
     }
 
     override fun wantsDiagnostics(): Boolean {
