@@ -14,6 +14,7 @@ abstract class Enum<E : Enum<E>>(val name: String, val ordinal: Int) : Comparabl
 
     override fun equals(other: Any?) = this === other
 
+    @EvaluateIntrinsic("")
     override fun hashCode(): Int = identityHashCode(this)
 
     override fun toString() = name
