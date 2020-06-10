@@ -65,6 +65,7 @@ expect enum class RegexOption {
 
 // From char.kt
 
+@CompileTimeCalculation
 expect fun Char.isWhitespace(): Boolean
 expect fun Char.toLowerCase(): Char
 expect fun Char.toUpperCase(): Char
