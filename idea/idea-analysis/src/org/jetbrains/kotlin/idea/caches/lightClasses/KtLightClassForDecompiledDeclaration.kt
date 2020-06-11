@@ -5,17 +5,20 @@
 
 package org.jetbrains.kotlin.idea.caches.lightClasses
 
+import com.intellij.openapi.util.Pair
 import com.intellij.psi.*
 import com.intellij.psi.impl.PsiClassImplUtil
 import com.intellij.psi.impl.PsiImplUtil
 import com.intellij.psi.impl.PsiSuperMethodImplUtil
 import com.intellij.psi.impl.compiled.ClsClassImpl
+import com.intellij.psi.impl.light.LightMethod
 import com.intellij.psi.javadoc.PsiDocComment
+import com.intellij.psi.scope.ElementClassHint
+import com.intellij.psi.scope.NameHint
 import com.intellij.psi.scope.PsiScopeProcessor
+import com.intellij.psi.util.MethodSignature
 import com.intellij.psi.util.MethodSignatureBackedByPsiMethod
-import com.intellij.psi.util.PsiUtil
 import org.jetbrains.annotations.NonNls
-import org.jetbrains.kotlin.asJava.builder.LightMemberOrigin
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClassBase
 import org.jetbrains.kotlin.asJava.classes.lazyPub
@@ -24,14 +27,9 @@ import org.jetbrains.kotlin.asJava.propertyNameByAccessor
 import org.jetbrains.kotlin.codegen.state.KotlinTypeMapper
 import org.jetbrains.kotlin.idea.decompiler.classFile.KtClsFile
 import org.jetbrains.kotlin.load.java.structure.LightClassOriginKind
-import org.jetbrains.kotlin.load.kotlin.MemberSignature
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtDeclaration
-import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.type.MapPsiToAsmDesc
-import com.intellij.psi.util.MethodSignature
-import com.intellij.openapi.util.Pair
 
 class KtLightClassForDecompiledDeclaration(
     override val clsDelegate: PsiClass,
@@ -95,21 +93,87 @@ class KtLightClassForDecompiledDeclaration(
     override fun isInheritor(p0: PsiClass, p1: Boolean): Boolean =
         clsDelegate.isInheritor(p0, p1)
 
+//    override fun processDeclarations(
+//        processor: PsiScopeProcessor,
+//        state: ResolveState,
+//        lastParent: PsiElement?,
+//        place: PsiElement
+//    ): Boolean = PsiClassImplUtil.processDeclarationsInClass(
+//        this,
+//        processor,
+//        state,
+//        null,
+//        lastParent,
+//        place,
+//        PsiUtil.getLanguageLevel(place),
+//        false
+//    )
+
     override fun processDeclarations(
+        processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement
+    ): Boolean {
+        return clsDelegate.processDeclarations(processor, state, lastParent, place)
+//        if (isEnum) {
+//            if (!processDeclarationsInEnum(processor, state)) return false
+//        }
+//        return super.processDeclarations(processor, state, lastParent, place)
+    }
+
+    private val VALUES_METHOD = "values"
+    private val VALUE_OF_METHOD = "valueOf"
+
+    // Copy of PsiClassImplUtil.processDeclarationsInEnum for own cache class
+    fun processDeclarationsInEnum(
         processor: PsiScopeProcessor,
-        state: ResolveState,
-        lastParent: PsiElement?,
-        place: PsiElement
-    ): Boolean = PsiClassImplUtil.processDeclarationsInClass(
-        this,
-        processor,
-        state,
-        null,
-        lastParent,
-        place,
-        PsiUtil.getLanguageLevel(place),
-        false
-    )
+        state: ResolveState
+    ): Boolean {
+        val classHint = processor.getHint(ElementClassHint.KEY)
+        if (classHint == null || classHint.shouldProcess(ElementClassHint.DeclarationKind.METHOD)) {
+            val nameHint = processor.getHint(NameHint.KEY)
+            if (nameHint == null || VALUES_METHOD == nameHint.getName(state)) {
+                val method = getValuesMethod()
+                if (method != null && !processor.execute(method, ResolveState.initial())) return false
+            }
+            if (nameHint == null || VALUE_OF_METHOD == nameHint.getName(state)) {
+                val method = getValueOfMethod()
+                if (method != null && !processor.execute(method, ResolveState.initial())) return false
+            }
+        }
+
+        return true
+    }
+
+
+    private val _makeValuesMethod: PsiMethod by lazyPub { this.makeValuesMethod() }
+
+    fun getValuesMethod(): PsiMethod? = if (isEnum && name != null) _makeValuesMethod else null
+
+    private val _makeValueOfMethod: PsiMethod by lazyPub { this.makeValueOfMethod() }
+
+    fun getValueOfMethod(): PsiMethod? = if (isEnum && name != null) _makeValueOfMethod else null
+
+    private fun makeValuesMethod(): PsiMethod {
+        return getSyntheticMethod("public static " + name + "[] values() { }")
+    }
+
+    private fun makeValueOfMethod(): PsiMethod {
+        return getSyntheticMethod("public static " + name + " valueOf(java.lang.String name) throws java.lang.IllegalArgumentException { }")
+    }
+
+    private fun getSyntheticMethod(text: String): PsiMethod {
+        val factory = JavaPsiFacade.getElementFactory(project)
+        val method = factory.createMethodFromText(text, this)
+        return object : LightMethod(this.manager, method, this) {
+            override fun getTextOffset(): Int {
+                return this@KtLightClassForDecompiledDeclaration.textOffset
+            }
+        }
+    }
+
+
+
+
+
 
     override fun isEnum(): Boolean = clsDelegate.isEnum
 
@@ -165,26 +229,12 @@ class KtLightClassForDecompiledDeclaration(
 
     override fun getAllFields(): Array<PsiField> = PsiClassImplUtil.getAllFields(this)
 
-    private fun findMethodDeclaration(psiMethod: PsiMethod): KtNamedFunction? {
-        val desc = MapPsiToAsmDesc.methodDesc(psiMethod)
-        val name = if (psiMethod.isConstructor) "<init>" else psiMethod.name
-        val signature = MemberSignature.fromMethodNameAndDesc(name, desc)
-        return findDeclarationInCompiledFile(file, psiMethod, signature) as? KtNamedFunction
-    }
-
-    private fun findFieldDeclaration(psiField: PsiField): KtDeclaration? {
-        val desc = MapPsiToAsmDesc.typeDesc(psiField.type)
-        val signature = MemberSignature.fromFieldNameAndDesc(psiField.name, desc)
-        return findDeclarationInCompiledFile(file, psiField, signature)
-    }
-
     private val _methods: Array<PsiMethod> by lazyPub {
         clsDelegate.methods.map { psiMethod ->
             FUN2(
                 funDelegate = psiMethod,
                 funParent = this,
-                file = file,
-                kotlinOrigin = findMethodDeclaration(psiMethod),
+                lightMemberOrigin = LightMemberOriginForCompiledMethod(psiMethod, file)
             )
         }.toTypedArray()
     }
@@ -194,8 +244,7 @@ class KtLightClassForDecompiledDeclaration(
             FLD2(
                 fldDelegate = psiField,
                 fldParent = this,
-                file = file,
-                kotlinOrigin = findFieldDeclaration(psiField),
+                lightMemberOrigin = LightMemberOriginForCompiledField(psiField, file)
             )
         }.toTypedArray()
     }
@@ -229,7 +278,7 @@ class KtLightClassForDecompiledDeclaration(
     val fqName = kotlinOrigin?.fqName ?: FqName(qualifiedName.orEmpty())
 
     override fun equals(other: Any?): Boolean =
-        other is KtLightClassForDecompiledDeclaration && kotlinOrigin == other.kotlinOrigin
+        other is KtLightClassForDecompiledDeclaration && fqName == other.fqName && kotlinOrigin == other.kotlinOrigin
 
     override fun hashCode(): Int = clsDelegate.hashCode()
 
@@ -240,14 +289,17 @@ class KtLightClassForDecompiledDeclaration(
     override fun toString(): String = "${this.javaClass.simpleName} of $parent"
 
     override fun getName(): String? = clsDelegate.name
+
+    override fun isValid(): Boolean = file.isValid && clsDelegate.isValid && (kotlinOrigin?.isValid != false)
 }
 
 class FUN2(
     private val funDelegate: PsiMethod,
     private val funParent: KtLightClass,
-    file: KtClsFile,
-    override val kotlinOrigin: KtDeclaration?
+    override val lightMemberOrigin: LightMemberOriginForCompiledMethod,
 ) : KtLightElementBase(funParent), PsiMethod, KtLightMethod, KtLightMember<PsiMethod> {
+
+    override val kotlinOrigin: KtDeclaration? get() = lightMemberOrigin.originalElement
 
     //CP
     override val isMangled: Boolean
@@ -315,7 +367,7 @@ class FUN2(
     override fun getSignature(substitutor: PsiSubstitutor): MethodSignature =
         MethodSignatureBackedByPsiMethod.create(this, substitutor)
 
-    override fun equals(other: Any?): Boolean = other is FUN2 && kotlinOrigin == other.kotlinOrigin
+    override fun equals(other: Any?): Boolean = other is FUN2 && funParent == other.funParent && funDelegate == other.funDelegate
 
     override fun hashCode(): Int = funDelegate.hashCode()
 
@@ -327,15 +379,16 @@ class FUN2(
 
     override val clsDelegate: PsiMethod = funDelegate
 
-    override val lightMemberOrigin: LightMemberOrigin? = LightMemberOriginForCompiledMethod(funDelegate, file)
+    override fun isValid(): Boolean = parent.isValid
 }
 
 class FLD2(
     private val fldDelegate: PsiField,
     private val fldParent: KtLightClass,
-    file: KtClsFile,
-    override val kotlinOrigin: KtDeclaration?
+    override val lightMemberOrigin: LightMemberOriginForCompiledField
 ) : KtLightElementBase(fldParent), PsiField, KtLightField, KtLightMember<PsiField> {
+
+    override val kotlinOrigin: KtDeclaration? get() = lightMemberOrigin.originalElement
 
     override fun hasModifierProperty(p0: String): Boolean = fldDelegate.hasModifierProperty(p0)
 
@@ -371,7 +424,7 @@ class FLD2(
 
     override fun computeConstantValue(p0: MutableSet<PsiVariable>?): Any? = fldDelegate.computeConstantValue()
 
-    override fun equals(other: Any?): Boolean = other is FUN2 && kotlinOrigin == other.kotlinOrigin
+    override fun equals(other: Any?): Boolean = other is FLD2 && fldParent == other.fldParent && fldDelegate == other.fldDelegate
 
     override fun hashCode(): Int = fldDelegate.hashCode()
 
@@ -383,7 +436,7 @@ class FLD2(
 
     override val clsDelegate: PsiField = fldDelegate
 
-    override val lightMemberOrigin: LightMemberOrigin? = LightMemberOriginForCompiledField(fldDelegate, file)
+    override fun isValid(): Boolean = parent.isValid
 }
 
 
