@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.storage.StorageManager;
 import org.jetbrains.kotlin.types.checker.KotlinTypeRefiner;
 import org.jetbrains.kotlin.types.refinement.TypeRefinement;
 import org.jetbrains.kotlin.util.Box;
-import org.jetbrains.kotlin.util.ReenteringLazyValueComputationException;
+import org.jetbrains.kotlin.utils.ReenteringLazyValueComputationException;
 
 import static org.jetbrains.kotlin.resolve.BindingContext.DEFERRED_TYPE;
 

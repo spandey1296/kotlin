@@ -1,6 +1,6 @@
 package
 
+public fun foo(/*0*/ x: kotlin.Float, /*1*/ y: kotlin.Float): () -> kotlin.Int
 public fun foo(/*0*/ total: kotlin.Float, /*1*/ next: kotlin.Int): kotlin.Int
 public fun foo(/*0*/ total: kotlin.Int, /*1*/ next: kotlin.Float): kotlin.Int
 public fun foo(/*0*/ total: kotlin.Int, /*1*/ next: kotlin.Int): kotlin.Int
-public fun main(): kotlin.Unit

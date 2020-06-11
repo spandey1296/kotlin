@@ -7,7 +7,7 @@ package org.jetbrains.kotlin.storage
 
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.util.ModificationTracker
-import org.jetbrains.kotlin.util.ReenteringLazyValueComputationException
+import org.jetbrains.kotlin.utils.ReenteringLazyValueComputationException
 import org.jetbrains.kotlin.utils.isProcessCanceledException
 import org.jetbrains.kotlin.utils.rethrow
 import java.util.concurrent.atomic.AtomicLong

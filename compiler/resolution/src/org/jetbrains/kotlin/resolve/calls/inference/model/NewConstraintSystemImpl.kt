@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.resolve.calls.model.ResolvedAtom
 import org.jetbrains.kotlin.types.*
 import org.jetbrains.kotlin.types.checker.NewKotlinTypeChecker
 import org.jetbrains.kotlin.types.model.*
+import org.jetbrains.kotlin.utils.ReenteringLazyValueComputationException
 import org.jetbrains.kotlin.utils.SmartList
 import org.jetbrains.kotlin.utils.SmartSet
 import org.jetbrains.kotlin.utils.addToStdlib.safeAs
@@ -161,7 +162,15 @@ class NewConstraintSystemImpl(
 
         state = State.TRANSACTION
         // typeVariablesTransaction is clear
-        if (runOperations()) {
+
+        val isOperationDone = try {
+            runOperations()
+        } catch (e: ReenteringLazyValueComputationException) {
+            closeTransaction(beforeState, beforeTypeVariablesTransactionSize)
+            throw e
+        }
+
+        if (isOperationDone) {
             closeTransaction(beforeState, beforeTypeVariablesTransactionSize)
             return true
         }

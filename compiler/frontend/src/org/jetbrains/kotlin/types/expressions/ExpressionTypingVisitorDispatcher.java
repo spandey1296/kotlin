@@ -31,7 +31,7 @@ import org.jetbrains.kotlin.types.expressions.typeInfoFactory.TypeInfoFactoryKt;
 import org.jetbrains.kotlin.util.KotlinFrontEndException;
 import org.jetbrains.kotlin.util.LookupTrackerUtilKt;
 import org.jetbrains.kotlin.util.PerformanceCounter;
-import org.jetbrains.kotlin.util.ReenteringLazyValueComputationException;
+import org.jetbrains.kotlin.utils.ReenteringLazyValueComputationException;
 import org.jetbrains.kotlin.utils.KotlinExceptionWithAttachments;
 
 import static org.jetbrains.kotlin.diagnostics.Errors.TYPECHECKER_HAS_RUN_INTO_RECURSIVE_PROBLEM;

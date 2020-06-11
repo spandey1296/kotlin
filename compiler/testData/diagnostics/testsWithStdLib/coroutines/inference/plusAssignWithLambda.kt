@@ -4,7 +4,7 @@ fun foo(total: Int, next: Int) = 10
 fun foo(total: Int, next: Float) = 10
 fun foo(total: Float, next: Int) = 10
 
-fun main() {
+fun foo(x: Float, y: Float) = {
     var newValue = 1
     // We analyze lambda once after the fix
     newValue += listOf<Int>().asSequence().fold(0) { total, next -> total + next }

@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
-import org.jetbrains.kotlin.util.ReenteringLazyValueComputationException;
+import org.jetbrains.kotlin.utils.ReenteringLazyValueComputationException;
 
 import java.util.ArrayList;
 import java.util.Arrays;

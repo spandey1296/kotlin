@@ -21,6 +21,8 @@ import org.jetbrains.kotlin.resolve.calls.tasks.ExplicitReceiverKind
 import org.jetbrains.kotlin.resolve.scopes.receivers.DetailedReceiver
 import org.jetbrains.kotlin.resolve.scopes.receivers.QualifierReceiver
 import org.jetbrains.kotlin.resolve.scopes.receivers.ReceiverValueWithSmartCastInfo
+import org.jetbrains.kotlin.utils.ReenteringLazyValueComputationException
+import org.jetbrains.kotlin.utils.rethrow
 
 
 class KnownResultProcessor<out C>(
@@ -67,19 +69,31 @@ internal abstract class AbstractSimpleScopeTowerProcessor<C : Candidate>(
         collector: Collection<CandidateWithBoundDispatchReceiver>,
         kind: ExplicitReceiverKind,
         receiver: ReceiverValueWithSmartCastInfo?
-    ) : Collection<C> {
+    ): Collection<C> {
         val result = mutableListOf<C>()
+        var notComputedException: ReenteringLazyValueComputationException? = null
+
         for (candidate in collector) {
             if (candidate.requiresExtensionReceiver == (receiver != null)) {
-                result.add(
+                val newCandidate = try {
                     candidateFactory.createCandidate(
                         candidate,
                         kind,
                         extensionReceiver = receiver
                     )
-                )
+                } catch (e: ReenteringLazyValueComputationException) {
+                    notComputedException = e
+                    continue
+                }
+
+                result.add(newCandidate)
             }
         }
+
+        if (result.isEmpty() && notComputedException != null) {
+            rethrow(notComputedException)
+        }
+
         return result
     }
 }
