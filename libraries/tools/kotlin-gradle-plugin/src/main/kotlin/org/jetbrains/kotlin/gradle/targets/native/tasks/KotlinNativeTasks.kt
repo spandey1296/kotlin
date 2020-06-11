@@ -330,7 +330,7 @@ open class KotlinNativeCompile : AbstractKotlinNativeCompile<KotlinCommonOptions
 
     @get:Internal
     override val baseName: String by
-    compilation.map {if (compilation.isMain()) project.name else "${project.name}_${name}"}
+    compilation.map {if (it.isMain()) project.name else "${project.name}_${name}"}
 
     // Store as an explicit provider in order to allow Gradle Instant Execution to capture the state
     private val allSourceProvider = compilation.map { project.files(it.allSources).asFileTree }

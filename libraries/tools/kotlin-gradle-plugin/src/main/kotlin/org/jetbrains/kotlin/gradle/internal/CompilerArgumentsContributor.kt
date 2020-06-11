@@ -84,6 +84,11 @@ internal open class KotlinJvmCompilerArgumentsContributor(
 
     private val moduleName by taskProvider.map { it.moduleName }
 
+    //TODO
+    //objects.fileCollection
+    // .from(taskData.compilation.output.classesDir, taskData.compilation.friendArtifacts)
+    // .elements
+    // .map { it.asFile.canonicalPath }
     private val friendPaths by taskProvider.map { it.friendPaths }
 
     private val compileClasspath by taskProvider.map { it.compileClasspath }
