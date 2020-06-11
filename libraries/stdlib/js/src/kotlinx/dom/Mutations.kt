@@ -3,15 +3,11 @@
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
-package kotlin.dom
+package kotlinx.dom
 
 import org.w3c.dom.*
 
 /** Removes all the children from this node. */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.clear()", "kotlinx.dom.clear")
-)
 public fun Node.clear() {
     while (hasChildNodes()) {
         removeChild(firstChild!!)
@@ -23,10 +19,6 @@ public fun Node.clear() {
  *
  * @return this element
  */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.appendText(text)", "kotlinx.dom.appendText")
-)
 fun Element.appendText(text: String): Element {
     appendChild(ownerDocument!!.createTextNode(text))
     return this

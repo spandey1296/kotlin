@@ -3,15 +3,11 @@
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
-package kotlin.dom
+package kotlinx.dom
 
 import org.w3c.dom.*
 
 /** Returns true if the element has the given CSS class style in its 'class' attribute */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.hasClass(cssClass)", "kotlinx.dom.hasClass")
-)
 fun Element.hasClass(cssClass: String): Boolean = className.matches("""(^|.*\s+)$cssClass($|\s+.*)""".toRegex())
 
 /**
@@ -19,10 +15,6 @@ fun Element.hasClass(cssClass: String): Boolean = className.matches("""(^|.*\s+)
  *
  * @return true if at least one class has been added
  */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.addClass(cssClasses)", "kotlinx.dom.addClass")
-)
 fun Element.addClass(vararg cssClasses: String): Boolean {
     val missingClasses = cssClasses.filterNot { hasClass(it) }
     if (missingClasses.isNotEmpty()) {
@@ -45,10 +37,6 @@ fun Element.addClass(vararg cssClasses: String): Boolean {
  *
  * @return true if at least one class has been removed
  */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.removeClass(cssClasses)", "kotlinx.dom.removeClass")
-)
 fun Element.removeClass(vararg cssClasses: String): Boolean {
     if (cssClasses.any { hasClass(it) }) {
         val toBeRemoved = cssClasses.toSet()

@@ -3,7 +3,7 @@
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
-package kotlin.dom
+package kotlinx.dom
 
 import org.w3c.dom.*
 
@@ -12,10 +12,6 @@ import org.w3c.dom.*
  *
  * The element is initialized with the speicifed [init] function.
  */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.createElement(name, init)", "kotlinx.dom.createElement")
-)
 public fun Document.createElement(name: String, init: Element.() -> Unit): Element = createElement(name).apply(init)
 
 /**
@@ -23,10 +19,6 @@ public fun Document.createElement(name: String, init: Element.() -> Unit): Eleme
  *
  * The element is initialized with the speicifed [init] function.
  */
-@Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
-    replaceWith = ReplaceWith("this.appendElement(name, init)", "kotlinx.dom.appendElement")
-)
 public fun Element.appendElement(name: String, init: Element.() -> Unit): Element =
     ownerDocument!!.createElement(name, init).also { appendChild(it) }
 
