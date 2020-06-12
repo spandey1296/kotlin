@@ -467,7 +467,11 @@ class CoroutineCodegenForLambda private constructor(
             v.visitLocalVariable(name, mappedType.descriptor, null, label, endLabel, newIndex)
         }
 
-        initializeVariablesForDestructuredLambdaParameters(this, originalSuspendFunctionDescriptor.valueParameters, endLabel)
+        initializeVariablesForDestructuredLambdaParameters(
+            this,
+            originalSuspendFunctionDescriptor.valueParameters.filter { !isUnused(it) },
+            endLabel
+        )
     }
 
     private fun isUnused(parameter: ParameterDescriptor): Boolean {

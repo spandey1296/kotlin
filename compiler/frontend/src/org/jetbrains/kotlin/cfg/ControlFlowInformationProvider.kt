@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.impl.AnonymousFunctionDescriptor
+import org.jetbrains.kotlin.descriptors.impl.LocalVariableDescriptor
 import org.jetbrains.kotlin.diagnostics.Diagnostic
 import org.jetbrains.kotlin.diagnostics.DiagnosticFactory
 import org.jetbrains.kotlin.diagnostics.Errors
@@ -44,6 +45,7 @@ import org.jetbrains.kotlin.resolve.bindingContextUtil.isUsedAsExpression
 import org.jetbrains.kotlin.resolve.bindingContextUtil.isUsedAsResultOfLambda
 import org.jetbrains.kotlin.resolve.bindingContextUtil.isUsedAsStatement
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
+import org.jetbrains.kotlin.resolve.calls.checkers.findDestructuredVariable
 import org.jetbrains.kotlin.resolve.calls.model.ResolvedCall
 import org.jetbrains.kotlin.resolve.calls.resolvedCallUtil.getDispatchReceiverWithSmartCast
 import org.jetbrains.kotlin.resolve.calls.resolvedCallUtil.hasThisOrNoDispatchReceiver
@@ -816,19 +818,50 @@ class ControlFlowInformationProvider private constructor(
         if (instruction !is ReadValueInstruction) return
         val target = instruction.target as? AccessTarget.Call ?: return
         val descriptor = target.resolvedCall.resultingDescriptor
-        if (descriptor !is ParameterDescriptor) return
-        val containing = descriptor.containingDeclaration
-        if (containing !is AnonymousFunctionDescriptor || !containing.isSuspend) return
-        trace.record(SUSPEND_LAMBDA_PARAMETER_USED, descriptor)
+        if (descriptor is ParameterDescriptor) {
+            val containing = descriptor.containingDeclaration
+            if (containing is AnonymousFunctionDescriptor && containing.isSuspend) {
+                trace.record(SUSPEND_LAMBDA_PARAMETER_USED, descriptor)
+            }
+        } else if (descriptor is LocalVariableDescriptor) {
+            val containing = descriptor.containingDeclaration
+            if (containing is AnonymousFunctionDescriptor && containing.isSuspend) {
+                findDestructuredVariable(descriptor, containing)?.let {
+                    trace.record(SUSPEND_LAMBDA_PARAMETER_USED, it)
+                }
+            }
+        }
     }
 
     private fun markImplicitReceiverOfSuspendLambda(instruction: Instruction) {
         if (instruction !is MagicInstruction || instruction.kind != MagicKind.IMPLICIT_RECEIVER) return
-        val call = (instruction.element as? KtCallExpression).getResolvedCall(trace.bindingContext) ?: return
-        val containing = (call.dispatchReceiver as? ExtensionReceiver)?.declarationDescriptor
-            ?: (call.extensionReceiver as? ExtensionReceiver)?.declarationDescriptor ?: return
-        if (containing !is AnonymousFunctionDescriptor || !containing.isSuspend) return
-        trace.record(SUSPEND_LAMBDA_PARAMETER_USED, containing.extensionReceiverParameter)
+
+        fun CallableDescriptor?.markIfNeeded() {
+            if (this is AnonymousFunctionDescriptor && isSuspend) {
+                trace.record(SUSPEND_LAMBDA_PARAMETER_USED, extensionReceiverParameter)
+            }
+        }
+
+        if (instruction.element is KtDestructuringDeclarationEntry || instruction.element is KtCallExpression) {
+            val visited = mutableSetOf<Instruction>()
+            fun dfs(insn: Instruction) {
+                if (!visited.add(insn)) return
+                if (insn is CallInstruction && insn.element == instruction.element) {
+                    for ((_, receiver) in insn.receiverValues) {
+                        (receiver as? ExtensionReceiver)?.declarationDescriptor?.apply { markIfNeeded() }
+                    }
+                }
+                for (next in insn.nextInstructions) {
+                    dfs(next)
+                }
+            }
+
+            instruction.next?.let { dfs(it) }
+        } else if (instruction.element is KtNameReferenceExpression) {
+            val call = instruction.element.getResolvedCall(trace.bindingContext)
+            (call?.dispatchReceiver as? ExtensionReceiver)?.declarationDescriptor?.apply { markIfNeeded() }
+            (call?.extensionReceiver as? ExtensionReceiver)?.declarationDescriptor?.apply { markIfNeeded() }
+        }
     }
 
     private fun markAnnotationArguments() {
