@@ -821,13 +821,13 @@ class ControlFlowInformationProvider private constructor(
         if (descriptor is ParameterDescriptor) {
             val containing = descriptor.containingDeclaration
             if (containing is AnonymousFunctionDescriptor && containing.isSuspend) {
-                trace.record(SUSPEND_LAMBDA_PARAMETER_USED, descriptor)
+                trace.record(SUSPEND_LAMBDA_PARAMETER_USED, containing to descriptor.index())
             }
         } else if (descriptor is LocalVariableDescriptor) {
             val containing = descriptor.containingDeclaration
             if (containing is AnonymousFunctionDescriptor && containing.isSuspend) {
                 findDestructuredVariable(descriptor, containing)?.let {
-                    trace.record(SUSPEND_LAMBDA_PARAMETER_USED, it)
+                    trace.record(SUSPEND_LAMBDA_PARAMETER_USED, containing to it.index)
                 }
             }
         }
@@ -838,7 +838,7 @@ class ControlFlowInformationProvider private constructor(
 
         fun CallableDescriptor?.markIfNeeded() {
             if (this is AnonymousFunctionDescriptor && isSuspend) {
-                trace.record(SUSPEND_LAMBDA_PARAMETER_USED, extensionReceiverParameter)
+                trace.record(SUSPEND_LAMBDA_PARAMETER_USED, this to -1)
             }
         }
 
@@ -1275,3 +1275,10 @@ class ControlFlowInformationProvider private constructor(
                     || diagnosticFactory === UNUSED_CHANGED_VALUE
     }
 }
+
+fun ParameterDescriptor.index(): Int =
+    when (this) {
+        is ReceiverParameterDescriptor -> -1
+        is ValueParameterDescriptor -> index
+        else -> error("expected either reciever or value parameter, but got: $this")
+    }

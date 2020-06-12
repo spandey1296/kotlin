@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.codegen.coroutines
 import com.intellij.util.ArrayUtil
 import org.jetbrains.kotlin.backend.common.CodegenUtil
 import org.jetbrains.kotlin.builtins.isSuspendFunctionTypeOrSubtype
+import org.jetbrains.kotlin.cfg.index
 import org.jetbrains.kotlin.codegen.*
 import org.jetbrains.kotlin.codegen.binding.CalculatedClosure
 import org.jetbrains.kotlin.codegen.binding.CodegenBinding
@@ -477,7 +478,7 @@ class CoroutineCodegenForLambda private constructor(
 
     private fun isUnused(parameter: ParameterDescriptor): Boolean {
         if (originalSuspendFunctionDescriptor !is AnonymousFunctionDescriptor) return false
-        return bindingContext[BindingContext.SUSPEND_LAMBDA_PARAMETER_USED, parameter] != true
+        return bindingContext[BindingContext.SUSPEND_LAMBDA_PARAMETER_USED, originalSuspendFunctionDescriptor to parameter.index()] != true
     }
 
     private fun allFunctionParameters(): List<ParameterDescriptor> =
