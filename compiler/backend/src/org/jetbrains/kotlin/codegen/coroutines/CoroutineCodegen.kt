@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.isReleaseCoroutines
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
+import org.jetbrains.kotlin.descriptors.impl.AnonymousFunctionDescriptor
 import org.jetbrains.kotlin.descriptors.impl.SimpleFunctionDescriptorImpl
 import org.jetbrains.kotlin.descriptors.impl.ValueParameterDescriptorImpl
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
@@ -475,6 +476,7 @@ class CoroutineCodegenForLambda private constructor(
     }
 
     private fun isUnused(parameter: ParameterDescriptor): Boolean {
+        if (originalSuspendFunctionDescriptor !is AnonymousFunctionDescriptor) return false
         return bindingContext[BindingContext.SUSPEND_LAMBDA_PARAMETER_USED, parameter] != true
     }
 
