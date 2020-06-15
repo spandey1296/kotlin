@@ -32,7 +32,14 @@ open class CocoapodsExtension(private val project: Project) {
     var podfile: String? = null
 
     @get:Input
-    var needPodspec: Boolean = true
+    internal var needPodspec: Boolean = true
+
+    /**
+     * Setup plugin not to produce podspec file for cocoapods section
+     */
+    fun noPodspec() {
+        needPodspec = false
+    }
 
     /**
      * Configure license of the pod built from this project.

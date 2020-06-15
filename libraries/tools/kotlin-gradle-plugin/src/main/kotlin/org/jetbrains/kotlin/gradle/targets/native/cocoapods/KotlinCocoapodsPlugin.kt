@@ -309,6 +309,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
                 .forEach { podspecTaskProvider ->
                     it.dependsOn(podspecTaskProvider)
                 }
+            it.enabled = cocoapodsExtension.podfile != null
         }
     }
 
@@ -337,16 +338,14 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
         kotlinExtension.supportedTargets().all { target ->
 
-            val podGenTaskProvider = project.tasks.named(target.toPodGenTaskName, PodGenTask::class.java)
-
             project.tasks.register(target.toSetupBuildTaskName, PodSetupBuildTask::class.java) {
                 it.group = TASK_GROUP
                 it.description = "Collect environment variables from .xcworkspace file"
                 it.cocoapodsExtension = cocoapodsExtension
                 it.kotlinNativeTarget = target
-
-                it.dependsOn(podGenTaskProvider)
+                val podGenTaskProvider = project.tasks.named(target.toPodGenTaskName, PodGenTask::class.java)
                 it.podsXcodeProjDirProvider = podGenTaskProvider.get().podsXcodeProjDirProvider
+                it.dependsOn(podGenTaskProvider)
             }
         }
     }
@@ -375,8 +374,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
     private fun registerPodImportTask(
         project: Project,
-        kotlinExtension: KotlinMultiplatformExtension,
-        cocoapodsExtension: CocoapodsExtension
+        kotlinExtension: KotlinMultiplatformExtension
     ) {
 
         val podInstallTaskProvider = project.tasks.named(POD_INSTALL_TASK_NAME, PodInstallTask::class.java)
@@ -408,7 +406,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             registerPodInstallTask(project, cocoapodsExtension)
             registerPodSetupBuildTasks(project, kotlinExtension, cocoapodsExtension)
             registerPodBuildTasks(project, kotlinExtension, cocoapodsExtension)
-            registerPodImportTask(project, kotlinExtension, cocoapodsExtension)
+            registerPodImportTask(project, kotlinExtension)
             createInterops(project, kotlinExtension, cocoapodsExtension)
         }
     }
