@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.cfg.pseudocode.instructions.InstructionVisitor
 import org.jetbrains.kotlin.cfg.pseudocode.instructions.KtElementInstruction
 import org.jetbrains.kotlin.cfg.pseudocode.instructions.eval.*
 import org.jetbrains.kotlin.cfg.pseudocode.instructions.jumps.*
+import org.jetbrains.kotlin.cfg.pseudocode.instructions.special.LocalFunctionDeclarationInstruction
 import org.jetbrains.kotlin.cfg.pseudocode.instructions.special.MarkInstruction
 import org.jetbrains.kotlin.cfg.pseudocode.instructions.special.VariableDeclarationInstruction
 import org.jetbrains.kotlin.cfg.pseudocode.sideEffectFree
@@ -104,6 +105,8 @@ class ControlFlowInformationProvider private constructor(
         if (trace.wantsDiagnostics()) {
             markUnusedVariables()
         }
+
+        checkForSuspendLambdaAndMarkParameters(pseudocode)
 
         markStatements()
         markAnnotationArguments()
@@ -810,8 +813,27 @@ class ControlFlowInformationProvider private constructor(
             trace.record(USED_AS_EXPRESSION, element, isUsedAsExpression)
             trace.record(USED_AS_RESULT_OF_LAMBDA, element, isUsedAsResultOfLambda)
         }
-        markReadOfSuspendLambdaParameter(instruction)
-        markImplicitReceiverOfSuspendLambda(instruction)
+    }
+
+    private fun checkForSuspendLambdaAndMarkParameters(pseudocode: Pseudocode) {
+        for (instruction in pseudocode.instructions) {
+            if (instruction is LocalFunctionDeclarationInstruction) {
+                val psi = instruction.body.correspondingElement
+                if (psi is KtFunctionLiteral) {
+                    val descriptor = trace.bindingContext[DECLARATION_TO_DESCRIPTOR, psi]
+                    if (descriptor is AnonymousFunctionDescriptor && descriptor.isSuspend) {
+                        markReadOfSuspendLambdaParameters(instruction.body)
+                        continue
+                    }
+                }
+                checkForSuspendLambdaAndMarkParameters(instruction.body)
+            }
+        }
+    }
+
+    private fun markReadOfSuspendLambdaParameters(pseudocode: Pseudocode) = pseudocode.traverse(TraversalOrder.FORWARD) {
+        markReadOfSuspendLambdaParameter(it)
+        markImplicitReceiverOfSuspendLambda(it)
     }
 
     private fun markReadOfSuspendLambdaParameter(instruction: Instruction) {
