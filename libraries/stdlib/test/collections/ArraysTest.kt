@@ -955,35 +955,19 @@ class ArraysTest {
     }
 
     @Test fun asListInFloatingPrimitiveArrays() {
-        fun <T> testTotalOrder(expected: List<T>, actual: List<T>, element: T) {
-            assertEquals(expected.contains(element), actual.contains(element))
-            assertEquals(expected.indexOf(element), actual.indexOf(element))
-            assertEquals(expected.lastIndexOf(element), actual.lastIndexOf(element))
+        fun <T> testTotalOrder(expected: List<T>, actual: List<T>, element: T) = compare(expected, actual) {
+            propertyEquals { contains(element) }
+            propertyEquals { indexOf(element) }
+            propertyEquals { lastIndexOf(element) }
         }
 
-        val anotherFloatNaN = Float.fromBits(Float.NaN.toRawBits() xor 0b1010)
-        assertTrue(anotherFloatNaN.isNaN())
-        assertEquals(Float.NaN.toBits(), anotherFloatNaN.toBits())
-        assertNotEquals(Float.NaN.toRawBits(), anotherFloatNaN.toRawBits())
-
         testTotalOrder(listOf(Float.NaN), floatArrayOf(Float.NaN).asList(), Float.NaN)
-        testTotalOrder(listOf(Float.NaN), floatArrayOf(Float.NaN).asList(), anotherFloatNaN)
-        testTotalOrder(listOf(anotherFloatNaN), floatArrayOf(anotherFloatNaN).asList(), Float.NaN)
-        testTotalOrder(listOf(anotherFloatNaN), floatArrayOf(anotherFloatNaN).asList(), anotherFloatNaN)
         testTotalOrder(listOf(-0.0f), floatArrayOf(-0.0f).asList(), -0.0f)
         testTotalOrder(listOf(-0.0f), floatArrayOf(-0.0f).asList(), 0.0f)
         testTotalOrder(listOf(0.0f), floatArrayOf(0.0f).asList(), 0.0f)
         testTotalOrder(listOf(0.0f), floatArrayOf(0.0f).asList(), -0.0f)
 
-        val anotherDoubleNaN = Double.fromBits(Double.NaN.toRawBits() xor 0b1010)
-        assertTrue(anotherDoubleNaN.isNaN())
-        assertEquals(Double.NaN.toBits(), anotherDoubleNaN.toBits())
-        assertNotEquals(Double.NaN.toRawBits(), anotherDoubleNaN.toRawBits())
-
         testTotalOrder(listOf(Double.NaN), doubleArrayOf(Double.NaN).asList(), Double.NaN)
-        testTotalOrder(listOf(Double.NaN), doubleArrayOf(Double.NaN).asList(), anotherDoubleNaN)
-        testTotalOrder(listOf(anotherDoubleNaN), doubleArrayOf(anotherDoubleNaN).asList(), Double.NaN)
-        testTotalOrder(listOf(anotherDoubleNaN), doubleArrayOf(anotherDoubleNaN).asList(), anotherDoubleNaN)
         testTotalOrder(listOf(-0.0), doubleArrayOf(-0.0).asList(), -0.0)
         testTotalOrder(listOf(-0.0), doubleArrayOf(-0.0).asList(), 0.0)
         testTotalOrder(listOf(0.0), doubleArrayOf(0.0).asList(), 0.0)

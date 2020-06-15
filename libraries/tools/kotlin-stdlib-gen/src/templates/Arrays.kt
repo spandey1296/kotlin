@@ -1473,8 +1473,8 @@ object ArrayOps : TemplateGroupBase() {
                 override fun isEmpty(): Boolean = this@asList.isEmpty()
                 override fun contains(element: T): Boolean = this@asList.any { it.toBits() == element.toBits() }
                 override fun get(index: Int): T = this@asList[index]
-                override fun indexOf(element: T): Int = this@asList.indexOfFirst { it.compareTo(element) == 0 }
-                override fun lastIndexOf(element: T): Int = this@asList.indexOfLast { it.compareTo(element) == 0 }
+                override fun indexOf(element: T): Int = this@asList.indexOfFirst { it.toBits() == element.toBits() }
+                override fun lastIndexOf(element: T): Int = this@asList.indexOfLast { it.toBits() == element.toBits() }
             }
             """
         else """
