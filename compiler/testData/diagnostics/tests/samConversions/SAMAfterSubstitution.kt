@@ -12,7 +12,7 @@ public interface Runnable {
 // FILE: 1.kt
 fun test(j: J<Runnable>, r: Runnable) {
     j.foo(r, r)
-    j.foo(r, <!TYPE_MISMATCH!>{}<!>)
-    j.foo(<!TYPE_MISMATCH!>{}<!>, r)
-    j.foo(<!TYPE_MISMATCH!>{}<!>, <!TYPE_MISMATCH!>{}<!>)
+    j.foo(r, {})
+    j.foo({}, r)
+    j.foo({}, {})
 }
