@@ -442,11 +442,9 @@ open class KotlinCompile : AbstractKotlinCompile<K2JVMCompilerArguments>(), Kotl
         )
     }
 
-    private fun disableMultiModuleIC(): Boolean {
-        if (!isIncrementalCompilationEnabled() || javaOutputDir == null) return false
-
+    @get:Input
+    val illegalTaskProvider : Provider<AbstractCompile> = project.provider {
         var illegalTaskOrNull: AbstractCompile? = null
-
         project.tasks.configureEach {
             if (it is AbstractCompile &&
                 it !is JavaCompile &&
@@ -456,8 +454,14 @@ open class KotlinCompile : AbstractKotlinCompile<K2JVMCompilerArguments>(), Kotl
                 illegalTaskOrNull = illegalTaskOrNull ?: it
             }
         }
+        illegalTaskOrNull
+    }
 
-        illegalTaskOrNull?.let { illegalTask ->
+    private fun disableMultiModuleIC(): Boolean {
+        if (!isIncrementalCompilationEnabled() || javaOutputDir == null) return false
+
+        if (illegalTaskProvider.isPresent) {
+            val illegalTask = illegalTaskProvider.get()
             logger.info(
                 "Kotlin inter-project IC is disabled: " +
                         "unknown task '$illegalTask' destination dir ${illegalTask.destinationDir} " +

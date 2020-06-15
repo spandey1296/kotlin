@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.gradle.model.ModelContainer
 import org.jetbrains.kotlin.gradle.model.ModelFetcherBuildAction
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.util.*
+import org.jetbrains.kotlin.test.util.*
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert
@@ -674,9 +675,9 @@ Finished executing task ':$taskName'|
         val xmlString = buildString {
             appendln("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
             appendln("<results>")
-            files.forEach {
+            files.forEach { file ->
                 appendln(
-                    it.readText()
+                    file.readText()
                         .trimTrailingWhitespaces()
                         .replace(projectDir.absolutePath, "/\$PROJECT_DIR$")
                         .replace(projectDir.name, "\$PROJECT_NAME$")
