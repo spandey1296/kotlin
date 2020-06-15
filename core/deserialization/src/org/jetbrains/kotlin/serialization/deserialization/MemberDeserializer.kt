@@ -230,7 +230,7 @@ class MemberDeserializer(private val c: DeserializationContext) {
 
                 else -> CoroutinesCompatibilityMode.COMPATIBLE
             }
-        }.maxOrNull() ?: CoroutinesCompatibilityMode.COMPATIBLE
+        }.max() ?: CoroutinesCompatibilityMode.COMPATIBLE
 
         return maxOf(
             if (isSuspend)
