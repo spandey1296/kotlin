@@ -11,22 +11,16 @@ import com.intellij.psi.impl.PsiClassImplUtil
 import com.intellij.psi.impl.PsiImplUtil
 import com.intellij.psi.impl.PsiSuperMethodImplUtil
 import com.intellij.psi.impl.compiled.ClsClassImpl
-import com.intellij.psi.impl.light.LightMethod
 import com.intellij.psi.impl.source.PsiExtensibleClass
 import com.intellij.psi.javadoc.PsiDocComment
-import com.intellij.psi.scope.ElementClassHint
-import com.intellij.psi.scope.NameHint
 import com.intellij.psi.scope.PsiScopeProcessor
-import com.intellij.psi.scope.processor.MethodsProcessor
 import com.intellij.psi.util.MethodSignature
 import com.intellij.psi.util.MethodSignatureBackedByPsiMethod
 import com.intellij.psi.util.PsiUtil
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.analyzer.KotlinModificationTrackerService
-import org.jetbrains.kotlin.asJava.classes.KotlinClassInnerStuffCache
-import org.jetbrains.kotlin.asJava.classes.KtLightClass
-import org.jetbrains.kotlin.asJava.classes.KtLightClassBase
-import org.jetbrains.kotlin.asJava.classes.lazyPub
+import org.jetbrains.kotlin.asJava.builder.LightMemberOriginForDeclaration
+import org.jetbrains.kotlin.asJava.classes.*
 import org.jetbrains.kotlin.asJava.elements.*
 import org.jetbrains.kotlin.asJava.propertyNameByAccessor
 import org.jetbrains.kotlin.codegen.state.KotlinTypeMapper
@@ -35,24 +29,14 @@ import org.jetbrains.kotlin.load.java.structure.LightClassOriginKind
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtDeclaration
+import org.jetbrains.kotlin.psi.KtEnumEntry
 
-class KtLightClassForDecompiledDeclaration(
+open class KtLightClassForDecompiledDeclaration(
     override val clsDelegate: PsiClass,
     private val clsParent: PsiElement,
     private val file: KtClsFile,
     override val kotlinOrigin: KtClassOrObject?
 ) : KtLightElementBase(clsParent), PsiClass, KtLightClass, PsiExtensibleClass {
-
-    constructor(
-        clsDelegate: PsiClass,
-        kotlinOrigin: KtClassOrObject?,
-        file: KtClsFile,
-    ) : this(
-        clsDelegate = clsDelegate,
-        clsParent = file,
-        file = file,
-        kotlinOrigin = kotlinOrigin,
-    )
 
     private val myInnersCache = KotlinClassInnerStuffCache(
         myClass = this,
@@ -78,25 +62,6 @@ class KtLightClassForDecompiledDeclaration(
     override fun findMethodsByName(name: String, checkBases: Boolean) = myInnersCache.findMethodsByName(name, checkBases)
 
     override fun findInnerClassByName(name: String, checkBases: Boolean) = myInnersCache.findInnerClassByName(name, checkBases)
-
-
-//    override fun findFieldByName(@NonNls name: String?, checkBases: Boolean): PsiField? =
-//        PsiClassImplUtil.findFieldByName(this, name, checkBases)
-//
-//    override fun getInnerClasses(): Array<PsiClass> = _innerClasses
-//
-//    override fun getMethods(): Array<PsiMethod> = _methods
-//
-//    override fun getFields(): Array<PsiField> = _fields
-//
-//    override fun getConstructors(): Array<PsiMethod> = PsiImplUtil.getConstructors(this)
-//
-//    override fun findInnerClassByName(myClass: String?, checkBases: Boolean): PsiClass? =
-//        myClass?.let { PsiClassImplUtil.findInnerByName(this, it, checkBases) }
-//
-//    override fun findMethodsByName(@NonNls name: String?, checkBases: Boolean): Array<PsiMethod?> =
-//        PsiClassImplUtil.findMethodsByName(this, name, checkBases)
-
 
     override fun hasModifierProperty(p0: String): Boolean =
         clsDelegate.hasModifierProperty(p0)
@@ -142,8 +107,10 @@ class KtLightClassForDecompiledDeclaration(
         if (isEnum) {
             if (!KotlinClassInnerStuffCache.processDeclarationsInEnum(processor, state, myInnersCache)) return false
         }
-        val level = if (processor is MethodsProcessor) processor.languageLevel else PsiUtil.getLanguageLevel(place)
-        return PsiClassImplUtil.processDeclarationsInClass(this, processor, state, null, lastParent, place, level, false)
+        return PsiClassImplUtil.processDeclarationsInClass(
+            this, processor, state, null,
+            lastParent, place, PsiUtil.getLanguageLevel(place), false
+        )
     }
 
     override fun isEnum(): Boolean = clsDelegate.isEnum
@@ -213,11 +180,20 @@ class KtLightClassForDecompiledDeclaration(
     private val _fields: MutableList<PsiField> by lazyPub {
         mutableListOf<PsiField>().also {
             clsDelegate.fields.mapTo(it) { psiField ->
-                FLD2(
-                    fldDelegate = psiField,
-                    fldParent = this,
-                    lightMemberOrigin = LightMemberOriginForCompiledField(psiField, file)
-                )
+                if (psiField !is PsiEnumConstant) {
+                    FLD2(
+                        fldDelegate = psiField,
+                        fldParent = this,
+                        lightMemberOrigin = LightMemberOriginForCompiledField(psiField, file)
+                    )
+                } else {
+                    EnumFLD2(
+                        fldDelegate = psiField,
+                        fldParent = this,
+                        lightMemberOrigin = LightMemberOriginForCompiledField(psiField, file),
+                        file = file
+                    )
+                }
             }
         }
     }
@@ -351,11 +327,11 @@ class FUN2(
     override fun isValid(): Boolean = parent.isValid
 }
 
-class FLD2(
+open class FLD2(
     private val fldDelegate: PsiField,
     private val fldParent: KtLightClass,
     override val lightMemberOrigin: LightMemberOriginForCompiledField
-) : KtLightElementBase(fldParent), PsiField, KtLightField, KtLightMember<PsiField> {
+) : KtLightElementBase(fldParent), PsiField, KtLightFieldForSourceDeclarationSupport, KtLightMember<PsiField> {
 
     override val kotlinOrigin: KtDeclaration? get() = lightMemberOrigin.originalElement
 
@@ -391,8 +367,6 @@ class FLD2(
 
     override fun computeConstantValue(): Any? = fldDelegate.computeConstantValue()
 
-    override fun computeConstantValue(p0: MutableSet<PsiVariable>?): Any? = fldDelegate.computeConstantValue()
-
     override fun equals(other: Any?): Boolean = other is FLD2 && fldParent == other.fldParent && fldDelegate == other.fldDelegate
 
     override fun hashCode(): Int = fldDelegate.hashCode()
@@ -408,6 +382,57 @@ class FLD2(
     override fun isValid(): Boolean = parent.isValid
 }
 
+class EnumCLS2(
+    private val psiConstantInitializer: PsiEnumConstantInitializer,
+    private val enumConstant: EnumFLD2,
+    clsParent: KtLightClassForDecompiledDeclaration,
+    file: KtClsFile,
+    kotlinOrigin: KtClassOrObject?
+) :
+    KtLightClassForDecompiledDeclaration(
+        clsDelegate = psiConstantInitializer,
+        clsParent = clsParent,
+        file = file,
+        kotlinOrigin = kotlinOrigin
+    ), PsiEnumConstantInitializer {
+
+    override fun getBaseClassType(): PsiClassType = psiConstantInitializer.baseClassType
+
+    override fun getArgumentList(): PsiExpressionList? = psiConstantInitializer.argumentList
+
+    override fun getEnumConstant(): PsiEnumConstant = enumConstant
+
+    override fun getBaseClassReference(): PsiJavaCodeReferenceElement = psiConstantInitializer.baseClassReference
+
+    override fun isInQualifiedNew(): Boolean = psiConstantInitializer.isInQualifiedNew
+}
+
+class EnumFLD2(
+    private val fldDelegate: PsiEnumConstant,
+    fldParent: KtLightClassForDecompiledDeclaration,
+    lightMemberOrigin: LightMemberOriginForCompiledField,
+    file: KtClsFile,
+) : FLD2(
+    fldDelegate,
+    fldParent,
+    lightMemberOrigin
+), PsiEnumConstant {
+
+    private val _initializingClass: PsiEnumConstantInitializer? by lazyPub {
+        fldDelegate.initializingClass?.let {
+            EnumCLS2(it, this, fldParent, file, null)
+        }
+    }
+
+    override fun getArgumentList(): PsiExpressionList? = fldDelegate.argumentList
+    override fun resolveConstructor(): PsiMethod? = fldDelegate.resolveConstructor()
+    override fun resolveMethod(): PsiMethod? = fldDelegate.resolveMethod()
+    override fun resolveMethodGenerics(): JavaResolveResult = fldDelegate.resolveMethodGenerics()
+    override fun getInitializingClass(): PsiEnumConstantInitializer? = _initializingClass
+    override fun getOrCreateInitializingClass(): PsiEnumConstantInitializer =
+        _initializingClass ?: error("cannot create initializing class in light enum constant")
+}
+
 
 class KtLightClassForDecompiledDeclaration1(
     override val clsDelegate: ClsClassImpl,
@@ -421,9 +446,10 @@ class KtLightClassForDecompiledDeclaration1(
     override fun getOwnInnerClasses(): List<PsiClass> {
         val nestedClasses = kotlinOrigin?.declarations?.filterIsInstance<KtClassOrObject>() ?: emptyList()
         return clsDelegate.ownInnerClasses.map { innerClsClass ->
-            KtLightClassForDecompiledDeclaration(
+            KtLightClassForDecompiledDeclaration1(
                 innerClsClass as ClsClassImpl,
-                nestedClasses.firstOrNull { innerClsClass.name == it.name }, file
+                nestedClasses.firstOrNull { innerClsClass.name == it.name },
+                file
             )
         }
     }
