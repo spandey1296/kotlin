@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.fir.scopes.impl.FirClassSubstitutionScope
 import org.jetbrains.kotlin.fir.symbols.Fir2IrClassSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirPropertySymbol
+import org.jetbrains.kotlin.fir.types.isNullableAny
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.declarations.lazy.lazyVar
 import org.jetbrains.kotlin.ir.types.IrType
@@ -138,6 +139,9 @@ class Fir2IrLazyClass(
                         processedNames += declaration.name
                         scope.processFunctionsByName(declaration.name) {
                             if (it is FirNamedFunctionSymbol) {
+                                if (it.isAbstractMethodOfAny()) {
+                                    return@processFunctionsByName
+                                }
                                 result += if (!it.isFakeOverride) {
                                     declarationStorage.createIrFunction(it.fir, irParent = this)
                                 } else {
@@ -181,6 +185,16 @@ class Fir2IrLazyClass(
             irDeclaration.parent = this
         }
         result
+    }
+
+    private fun FirNamedFunctionSymbol.isAbstractMethodOfAny(): Boolean {
+        val fir = fir
+        if (fir.modality != Modality.ABSTRACT) return false
+        return when (fir.name.asString()) {
+            "equals" -> fir.valueParameters.singleOrNull()?.returnTypeRef?.isNullableAny == true
+            "hashCode", "toString" -> fir.valueParameters.isEmpty()
+            else -> false
+        }
     }
 
     override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
