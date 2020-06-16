@@ -443,7 +443,7 @@ open class KotlinCompile : AbstractKotlinCompile<K2JVMCompilerArguments>(), Kotl
     }
 
     @get:Input
-    val illegalTaskProvider : Provider<AbstractCompile> = project.provider {
+    val illegalTaskProvider : Provider<AbstractCompile?> = project.provider {
         var illegalTaskOrNull: AbstractCompile? = null
         project.tasks.configureEach {
             if (it is AbstractCompile &&
@@ -462,12 +462,14 @@ open class KotlinCompile : AbstractKotlinCompile<K2JVMCompilerArguments>(), Kotl
 
         if (illegalTaskProvider.isPresent) {
             val illegalTask = illegalTaskProvider.get()
-            logger.info(
-                "Kotlin inter-project IC is disabled: " +
-                        "unknown task '$illegalTask' destination dir ${illegalTask.destinationDir} " +
-                        "intersects with java destination dir $javaOutputDir"
-            )
-            return true
+            if (illegalTask != null) {
+                logger.info(
+                    "Kotlin inter-project IC is disabled: " +
+                            "unknown task '$illegalTask' destination dir ${illegalTask.destinationDir} " +
+                            "intersects with java destination dir $javaOutputDir"
+                )
+                return true
+            }
         }
 
         return false
