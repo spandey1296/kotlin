@@ -231,7 +231,7 @@ class CoroutineCodegenForLambda private constructor(
 
     override fun generateClosureBody() {
         for (parameter in allFunctionParameters()) {
-            if (isUnused(parameter)) continue
+            if (originalSuspendFunctionDescriptor.isParameterUnused(parameter, bindingContext)) continue
             val fieldInfo = parameter.getFieldInfoForCoroutineLambdaParameter()
             v.newField(
                 OtherOrigin(parameter),
@@ -401,7 +401,7 @@ class CoroutineCodegenForLambda private constructor(
             var index = 1
             for (parameter in allFunctionParameters()) {
                 val fieldInfoForCoroutineLambdaParameter = parameter.getFieldInfoForCoroutineLambdaParameter()
-                if (!isUnused(parameter)) {
+                if (!originalSuspendFunctionDescriptor.isParameterUnused(parameter, bindingContext)) {
                     if (isBigArity) {
                         load(cloneIndex, fieldInfoForCoroutineLambdaParameter.ownerType)
                         load(1, AsmTypes.OBJECT_TYPE)
@@ -447,7 +447,7 @@ class CoroutineCodegenForLambda private constructor(
 
     private fun ExpressionCodegen.initializeCoroutineParameters() {
         for (parameter in allFunctionParameters()) {
-            if (isUnused(parameter)) continue
+            if (originalSuspendFunctionDescriptor.isParameterUnused(parameter, bindingContext)) continue
             val fieldStackValue =
                 StackValue.field(
                     parameter.getFieldInfoForCoroutineLambdaParameter(), generateThisOrOuter(context.thisDescriptor, false)
@@ -471,14 +471,11 @@ class CoroutineCodegenForLambda private constructor(
 
         initializeVariablesForDestructuredLambdaParameters(
             this,
-            originalSuspendFunctionDescriptor.valueParameters.filter { !isUnused(it) },
+            originalSuspendFunctionDescriptor.valueParameters.filter {
+                !originalSuspendFunctionDescriptor.isParameterUnused(it, bindingContext)
+            },
             endLabel
         )
-    }
-
-    private fun isUnused(parameter: ParameterDescriptor): Boolean {
-        if (originalSuspendFunctionDescriptor !is AnonymousFunctionDescriptor) return false
-        return bindingContext[BindingContext.SUSPEND_LAMBDA_PARAMETER_USED, originalSuspendFunctionDescriptor to parameter.index()] != true
     }
 
     private fun allFunctionParameters(): List<ParameterDescriptor> =
@@ -804,4 +801,9 @@ private object FailingFunctionGenerationStrategy : FunctionGenerationStrategy() 
 
 fun reportSuspensionPointInsideMonitor(element: KtElement, state: GenerationState, stackTraceElement: String) {
     state.diagnostics.report(ErrorsJvm.SUSPENSION_POINT_INSIDE_MONITOR.on(element, stackTraceElement))
+}
+
+fun CallableDescriptor.isParameterUnused(descriptor: ParameterDescriptor, bindingContext: BindingContext): Boolean {
+    if (this !is AnonymousFunctionDescriptor) return false
+    return bindingContext[BindingContext.SUSPEND_LAMBDA_PARAMETER_USED, this to descriptor.index()] != true
 }

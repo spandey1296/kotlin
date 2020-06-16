@@ -332,6 +332,11 @@ public class BytecodeListingTestGenerated extends AbstractBytecodeListingTest {
             public void testLambda() throws Exception {
                 runTest("compiler/testData/codegen/bytecodeListing/coroutines/spilling/lambda.kt");
             }
+
+            @TestMetadata("select.kt")
+            public void testSelect() throws Exception {
+                runTest("compiler/testData/codegen/bytecodeListing/coroutines/spilling/select.kt");
+            }
         }
     }
 

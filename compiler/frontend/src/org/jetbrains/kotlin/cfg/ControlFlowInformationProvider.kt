@@ -1302,5 +1302,5 @@ fun ParameterDescriptor.index(): Int =
     when (this) {
         is ReceiverParameterDescriptor -> -1
         is ValueParameterDescriptor -> index
-        else -> error("expected either reciever or value parameter, but got: $this")
+        else -> error("expected either receiver or value parameter, but got: $this")
     }
