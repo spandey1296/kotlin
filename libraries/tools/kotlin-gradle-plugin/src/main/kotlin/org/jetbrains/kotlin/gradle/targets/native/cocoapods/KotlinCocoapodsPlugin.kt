@@ -46,10 +46,7 @@ internal class CocoapodsBuildDirs(val project: Project) {
     private val synthetic: File
         get() = root.resolve("synthetic")
 
-    fun synthetic(kotlinNativeTarget: KotlinNativeTarget) = synthetic.resolve(kotlinNativeTarget.konanTarget.name)
-
-    val buildDirHashSums: File
-        get() = root.resolve("buildDirHashSums")
+    fun synthetic(kotlinNativeTarget: KotlinNativeTarget) = synthetic.resolve(kotlinNativeTarget.name)
 
     fun fatFramework(buildType: String) =
         root.resolve("fat-frameworks/${buildType.toLowerCase()}")
@@ -304,12 +301,12 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             it.group = TASK_GROUP
             it.description = "Invokes `pod install` call within Podfile location directory"
             it.cocoapodsExtension = cocoapodsExtension
+            it.podfileProvider = cocoapodsExtension.podfile?.let { project.provider { project.file(it) } }
             //TODO avoid subproject task management here
             project.allprojects.map { it.tasks.named(POD_SPEC_TASK_NAME, PodspecTask::class.java) }
                 .forEach { podspecTaskProvider ->
                     it.dependsOn(podspecTaskProvider)
                 }
-            it.enabled = cocoapodsExtension.podfile != null
         }
     }
 

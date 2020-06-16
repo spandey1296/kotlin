@@ -114,7 +114,7 @@ class CocoaPodsIT : BaseGradleIT() {
     }
 
     @Test
-    fun testInterop() {
+    fun testBuild() {
         assumeTrue(HostManager.hostIsMac)
         val gradleProject = transformProjectWithPluginsDsl("new-mpp-cocoapods", gradleVersion)
         with(gradleProject) {

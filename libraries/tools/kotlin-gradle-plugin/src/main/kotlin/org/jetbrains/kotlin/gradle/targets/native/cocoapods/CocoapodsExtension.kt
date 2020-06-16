@@ -25,11 +25,11 @@ open class CocoapodsExtension(private val project: Project) {
     var authors: String? = null
 
     /**
-     * Configure path to existing file `Podfile`.
+     * Configure existing file `Podfile`.
      */
     @Optional
-    @Input
-    var podfile: String? = null
+    @InputFile
+    var podfile: File? = null
 
     @get:Input
     internal var needPodspec: Boolean = true
@@ -87,7 +87,7 @@ open class CocoapodsExtension(private val project: Project) {
      * Add a CocoaPods dependency to the pod built from this project.
      */
     @JvmOverloads
-    fun pod(name: String, version: String? = null, podspec: String? = null, moduleName: String = name.split("/")[0]) {
+    fun pod(name: String, version: String? = null, podspec: File? = null, moduleName: String = name.split("/")[0]) {
         check(_pods.findByName(name) == null) { "Project already has a CocoaPods dependency with name $name" }
         _pods.add(CocoapodsDependency(name, version, podspec, moduleName))
     }
@@ -95,7 +95,7 @@ open class CocoapodsExtension(private val project: Project) {
     data class CocoapodsDependency(
         private val name: String,
         @get:Optional @get:Input val version: String?,
-        @get:Optional @get:Input val podspec: String?,
+        @get:Optional @get:InputFile val podspec: File?,
         @get:Input val moduleName: String
     ) : Named {
         @Input

@@ -10,9 +10,9 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.Optional
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.KonanTarget
 import java.io.File
 import java.io.FileInputStream
@@ -35,12 +35,12 @@ internal val KotlinNativeTarget.toValidSDK: String
     }
 
 internal val KotlinNativeTarget.platformLiteral: String
-    get() = when (konanTarget) {
-        KonanTarget.MACOS_X64 -> "macOS"
-        KonanTarget.IOS_ARM64, KonanTarget.IOS_ARM32, KonanTarget.IOS_X64 -> "iOS"
-        KonanTarget.TVOS_X64, KonanTarget.TVOS_ARM64 -> "tvOS"
-        KonanTarget.WATCHOS_X64, KonanTarget.WATCHOS_X86, KonanTarget.WATCHOS_ARM64, KonanTarget.WATCHOS_ARM32 -> "watchOS"
-        else -> throw IllegalArgumentException("Onsupported native target '${konanTarget.name}' supported for CocoaPods integration")
+    get() = when (konanTarget.family) {
+        Family.OSX -> "macOS"
+        Family.IOS -> "iOS"
+        Family.TVOS -> "tvOS"
+        Family.WATCHOS -> "watchOS"
+        else -> throw IllegalArgumentException("Unsupported native target '${konanTarget.name}'")
     }
 
 /**
@@ -49,77 +49,59 @@ internal val KotlinNativeTarget.platformLiteral: String
  * This task is a part of CocoaPods integration infrastructure.
  */
 open class PodInstallTask : DefaultTask() {
-    @get:Optional
+    init {
+        onlyIf { cocoapodsExtension.podfile != null }
+    }
+
     @get:Nested
-    internal var cocoapodsExtension: CocoapodsExtension? = null
+    lateinit var cocoapodsExtension: CocoapodsExtension
 
     @get:Optional
     @get:InputFile
-    internal val podfileProvider: Provider<File>? = cocoapodsExtension?.podfile?.let { project.provider { project.file(it) } }
+    internal var podfileProvider: Provider<File>? = null
 
     @get:Optional
     @get:OutputDirectory
     internal val podsXcodeProjDirProvider: Provider<File>?
-        get() = podfileProvider?.let {
-            project.provider { it.get().parentFile.resolve("Pods").resolve("Pods.xcodeproj") }
+        get() = podfileProvider?.get()?.let {
+            project.provider { it.parentFile.resolve("Pods").resolve("Pods.xcodeproj") }
         }
 
 
     @TaskAction
     fun doPodInstall() {
-        //If Podfile is not determined in cocoapods block, there is no need to perform this action
-        if (cocoapodsExtension?.podfile == null) {
-            if (!hasPodfileInSelfOrParent) {
-                logger.quiet(
-                    """
-                    Execution of task '$name' requires the path to the existing Podfile.
-                    If you have already created Podfile, please specify path to it in the file ${project.rootProject.buildscript.sourceFile?.absolutePath} as follows:
-                    kotlin {
-                        ...
-                        cocoapods {
-                            ...
-                            podfile("../path-to-ios-app/Podfile")
-                            ...
-                        }
-                        ...
-                    }
-                """.trimIndent()
-                )
-            }
-            return
-        }
-
-        val podfileDir = podfileProvider!!.get().parentFile
-        val podInstallProcess = ProcessBuilder("pod", "install").apply {
-            directory(podfileDir)
-            inheritIO()
-        }.start()
-        val podInstallRetCode = podInstallProcess.waitFor()
-        check(podInstallRetCode == 0) { "Unable to run 'pod install', return code $podInstallRetCode" }
-        with(podsXcodeProjDirProvider) {
-            check(this != null && get().exists() && get().isDirectory) {
-                "The directory 'Pods/Pods.xcodeproj' was not created as a result of the `pod install` call."
+        podfileProvider?.get()?.parentFile?.also { podfileDir ->
+            val podInstallProcess = ProcessBuilder("pod", "install").apply {
+                directory(podfileDir)
+                inheritIO()
+            }.start()
+            val podInstallRetCode = podInstallProcess.waitFor()
+            check(podInstallRetCode == 0) { "Unable to run 'pod install', return code $podInstallRetCode" }
+            with(podsXcodeProjDirProvider) {
+                check(this != null && get().exists() && get().isDirectory) {
+                    "The directory 'Pods/Pods.xcodeproj' was not created as a result of the `pod install` call."
+                }
             }
         }
     }
+}
 
+abstract class CocoapodsWithSyntheticTask : DefaultTask() {
+    init {
+        onlyIf {
+            cocoapodsExtension.pods.isNotEmpty()
+        }
+    }
 
-    private val hasPodfileInSelfOrParent: Boolean
-        get() = if (project.rootProject == project)
-            podfileProvider != null
-        else podfileProvider != null || (project.parent?.tasks?.named(
-            KotlinCocoapodsPlugin.POD_INSTALL_TASK_NAME,
-            PodInstallTask::class.java
-        )?.get()?.hasPodfileInSelfOrParent ?: false)
+    @get:Nested
+    internal lateinit var cocoapodsExtension: CocoapodsExtension
 }
 
 /**
  * The task takes the path to the .podspec file and calls `pod gen`
  * to create synthetic xcode project and workspace.
  */
-open class PodGenTask : DefaultTask() {
-    @get:Nested
-    internal lateinit var cocoapodsExtension: CocoapodsExtension
+open class PodGenTask : CocoapodsWithSyntheticTask() {
 
     @get:InputFile
     internal lateinit var podspecProvider: Provider<File>
@@ -139,11 +121,11 @@ open class PodGenTask : DefaultTask() {
     @TaskAction
     fun generate() {
         val podspecDir = podspecProvider.get().parentFile
-        val localPodspecPaths = cocoapodsExtension.pods.mapNotNull { it.podspec }
-            .map { project.projectDir.resolve(it).absolutePath }
+        val localPodspecPaths = cocoapodsExtension.pods.mapNotNull { it.podspec?.parentFile?.absolutePath }
 
         val podGenProcessArgs = listOfNotNull(
             "pod", "gen",
+            "--platforms=${kotlinNativeTarget.konanTarget.family.name.toLowerCase()}",
             "--gen-directory=${project.cocoapodsBuildDirs.synthetic(kotlinNativeTarget).absolutePath}",
             localPodspecPaths.takeIf { it.isNotEmpty() }?.joinToString(separator = ",")?.let { "--local-sources=$it" },
             podspecProvider.get().name
@@ -164,9 +146,7 @@ open class PodGenTask : DefaultTask() {
 }
 
 
-open class PodSetupBuildTask : DefaultTask() {
-    @get:Nested
-    internal lateinit var cocoapodsExtension: CocoapodsExtension
+open class PodSetupBuildTask : CocoapodsWithSyntheticTask() {
 
     @get:InputDirectory
     internal lateinit var podsXcodeProjDirProvider: Provider<File>
@@ -188,7 +168,7 @@ open class PodSetupBuildTask : DefaultTask() {
         val buildSettingsReceivingCommand = listOf(
             "xcodebuild", "-showBuildSettings",
             "-project", podsXcodeProjDir.name,
-            "-scheme", "${cocoapodsExtension.frameworkName}-${kotlinNativeTarget.platformLiteral}",
+            "-scheme", cocoapodsExtension.frameworkName,
             "-sdk", kotlinNativeTarget.toValidSDK
         )
 
@@ -216,9 +196,7 @@ open class PodSetupBuildTask : DefaultTask() {
 /**
  * The task compiles external cocoa pods sources.
  */
-open class PodBuildTask : DefaultTask() {
-    @get:Nested
-    internal lateinit var cocoapodsExtension: CocoapodsExtension
+open class PodBuildTask : CocoapodsWithSyntheticTask() {
 
     @get:InputDirectory
     internal lateinit var podsXcodeProjDirProvider: Provider<File>
@@ -246,7 +224,7 @@ open class PodBuildTask : DefaultTask() {
             val podXcodeBuildCommand = listOf(
                 "xcodebuild",
                 "-project", podsXcodeProjDir.name,
-                "-scheme", "${it.moduleName}-${kotlinNativeTarget.platformLiteral}",
+                "-scheme", it.moduleName,
                 "-sdk", kotlinNativeTarget.toValidSDK,
                 "-configuration", podBuildSettings.configuration
             )
